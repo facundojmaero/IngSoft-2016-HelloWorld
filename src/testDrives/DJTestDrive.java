@@ -1,4 +1,10 @@
-package main.java;
+package testDrives;
+
+import models.BeatModel;
+import models.BeatModelInterface;
+import controllers.BeatController;
+import controllers.ControllerInterface;
+
   
 public class DJTestDrive {
 

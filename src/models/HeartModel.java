@@ -1,6 +1,9 @@
-package main.java;
+package models;
 
 import java.util.*;
+
+import views.BPMObserver;
+import views.BeatObserver;
 
 public class HeartModel implements HeartModelInterface, Runnable {
 	ArrayList beatObservers = new ArrayList();

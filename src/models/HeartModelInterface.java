@@ -1,4 +1,8 @@
-package main.java;
+package models;
+
+import views.BPMObserver;
+import views.BeatObserver;
+
 
 public interface HeartModelInterface {
 	int getHeartRate();

@@ -1,6 +1,10 @@
-package main.java;
+package models;
   
 import javax.sound.midi.*;
+
+import views.BPMObserver;
+import views.BeatObserver;
+
 import java.util.*;
 
 public class BeatModel implements BeatModelInterface, MetaEventListener {

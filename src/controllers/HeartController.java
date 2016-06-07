@@ -1,4 +1,9 @@
-package main.java;
+package controllers;
+
+import views.DJView;
+import models.HeartAdapter;
+import models.HeartModelInterface;
+
   
 public class HeartController implements ControllerInterface {
 	HeartModelInterface model;

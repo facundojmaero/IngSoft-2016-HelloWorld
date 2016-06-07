@@ -1,4 +1,4 @@
-package main.java;
+package views;
   
 public interface BeatObserver {
 	void updateBeat();
