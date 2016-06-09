@@ -24,14 +24,24 @@ public class MP3Model implements MP3ModelInterface {
 		playlist = new ArrayList<String>();
 		bpm_observers = new ArrayList<BPMObserver>();
 		beat_observers = new ArrayList<BeatObserver>();
+<<<<<<< HEAD
+		index = 0;
+		paused = false;
+		opened = false;
+		stopped = true;
+=======
 		index = 0;	
 		stoped = true;		//stop comienza true
 		paused = false;		//pausado comienza como false
 		opened = false;		//ningun archivo abierto
+>>>>>>> dc289dcbc612af95cf9a14fe4f04aa7b4c7f1c91
 	}
 
 	@Override
 	public void play() {
+<<<<<<< HEAD
+		
+=======
 		if(playlist.size() == 0){
 			return;
 		}
@@ -62,6 +72,7 @@ public class MP3Model implements MP3ModelInterface {
 			paused = false;
 
 		}
+>>>>>>> dc289dcbc612af95cf9a14fe4f04aa7b4c7f1c91
 	}
 
 	@Override
