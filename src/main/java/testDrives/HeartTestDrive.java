@@ -1,8 +1,8 @@
-package testDrives;
+package main.java.testDrives;
 
-import models.HeartModel;
-import controllers.ControllerInterface;
-import controllers.HeartController;
+import main.java.models.HeartModel;
+import main.java.controllers.ControllerInterface;
+import main.java.controllers.HeartController;
 
   
 public class HeartTestDrive {

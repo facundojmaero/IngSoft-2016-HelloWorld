@@ -1,7 +1,7 @@
-package controllers;
+package main.java.controllers;
 
-import views.DJView;
-import models.BeatModelInterface;
+import main.java.views.DJView;
+import main.java.models.BeatModelInterface;
 
   
 public class BeatController implements ControllerInterface {

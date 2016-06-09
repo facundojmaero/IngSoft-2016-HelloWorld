@@ -1,12 +1,12 @@
-package views;
+package main.java.views;
     
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 
-import models.BeatModelInterface;
-import controllers.ControllerInterface;
+import main.java.models.BeatModelInterface;
+import main.java.controllers.ControllerInterface;
 
 public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 	BeatModelInterface model;

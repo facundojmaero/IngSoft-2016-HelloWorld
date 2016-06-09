@@ -1,4 +1,4 @@
-package controllers;
+package main.java.controllers;
   
 public interface ControllerInterface {
 	void start();
