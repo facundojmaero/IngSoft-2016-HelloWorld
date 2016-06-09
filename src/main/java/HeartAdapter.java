@@ -1,5 +1,6 @@
 package main.java;
 
+
 public class HeartAdapter implements BeatModelInterface {
 	HeartModelInterface heart;
  
@@ -14,7 +15,7 @@ public class HeartAdapter implements BeatModelInterface {
     public void off() {}
    
 	public int getBPM() {
-		return heart.getHeartRate();
+		return ((HeartModel) heart).getIntentos();
 	}
   
     public void setBPM(int bpm) {}

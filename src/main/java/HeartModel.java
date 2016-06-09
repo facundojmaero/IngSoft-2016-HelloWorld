@@ -2,17 +2,28 @@ package main.java;
 
 import java.util.*;
 
+
 public class HeartModel implements HeartModelInterface, Runnable {
+	private static HeartModel unique_model;
 	ArrayList beatObservers = new ArrayList();
 	ArrayList bpmObservers = new ArrayList();
 	int time = 1000;
     int bpm = 90;
+    static int intentos = 0; //Numero de intentos de crear el modelo
 	Random random = new Random(System.currentTimeMillis());
 	Thread thread;
 
-	public HeartModel() {
+	private HeartModel() {
 		thread = new Thread(this);
 		thread.start();
+	}
+	
+	public static HeartModel getInstance() {
+		if (unique_model == null) {
+			unique_model = new HeartModel();
+		}
+		intentos++;
+		return unique_model;
 	}
 
 	public void run() {
@@ -76,4 +87,10 @@ public class HeartModel implements HeartModelInterface, Runnable {
 			observer.updateBPM();
 		}
 	}
+
+	public int getIntentos() {
+		// TODO Auto-generated method stub
+		return intentos;
+	}
+
 }
