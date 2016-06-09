@@ -7,7 +7,7 @@ public interface MP3ModelInterface {
 
 	void pause();
 
-	void setVolumen();
+	void setVolumen(double volumen);
 
 	void addPlayList(File Path);
 
