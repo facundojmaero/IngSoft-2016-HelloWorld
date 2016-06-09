@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
 
@@ -15,6 +16,7 @@ public class MP3Model implements MP3ModelInterface {
 	private int index;
 	private boolean paused;
 	private boolean opened;
+	private boolean stopped;
 	
 	public MP3Model(){
 		player = new BasicPlayer();
@@ -22,44 +24,66 @@ public class MP3Model implements MP3ModelInterface {
 		bpm_observers = new ArrayList<BPMObserver>();
 		beat_observers = new ArrayList<BeatObserver>();
 		index = 0;
-		paused = true;
+		paused = false;
 		opened = false;
+		stopped = true;
 	}
 
 	@Override
 	public void play() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-
+		try {
+			player.pause();
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
+		}
+		paused = true;
 	}
 
 	@Override
 	public void setVolumen() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void addPlayList(File Path) {
-		// TODO Auto-generated method stub
-
+//		if(new File(Path).isFile()){		//Si la ruta es a una sola cancion
+//			playlist.add(Path);
+//		}
+//		else{								//Si la ruta es a una carpeta con canciones
+//			
+//		}
 	}
 
 	@Override
 	public void previousSong() {
-		// TODO Auto-generated method stub
-
+		if(playlist.size() == 0)
+			return;
+			paused = false;
+			stopped = false;
+			index = (index-1)%playlist.size();
+			try {
+				player.play();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
 	}
 
 	@Override
 	public void nextSong() {
-		// TODO Auto-generated method stub
-
+		if(playlist.size() == 0)
+			return;
+			paused = false;
+			stopped = false;
+			index = (index+1)%playlist.size();
+			try {
+				player.play();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
 	}
-
 }
