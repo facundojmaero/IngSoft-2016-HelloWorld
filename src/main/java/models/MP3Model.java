@@ -15,7 +15,6 @@ public class MP3Model implements MP3ModelInterface {
 	private ArrayList<BeatObserver> beat_observers;
 	private int index;
 	private boolean paused;
-	private boolean stoped;
 	private boolean opened;
 	private boolean stopped;
 	
@@ -25,7 +24,7 @@ public class MP3Model implements MP3ModelInterface {
 		bpm_observers = new ArrayList<BPMObserver>();
 		beat_observers = new ArrayList<BeatObserver>();
 		index = 0;	
-		stoped = true;		//stop comienza true
+		stopped = true;		//stop comienza true
 		paused = false;		//pausado comienza como false
 		opened = false;		//ningun archivo abierto
 	}
@@ -36,19 +35,17 @@ public class MP3Model implements MP3ModelInterface {
 			return;
 		}
 		
-		if(stoped){
+		if(stopped){
 			File f = new File(playlist.get(index));
 			try {
 				player.open(f);
 			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			opened = true;
 			try {
 				player.play();
 			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -56,7 +53,6 @@ public class MP3Model implements MP3ModelInterface {
 			try {
 				player.resume();
 			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			paused = false;
@@ -80,13 +76,18 @@ public class MP3Model implements MP3ModelInterface {
 	}
 
 	@Override
-	public void addPlayList(File Path) {
-//		if(new File(Path).isFile()){		//Si la ruta es a una sola cancion
-//			playlist.add(Path);
-//		}
-//		else{								//Si la ruta es a una carpeta con canciones
-//			
-//		}
+	public void addPlayList(String Path) {
+		File file = new File(Path);				// Uso la ruta para crear un nuevo File
+		if (file.isFile()) { 					// Si la ruta es una sola cancion
+			playlist.add(Path);
+		} else { 								// Si la ruta es una carpeta con canciones
+			File list[] = file.listFiles();
+			if (list != null) {
+				for (int i = 0; i < list.length; i++) {
+					playlist.add(list[i].getAbsolutePath());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -94,7 +95,7 @@ public class MP3Model implements MP3ModelInterface {
 		if(playlist.size() == 0)
 			return;
 			paused = false;
-			stopped = false;
+			stopped = true;
 			index = (index-1)%playlist.size();
 			try {
 				player.play();
@@ -108,12 +109,25 @@ public class MP3Model implements MP3ModelInterface {
 		if(playlist.size() == 0)
 			return;
 			paused = false;
-			stopped = false;
+			stopped = true;
 			index = (index+1)%playlist.size();
 			try {
 				player.play();
 			} catch (BasicPlayerException e) {
 				e.printStackTrace();
 			}
+	}
+
+	@Override
+	public void stop() {
+		if(opened){
+			try {
+				player.stop();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+			stopped = true;
+			paused = false;
+		}
 	}
 }

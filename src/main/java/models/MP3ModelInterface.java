@@ -9,9 +9,11 @@ public interface MP3ModelInterface {
 
 	void setVolumen();
 
-	void addPlayList(File Path);
+	void addPlayList(String Path);
 
 	void previousSong();
 
 	void nextSong();
+	
+	void stop();
 }
