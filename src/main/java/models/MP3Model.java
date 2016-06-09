@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
 
@@ -14,6 +15,7 @@ public class MP3Model implements MP3ModelInterface {
 	private ArrayList<BeatObserver> beat_observers;
 	private int index;
 	private boolean paused;
+	private boolean stoped;
 	private boolean opened;
 	
 	public MP3Model(){
@@ -21,15 +23,44 @@ public class MP3Model implements MP3ModelInterface {
 		playlist = new ArrayList<String>();
 		bpm_observers = new ArrayList<BPMObserver>();
 		beat_observers = new ArrayList<BeatObserver>();
-		index = 0;
-		paused = true;
-		opened = false;
+		index = 0;	
+		stoped = true;		//stop comienza true
+		paused = false;		//pausado comienza como false
+		opened = false;		//ningun archivo abierto
 	}
 
 	@Override
 	public void play() {
-		// TODO Auto-generated method stub
+		if(playlist.size() == 0){
+			return;
+		}
+		
+		if(stoped){
+			File f = new File(playlist.get(index));
+			try {
+				player.open(f);
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			opened = true;
+			try {
+				player.play();
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(paused && opened){
+			try {
+				player.resume();
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			paused = false;
 
+		}
 	}
 
 	@Override
