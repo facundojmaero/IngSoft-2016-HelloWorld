@@ -19,14 +19,13 @@ public class MP3Model implements MP3ModelInterface {
 	private boolean stopped;
 	
 	public MP3Model(){
-		player = new BasicPlayer();
-		playlist = new ArrayList<String>();
-		bpm_observers = new ArrayList<BPMObserver>();
-		beat_observers = new ArrayList<BeatObserver>();
-		index = 0;	
-		stopped = true;		//stop comienza true
-		paused = false;		//pausado comienza como false
-		opened = false;		//ningun archivo abierto
+		this.player = new BasicPlayer();
+		this.bpm_observers = new ArrayList<BPMObserver>();
+		this.beat_observers = new ArrayList<BeatObserver>();
+		this.index = 0;	
+		this.stopped = true;		    //stop comienza true
+		this.paused = false;		//pausado comienza como false
+		this.opened = false;		//ningun archivo abierto
 	}
 
 	@Override
@@ -70,10 +69,7 @@ public class MP3Model implements MP3ModelInterface {
 		paused = true;
 	}
 
-	@Override
-	public void setVolumen() {
-		
-	}
+
 
 	@Override
 	public void addPlayList(String Path) {
@@ -129,5 +125,21 @@ public class MP3Model implements MP3ModelInterface {
 			stopped = true;
 			paused = false;
 		}
+	}
+
+	@Override
+	public void setVolumen(double volumen) {
+		if(volumen<0 || volumen>1){
+			return;
+		}
+		else{
+			try {
+				player.setGain(volumen);
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

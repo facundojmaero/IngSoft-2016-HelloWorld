@@ -15,50 +15,47 @@ public class MP3Model implements MP3ModelInterface {
 	private ArrayList<BeatObserver> beat_observers;
 	private int index;
 	private boolean paused;
-	private boolean stoped;
 	private boolean opened;
 	private boolean stopped;
 	
 	public MP3Model(){
+<<<<<<< HEAD
 		player = new BasicPlayer();
 		playlist = new ArrayList<String>();
 		bpm_observers = new ArrayList<BPMObserver>();
 		beat_observers = new ArrayList<BeatObserver>();
-<<<<<<< HEAD
-		index = 0;
-		paused = false;
-		opened = false;
-		stopped = true;
-=======
 		index = 0;	
-		stoped = true;		//stop comienza true
+		stopped = true;		//stop comienza true
 		paused = false;		//pausado comienza como false
 		opened = false;		//ningun archivo abierto
->>>>>>> dc289dcbc612af95cf9a14fe4f04aa7b4c7f1c91
+=======
+		this.player = new BasicPlayer();
+		this.bpm_observers = new ArrayList<BPMObserver>();
+		this.beat_observers = new ArrayList<BeatObserver>();
+		this.index = 0;	
+		this.stoped = true;		    //stop comienza true
+		this.paused = false;		//pausado comienza como false
+		this.opened = false;		//ningun archivo abierto
+>>>>>>> 975235e9aa8bd997c048c2f5bf5fe2e497bb13e0
 	}
 
 	@Override
 	public void play() {
-<<<<<<< HEAD
-		
-=======
 		if(playlist.size() == 0){
 			return;
 		}
 		
-		if(stoped){
+		if(stopped){
 			File f = new File(playlist.get(index));
 			try {
 				player.open(f);
 			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			opened = true;
 			try {
 				player.play();
 			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -66,13 +63,11 @@ public class MP3Model implements MP3ModelInterface {
 			try {
 				player.resume();
 			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			paused = false;
 
 		}
->>>>>>> dc289dcbc612af95cf9a14fe4f04aa7b4c7f1c91
 	}
 
 	@Override
@@ -85,19 +80,21 @@ public class MP3Model implements MP3ModelInterface {
 		paused = true;
 	}
 
-	@Override
-	public void setVolumen() {
-		
-	}
+
 
 	@Override
-	public void addPlayList(File Path) {
-//		if(new File(Path).isFile()){		//Si la ruta es a una sola cancion
-//			playlist.add(Path);
-//		}
-//		else{								//Si la ruta es a una carpeta con canciones
-//			
-//		}
+	public void addPlayList(String Path) {
+		File file = new File(Path);				// Uso la ruta para crear un nuevo File
+		if (file.isFile()) { 					// Si la ruta es una sola cancion
+			playlist.add(Path);
+		} else { 								// Si la ruta es una carpeta con canciones
+			File list[] = file.listFiles();
+			if (list != null) {
+				for (int i = 0; i < list.length; i++) {
+					playlist.add(list[i].getAbsolutePath());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -105,7 +102,7 @@ public class MP3Model implements MP3ModelInterface {
 		if(playlist.size() == 0)
 			return;
 			paused = false;
-			stopped = false;
+			stopped = true;
 			index = (index-1)%playlist.size();
 			try {
 				player.play();
@@ -119,7 +116,7 @@ public class MP3Model implements MP3ModelInterface {
 		if(playlist.size() == 0)
 			return;
 			paused = false;
-			stopped = false;
+			stopped = true;
 			index = (index+1)%playlist.size();
 			try {
 				player.play();
@@ -127,4 +124,35 @@ public class MP3Model implements MP3ModelInterface {
 				e.printStackTrace();
 			}
 	}
+
+	@Override
+<<<<<<< HEAD
+	public void stop() {
+		if(opened){
+			try {
+				player.stop();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+			stopped = true;
+			paused = false;
+		}
+	}
 }
+=======
+	public void setVolumen(double volumen) {
+		if(volumen<0 || volumen>1){
+			return;
+		}
+		else{
+			try {
+				player.setGain(volumen);
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+}
+>>>>>>> 975235e9aa8bd997c048c2f5bf5fe2e497bb13e0
