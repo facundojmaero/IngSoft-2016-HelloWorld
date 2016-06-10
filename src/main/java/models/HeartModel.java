@@ -6,9 +6,6 @@ import java.util.Random;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
 
-import main.java.views.BPMObserver;
-import main.java.views.BeatObserver;
-
 public class HeartModel implements HeartModelInterface, Runnable {
 	private static HeartModel unique_model;
 	ArrayList beatObservers = new ArrayList();

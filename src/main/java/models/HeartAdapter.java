@@ -3,7 +3,6 @@ package main.java.models;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
 
-
 public class HeartAdapter implements BeatModelInterface {
 	HeartModelInterface heart;
 

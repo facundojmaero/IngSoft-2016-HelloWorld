@@ -3,7 +3,6 @@ package main.java.controllers;
 import main.java.views.DJView;
 import main.java.models.BeatModelInterface;
 
-  
 public class BeatController implements ControllerInterface {
 	BeatModelInterface model;
 	DJView view;
