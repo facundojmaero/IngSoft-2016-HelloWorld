@@ -2,6 +2,7 @@ package main.java.controllers;
 
 import main.java.views.DJView;
 import main.java.models.HeartAdapter;
+import main.java.models.HeartModel;
 import main.java.models.HeartModelInterface;
 
   
@@ -22,7 +23,9 @@ public class HeartController implements ControllerInterface {
  
 	public void stop() {}
     
-	public void increaseBPM() {}
+	public void increaseBPM() {
+		HeartModel.getInstance();
+	}
     
 	public void decreaseBPM() {}
   
