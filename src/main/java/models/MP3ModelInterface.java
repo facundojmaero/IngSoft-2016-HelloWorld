@@ -27,4 +27,10 @@ public interface MP3ModelInterface {
 	void registerObserver(BPMObserver o);
 
 	void removeObserver(BPMObserver o);
+	
+	double getVolumen();
+	
+	void setIndex(int index);
+	
+	int getIndex();
 }
