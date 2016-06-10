@@ -37,7 +37,7 @@ public class MP3Controller implements ControllerInterface {
 
 	@Override
 	public void setBPM(int bpm) {
-		boolean validacion = model.setIndex(bpm-1);
+		boolean validacion = model.setIndex(bpm-1);	//boolean para saber si el indice esta dentro de los limites
 		if(validacion){
 			model.stop();
 			model.play();

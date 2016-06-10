@@ -1,8 +1,10 @@
 package main.java.testDrives;
 
 import main.java.controllers.MP3Controller;
+import main.java.models.BeatModelInterface;
 import main.java.models.MP3Adapter;
 import main.java.models.MP3Model;
+import main.java.models.MP3ModelInterface;
 import main.java.views.DJView;
 
 public class Test {

@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import main.java.models.BeatModelInterface;
+import main.java.models.MP3Adapter;
 import main.java.controllers.ControllerInterface;
 
 public class DJView implements ActionListener,  BeatObserver, BPMObserver {
@@ -153,16 +154,23 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 	public void updateBPM() {
 		if (model != null) {
 			int bpm = model.getBPM();
-			if (bpm == 0) {
-				if (bpmOutputLabel != null) {
-        			bpmOutputLabel.setText("offline");
-				}
-			} else {
-				if (bpmOutputLabel != null) {
-//					bpmOutputLabel.setText("Current BPM: " + model.getBPM());
-					bpmOutputLabel.setText("Numero de intentos: " + bpm);
+			//Reviso que modelo se usa para ver que mostrar en la BeatBar
+			if (model instanceof MP3Adapter){
+				bpmOutputLabel.setText("Pista numero " + (bpm+1));
+			}
+			else{
+				if (bpm == 0) {
+					if (bpmOutputLabel != null) {
+	        			bpmOutputLabel.setText("offline");
+					}
+				} else {
+					if (bpmOutputLabel != null) {
+//						bpmOutputLabel.setText("Current BPM: " + model.getBPM());
+						bpmOutputLabel.setText("Numero de intentos: " + bpm);
+					}
 				}
 			}
+			
 		}
 	}
   

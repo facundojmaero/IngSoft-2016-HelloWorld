@@ -52,8 +52,9 @@ public class MP3Model implements MP3ModelInterface {
 			} catch (BasicPlayerException e) {
 				e.printStackTrace();
 			}
-			opened = true; //the file has been opened
-			stopped = false; //we get out of stoped state
+			opened = true; //el archivo fue abierto
+			stopped = false; //salimos del estado stoped
+			this.notifyBPMObservers();
 		}
 		if(paused && opened){
 			try {
