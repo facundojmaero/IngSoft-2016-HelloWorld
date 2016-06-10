@@ -12,3 +12,10 @@ Merge del branch 0.2.0 al branch Master
 Se agregó la funcionalidad Modelo MP3 con funciones basicas
 Se corrigió el error: no se corrigieron errores.
 Comentarios: Funciona play, pausa, stop, siguiente, anterior, control de volumen.
+
+10-06-2016
+Desarrollador: Gustavo Gonzalez
+Merge del branch 0.3.0 al branch Master
+Se agregó la funcionalidad Controlador MP3 con funciones basicas
+Se corrigió el error: no se corrigieron errores.
+Comentarios: Falta quitar el casteo cuando se cambie la interfaz MP3Model
