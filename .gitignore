@@ -57,6 +57,7 @@ gradle-app.setting
 !gradle-wrapper.jar
 ### Java template
 *.class
+*.java.bak
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
