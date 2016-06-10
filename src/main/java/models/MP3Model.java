@@ -180,10 +180,11 @@ public class MP3Model implements MP3ModelInterface {
 		beatObservers.add(o);	
 	}
 	
-	public void setIndex (int index){
+	public boolean setIndex (int index){
 		if ( index > (playlist.size()-1) || index < 0)
-			return;
+			return false;
 		this.index = index;
+		return true;
 	}
 
 	@Override

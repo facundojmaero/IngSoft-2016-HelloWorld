@@ -30,7 +30,7 @@ public interface MP3ModelInterface {
 	
 	double getVolumen();
 	
-	void setIndex(int index);
+	boolean setIndex(int index);
 	
 	int getIndex();
 }

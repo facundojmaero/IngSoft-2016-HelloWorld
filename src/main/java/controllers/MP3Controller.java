@@ -6,11 +6,9 @@ import main.java.views.DJView;
 
 public class MP3Controller implements ControllerInterface {
 	MP3ModelInterface model;
-	DJView	view;
 	
-	public MP3Controller(MP3Model model,DJView view){
+	public MP3Controller(MP3Model model){
 		this.model = model;
-		this.view = view;
 	}
 
 	@Override
@@ -39,8 +37,14 @@ public class MP3Controller implements ControllerInterface {
 
 	@Override
 	public void setBPM(int bpm) {
-		model.setIndex(bpm);
-		model.play();
+		boolean validacion = model.setIndex(bpm-1);
+		if(validacion){
+			model.stop();
+			model.play();
+		}
+		else{
+			model.stop();
+		}
 
 	}
 	
