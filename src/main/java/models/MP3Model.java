@@ -11,18 +11,19 @@ import main.java.views.BeatObserver;
 public class MP3Model implements MP3ModelInterface {
 	private BasicPlayer player;
 	private ArrayList<String> playlist;
-	private ArrayList<BPMObserver> bpm_observers;
-	private ArrayList<BeatObserver> beat_observers;
+	private ArrayList<BPMObserver> bpmObservers;
+	private ArrayList<BeatObserver> beatObservers;
 	private int index;
 	private double volumen;
 	private boolean paused;
 	private boolean opened;
 	private boolean stopped;
 	
+	
 	public MP3Model(){
 		this.player = new BasicPlayer();
-		this.bpm_observers = new ArrayList<BPMObserver>();
-		this.beat_observers = new ArrayList<BeatObserver>();
+		this.bpmObservers = new ArrayList<BPMObserver>();
+		this.beatObservers = new ArrayList<BeatObserver>();
 		this.index = 0;	
 		this.volumen = 1;			//maximo volumen
 		this.stopped = true;		    //stop comienza true
@@ -148,5 +149,34 @@ public class MP3Model implements MP3ModelInterface {
 	
 	public double getVolumen(){
 		return volumen;
+	}
+	
+	public void registerObserver(BPMObserver o) {
+		bpmObservers.add(o);
+	}
+
+	public void notifyBPMObservers() {
+		for (int i = 0; i < bpmObservers.size(); i++) {
+			BPMObserver observer = (BPMObserver) bpmObservers.get(i);
+			observer.updateBPM();
+		}
+	}
+
+	public void removeObserver(BeatObserver o) {
+		int i = beatObservers.indexOf(o);
+		if (i >= 0) {
+			beatObservers.remove(i);
+		}
+	}
+
+	public void removeObserver(BPMObserver o) {
+		int i = bpmObservers.indexOf(o);
+		if (i >= 0) {
+			bpmObservers.remove(i);
+		}
+	}
+
+	public void registerObserver(BeatObserver o) {
+		beatObservers.add(o);	
 	}
 }
