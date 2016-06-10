@@ -5,3 +5,10 @@ Se agregó la funcionalidad: Singleton en el Heart Model
 Se corrigió el error: No se corrigio ningun error.
 Comentarios: Al presionar el boton de siguiente se intenta crear una nueva instancia del modelo.
 En lugar de suceder esto, se muestran las veces que se trato de realizar la accion.
+
+10-06-2016
+Desarrollador: Facundo Maero
+Merge del branch 0.2.0 al branch Master
+Se agregó la funcionalidad Modelo MP3 con funciones basicas
+Se corrigió el error: no se corrigieron errores.
+Comentarios: Funciona play, pausa, stop, siguiente, anterior, control de volumen.
