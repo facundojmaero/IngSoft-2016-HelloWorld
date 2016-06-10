@@ -179,4 +179,10 @@ public class MP3Model implements MP3ModelInterface {
 	public void registerObserver(BeatObserver o) {
 		beatObservers.add(o);	
 	}
+	
+	public void setIndex (int index){
+		if ( index > (playlist.size()-1) || index < 0)
+			return;
+		this.index = index;
+	}
 }
