@@ -185,4 +185,9 @@ public class MP3Model implements MP3ModelInterface {
 			return;
 		this.index = index;
 	}
+
+	@Override
+	public int getIndex() {
+		return index;
+	}
 }
