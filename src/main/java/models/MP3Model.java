@@ -29,6 +29,8 @@ public class MP3Model implements MP3ModelInterface {
 		this.paused = false;		//pausado comienza como false
 		this.opened = false;		//ningun archivo abierto
 		this.playlist = new ArrayList<String>();
+		//playlist por default
+		this.addPlayList("default songs");
 	}
 
 	@Override
