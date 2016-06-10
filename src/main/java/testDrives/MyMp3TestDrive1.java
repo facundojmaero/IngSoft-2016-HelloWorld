@@ -7,7 +7,7 @@ import main.java.models.MP3Model;
 import main.java.models.MP3ModelInterface;
 import main.java.views.DJView;
 
-public class Test {
+public class MyMp3TestDrive1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
