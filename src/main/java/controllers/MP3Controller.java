@@ -61,4 +61,5 @@ public class MP3Controller implements ControllerInterface {
 		double volumen_actual = model.getVolumen();
 		model.setVolumen(volumen_actual-0.1);
 	}
+	
 }
