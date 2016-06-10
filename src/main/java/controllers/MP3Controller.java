@@ -39,7 +39,7 @@ public class MP3Controller implements ControllerInterface {
 
 	@Override
 	public void setBPM(int bpm) {
-		((MP3Model) model).setIndex(bpm);
+		model.setIndex(bpm);
 		model.play();
 
 	}
@@ -49,12 +49,12 @@ public class MP3Controller implements ControllerInterface {
 	}
 	
 	public void increaseVolumen(){
-		double volumen_actual = ((MP3Model) model).getVolumen();
+		double volumen_actual = model.getVolumen();
 		model.setVolumen(volumen_actual+0.1);
 	}
 	
 	public void decreaseVolumen(){
-		double volumen_actual = ((MP3Model) model).getVolumen();
+		double volumen_actual = model.getVolumen();
 		model.setVolumen(volumen_actual-0.1);
 	}
 }
