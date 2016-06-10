@@ -19,3 +19,10 @@ Merge del branch 0.3.0 al branch Master
 Se agregó la funcionalidad Controlador MP3 con funciones basicas
 Se corrigió el error: no se corrigieron errores.
 Comentarios: Falta quitar el casteo cuando se cambie la interfaz MP3Model
+
+10-06-2016
+Desarrollador: Facundo Maero
+Merge del branch 0.4.0 al branch Master
+Se agregó la funcionalidad Adapter MP3 para interfasear con DJView
+Se corrigió el error: no se corrigieron errores.
+Comentarios: --
