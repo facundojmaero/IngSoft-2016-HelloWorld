@@ -14,6 +14,7 @@ public class MP3Model implements MP3ModelInterface {
 	private ArrayList<BPMObserver> bpm_observers;
 	private ArrayList<BeatObserver> beat_observers;
 	private int index;
+	private double volumen;
 	private boolean paused;
 	private boolean opened;
 	private boolean stopped;
@@ -23,9 +24,11 @@ public class MP3Model implements MP3ModelInterface {
 		this.bpm_observers = new ArrayList<BPMObserver>();
 		this.beat_observers = new ArrayList<BeatObserver>();
 		this.index = 0;	
+		this.volumen = 1;			//maximo volumen
 		this.stopped = true;		    //stop comienza true
 		this.paused = false;		//pausado comienza como false
 		this.opened = false;		//ningun archivo abierto
+		this.playlist = new ArrayList<String>();
 	}
 
 	@Override
@@ -41,12 +44,13 @@ public class MP3Model implements MP3ModelInterface {
 			} catch (BasicPlayerException e) {
 				e.printStackTrace();
 			}
-			opened = true;
 			try {
 				player.play();
 			} catch (BasicPlayerException e) {
 				e.printStackTrace();
 			}
+			opened = true; //the file has been opened
+			stopped = false; //we get out of stoped state
 		}
 		if(paused && opened){
 			try {
@@ -56,6 +60,13 @@ public class MP3Model implements MP3ModelInterface {
 			}
 			paused = false;
 
+		}
+		//Seteo la ganancia aca para que se pueda subir el volumen antes de dar play y el
+		//reproductor lo entienda
+		try {
+			player.setGain(volumen);
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -93,11 +104,10 @@ public class MP3Model implements MP3ModelInterface {
 			paused = false;
 			stopped = true;
 			index = (index-1)%playlist.size();
-			try {
-				player.play();
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
+			if(index<0){
+				index = playlist.size()-1;
 			}
+			this.play();
 	}
 
 	@Override
@@ -107,11 +117,7 @@ public class MP3Model implements MP3ModelInterface {
 			paused = false;
 			stopped = true;
 			index = (index+1)%playlist.size();
-			try {
-				player.play();
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
+			this.play();
 	}
 
 	@Override
@@ -133,13 +139,12 @@ public class MP3Model implements MP3ModelInterface {
 			return;
 		}
 		else{
-			try {
-				player.setGain(volumen);
-			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.volumen = volumen;
 		}
 
+	}
+	
+	public double getVolumen(){
+		return volumen;
 	}
 }
