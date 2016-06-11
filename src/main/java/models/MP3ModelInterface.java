@@ -37,6 +37,10 @@ public interface MP3ModelInterface {
 	
 	boolean IsPlaying();
 	
+	String getCurrentTrackName();
+	
+	String[] getCurrentPlaylist();
+	
 	void registerObserver(TrackObserver o);
 	
 	void removeObserver(TrackObserver o);

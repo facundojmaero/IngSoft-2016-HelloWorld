@@ -39,8 +39,8 @@ public class MP3Model implements MP3ModelInterface {
 		this.opened = false;		//ningun archivo abierto
 		this.playlist = new ArrayList<String>();
 		//playlist por default
-		this.addPlayList("src/main/resources/default songs");
 		this.trackObservers = new ArrayList<TrackObserver>();
+		this.addPlayList("src/main/resources/default songs");
 	}
 
 	@Override
@@ -183,6 +183,7 @@ public class MP3Model implements MP3ModelInterface {
 		for (int i = 0; i < trackObservers.size(); i++){
 			TrackObserver observer = trackObservers.get(i);
 			observer.updateTrackInfo();
+			observer.updatePlaylistInfo();
 		}
 	}
 	
@@ -243,4 +244,24 @@ public class MP3Model implements MP3ModelInterface {
 	public boolean IsPlaying() {
 		return (!paused) && (!stopped); //devuelve true solo si esta reproduciendo
 	}
+
+	@Override
+	public String[] getCurrentPlaylist() {
+		String[] playlistArray = new String[playlist.size()];
+		Mp3File song = null;
+		ID3v2 songTag = null;
+		for(int i=0;i<playlist.size();i++){
+			String path = playlist.get(i);
+			try {
+				song = new Mp3File(path);
+			} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			songTag = song.getId3v2Tag();
+			playlistArray[i] = songTag.getTitle();
+		}
+		return playlistArray;
+	}
+	
 }

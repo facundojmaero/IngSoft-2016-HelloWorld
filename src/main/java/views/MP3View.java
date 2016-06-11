@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -80,6 +81,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	{
 		this.model = model;
 		this.init();	//Inicializa la vista
+		this.updatePlaylistInfo();		//Muestra la playlist añadida por defecto en el JScrollPanel
 		this.addListeners();	//Añade EventListener a los botones
 		model.registerObserver((TrackObserver)this);
 	}
@@ -202,7 +204,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 			controller.increaseBPM();
 		}
 		else if(event.getSource() == btnAdd){
-			System.out.println("Click en add");
 		}
 		else if(event.getSource() == btnMute){
 			controller.setVolumen(0);
@@ -230,5 +231,13 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	@Override
 	public void updateTrackInfo() {
 			lblplaying.setText("Now Playing " + ((MP3Model) model).getCurrentTrackName());
+	}
+
+	@Override
+	public void updatePlaylistInfo() {
+		String[] playlist = model.getCurrentPlaylist();
+		for(int i=0;i<playlist.length;i++){
+			songList.addElement(playlist[i]);
+		}
 	}
 }
