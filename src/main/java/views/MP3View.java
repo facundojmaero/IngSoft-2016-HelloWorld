@@ -51,9 +51,9 @@ public class MP3View extends JFrame implements ActionListener {
 	//FFTParallelFrame fdf = null;
 	//public static StatusFrame stf = new StatusFrame();
 	//Icons
-	ImageIcon frameIcon = new ImageIcon("images/frameicon.png");
-	ImageIcon playIcon = new ImageIcon("images/playicon.png");
-	ImageIcon pauseIcon = new ImageIcon("images/pauseicon.png");
+	ImageIcon frameIcon = new ImageIcon("src/main/resources/images/frameicon.png");
+	ImageIcon playIcon = new ImageIcon("src/main/resources/images/playicon.png");
+	ImageIcon pauseIcon = new ImageIcon("src/main/resources/images/pauseicon.png");
 	
 	/**
 	 * Class/Frame constructor
