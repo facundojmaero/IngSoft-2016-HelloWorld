@@ -60,8 +60,8 @@ public class MP3View extends JFrame implements ActionListener {
 	 */
 	public MP3View()
 	{
-		this.init();
-		this.addListeners();
+		this.init();	//Inicializa la vista
+		this.addListeners();	//Añade EventListener a los botones
 	}
 	
 	/**
@@ -139,11 +139,25 @@ public class MP3View extends JFrame implements ActionListener {
 	
 	private void addListeners(){
 		 btnPlay.addActionListener(this);
+		 btnPrev.addActionListener(this);
+		 btnNext.addActionListener(this);
+		 btnAdd.addActionListener(this);
 	}
 	
+	//Metodo para manejar los eventos debependiendo que boton se toco
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == btnPlay) {
 			System.out.println("Click en play");
+			btnPlay.setIcon(pauseIcon);
+		}
+		else if(event.getSource() == btnPrev){
+			System.out.println("Click en anterior");
+		}
+		else if(event.getSource() == btnNext){
+			System.out.println("Click en siguiente");
+		}
+		else if(event.getSource() == btnAdd){
+			System.out.println("Click en add");
 		}
 	}
 }
