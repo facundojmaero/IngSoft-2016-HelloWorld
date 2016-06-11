@@ -35,7 +35,10 @@ public interface MP3ModelInterface {
 	
 	int getIndex();
 	
+	boolean IsPlaying();
+	
 	void registerObserver(TrackObserver o);
 	
 	void removeObserver(TrackObserver o);
+	
 }

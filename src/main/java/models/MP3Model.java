@@ -219,4 +219,9 @@ public class MP3Model implements MP3ModelInterface {
 		//Que se mande todo en un metodo o hacer un getter para cada tag de la cancion actual?
 		return null;
 	}
+
+	@Override
+	public boolean IsPlaying() {
+		return (!paused) && (!stopped); //devuelve true solo si esta reproduciendo
+	}
 }

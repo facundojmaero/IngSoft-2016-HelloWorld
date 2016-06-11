@@ -8,7 +8,7 @@ public class MP3Controller implements ControllerInterface {
 	MP3ModelInterface model;
 	DJView view;
 	
-	public MP3Controller(MP3Model model, DJView view){
+	public MP3Controller(MP3ModelInterface model, DJView view){
 		this.model = model;
 		this.view = view;
 		view.disableStopMenuItem();
