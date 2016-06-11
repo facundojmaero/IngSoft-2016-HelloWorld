@@ -229,6 +229,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 
 	@Override
 	public void updateTrackInfo() {
-			lblplaying.setText("Now Playing " + ((MP3Model) model).getCurrentTrackName());
+			lblplaying.setText("Now Playing: " + ((MP3Model) model).getCurrentTrackName());
+			lblet.setText(((MP3Model) model).getCurrentSongDuration());
+			
 	}
 }

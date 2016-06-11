@@ -1,8 +1,16 @@
 package main.java.models;
 
+import java.awt.FlowLayout;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
@@ -94,8 +102,6 @@ public class MP3Model implements MP3ModelInterface {
 		paused = true;
 	}
 
-
-
 	@Override
 	public void addPlayList(String Path) {
 		File file = new File(Path);				// Uso la ruta para crear un nuevo File
@@ -157,7 +163,6 @@ public class MP3Model implements MP3ModelInterface {
 			try {
 				player.setGain(volumen);
 			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -237,6 +242,21 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		ID3v2 songTag = mp3file.getId3v2Tag();
 		return songTag.getTitle();
+	}
+	
+	public String getCurrentSongDuration(){
+		String path = playlist.get(index);
+		Mp3File song = null;
+		try {
+			song = new Mp3File(path);
+		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+			e.printStackTrace();
+		}
+		long duration = song.getLengthInSeconds();
+		int minutes = (int)duration/60;
+		int seconds = (int)duration%60;
+		String songDuration = String.format("%02d:%02d", minutes, seconds);
+		return songDuration;
 	}
 
 	@Override
