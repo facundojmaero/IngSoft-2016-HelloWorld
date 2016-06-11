@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import main.java.models.BeatModelInterface;
+import main.java.models.HeartAdapter;
 import main.java.models.MP3Adapter;
 import main.java.controllers.ControllerInterface;
 import main.java.controllers.MP3Controller;
@@ -166,8 +167,10 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 					}
 				} else {
 					if (bpmOutputLabel != null) {
-//						bpmOutputLabel.setText("Current BPM: " + model.getBPM());
-						bpmOutputLabel.setText("Numero de intentos: " + bpm);
+						if(model instanceof HeartAdapter)
+							bpmOutputLabel.setText("Numero de intentos: " + bpm);
+						else
+							bpmOutputLabel.setText("Current BPM: " + model.getBPM());
 					}
 				}
 			}
