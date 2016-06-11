@@ -4,6 +4,7 @@ import java.io.File;
 
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
+import main.java.views.TrackObserver;
 
 public interface MP3ModelInterface {
 	void play();
@@ -33,4 +34,8 @@ public interface MP3ModelInterface {
 	boolean setIndex(int index);
 	
 	int getIndex();
+	
+	void registerObserver(TrackObserver o);
+	
+	void removeObserver(TrackObserver o);
 }

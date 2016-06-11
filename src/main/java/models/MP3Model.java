@@ -7,12 +7,14 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
+import main.java.views.TrackObserver;
 
 public class MP3Model implements MP3ModelInterface {
 	private BasicPlayer player;
 	private ArrayList<String> playlist;
 	private ArrayList<BPMObserver> bpmObservers;
 	private ArrayList<BeatObserver> beatObservers;
+	private ArrayList<TrackObserver> trackObservers;
 	private int index;
 	private double volumen;
 	private boolean paused;
@@ -153,8 +155,33 @@ public class MP3Model implements MP3ModelInterface {
 		return volumen;
 	}
 	
+	public void registerObserver(TrackObserver o){
+		trackObservers.add(o);
+	}
+	
+	public void removeObserver(TrackObserver o){
+		int i = trackObservers.indexOf(o);
+		if (i >= 0){
+			trackObservers.remove(i);
+		}
+	}
+
+	public void notifyTrackObservers(){
+		for (int i = 0; i < trackObservers.size(); i++){
+			TrackObserver observer = (TrackObserver) trackObservers.get(i);
+			observer.updateTrackInfo();
+		}
+	}
+	
 	public void registerObserver(BPMObserver o) {
 		bpmObservers.add(o);
+	}
+	
+	public void removeObserver(BPMObserver o) {
+		int i = bpmObservers.indexOf(o);
+		if (i >= 0) {
+			bpmObservers.remove(i);
+		}
 	}
 
 	public void notifyBPMObservers() {
@@ -164,22 +191,15 @@ public class MP3Model implements MP3ModelInterface {
 		}
 	}
 
+	public void registerObserver(BeatObserver o) {
+		beatObservers.add(o);	
+	}
+	
 	public void removeObserver(BeatObserver o) {
 		int i = beatObservers.indexOf(o);
 		if (i >= 0) {
 			beatObservers.remove(i);
 		}
-	}
-
-	public void removeObserver(BPMObserver o) {
-		int i = bpmObservers.indexOf(o);
-		if (i >= 0) {
-			bpmObservers.remove(i);
-		}
-	}
-
-	public void registerObserver(BeatObserver o) {
-		beatObservers.add(o);	
 	}
 	
 	public boolean setIndex (int index){
@@ -192,5 +212,11 @@ public class MP3Model implements MP3ModelInterface {
 	@Override
 	public int getIndex() {
 		return index;
+	}
+	
+	public String getCurrentTrackInfo(){
+		//Metodo vacio, ver implementacion con nueva vista
+		//Que se mande todo en un metodo o hacer un getter para cada tag de la cancion actual?
+		return null;
 	}
 }
