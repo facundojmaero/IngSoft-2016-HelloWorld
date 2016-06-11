@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -22,11 +23,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.UnsupportedTagException;
+
 import main.java.controllers.ControllerInterface;
 import main.java.controllers.MP3Controller2;
+import main.java.models.MP3Model;
 import main.java.models.MP3ModelInterface;
 
-public class MP3View extends JFrame implements ActionListener {
+public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	MP3ModelInterface model;
 	MP3Controller2 controller = null;
 	//Other
@@ -76,6 +81,7 @@ public class MP3View extends JFrame implements ActionListener {
 		this.model = model;
 		this.init();	//Inicializa la vista
 		this.addListeners();	//Añade EventListener a los botones
+		model.registerObserver((TrackObserver)this);
 	}
 	
 	/**
@@ -219,5 +225,10 @@ public class MP3View extends JFrame implements ActionListener {
 	
 	public void MakePauseIcon(){
 		btnPlay.setIcon(pauseIcon);
+	}
+
+	@Override
+	public void updateTrackInfo() {
+			lblplaying.setText("Now Playing " + ((MP3Model) model).getCurrentTrackName());
 	}
 }

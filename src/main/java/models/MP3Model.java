@@ -1,7 +1,13 @@
 package main.java.models;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
@@ -34,6 +40,7 @@ public class MP3Model implements MP3ModelInterface {
 		this.playlist = new ArrayList<String>();
 		//playlist por default
 		this.addPlayList("src/main/resources/default songs");
+		this.trackObservers = new ArrayList<TrackObserver>();
 	}
 
 	@Override
@@ -57,6 +64,7 @@ public class MP3Model implements MP3ModelInterface {
 			opened = true; //el archivo fue abierto
 			stopped = false; //salimos del estado stoped
 			this.notifyBPMObservers();
+			this.notifyTrackObservers();
 		}
 		if(paused && opened){
 			try {
@@ -173,7 +181,7 @@ public class MP3Model implements MP3ModelInterface {
 
 	public void notifyTrackObservers(){
 		for (int i = 0; i < trackObservers.size(); i++){
-			TrackObserver observer = (TrackObserver) trackObservers.get(i);
+			TrackObserver observer = trackObservers.get(i);
 			observer.updateTrackInfo();
 		}
 	}
@@ -219,10 +227,16 @@ public class MP3Model implements MP3ModelInterface {
 		return index;
 	}
 	
-	public String getCurrentTrackInfo(){
-		//Metodo vacio, ver implementacion con nueva vista
-		//Que se mande todo en un metodo o hacer un getter para cada tag de la cancion actual?
-		return null;
+	public String getCurrentTrackName(){
+		String path = playlist.get(index);
+		Mp3File mp3file = null;
+		try {
+			mp3file = new Mp3File(path);
+		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+			e.printStackTrace();
+		}
+		ID3v2 songTag = mp3file.getId3v2Tag();
+		return songTag.getTitle();
 	}
 
 	@Override
