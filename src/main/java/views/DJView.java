@@ -8,6 +8,7 @@ import javax.swing.*;
 import main.java.models.BeatModelInterface;
 import main.java.models.MP3Adapter;
 import main.java.controllers.ControllerInterface;
+import main.java.controllers.MP3Controller;
 
 public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 	BeatModelInterface model;
@@ -179,4 +180,8 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 			 beatBar.setValue(100);
 		}
 	}
+
+	public void setController(ControllerInterface controller) {
+		this.controller = controller;
 	}
+}

@@ -6,33 +6,42 @@ import main.java.views.DJView;
 
 public class MP3Controller implements ControllerInterface {
 	MP3ModelInterface model;
+	DJView view;
 	
-	public MP3Controller(MP3Model model){
+	public MP3Controller(MP3Model model, DJView view){
 		this.model = model;
+		this.view = view;
+		view.disableStopMenuItem();
+		view.enableStartMenuItem();
 	}
 
 	@Override
 	public void start() {
 		model.play();
-
+		view.disableStartMenuItem();
+		view.enableStopMenuItem();
 	}
 
 	@Override
 	public void stop() {
 		model.stop();
-
+		view.enableStartMenuItem();
+		view.disableStopMenuItem();
 	}
 
 	@Override
 	public void increaseBPM() {
 		model.nextSong();
+		view.disableStartMenuItem();
+		view.enableStopMenuItem();
 
 	}
 
 	@Override
 	public void decreaseBPM() {
 		model.previousSong();
-
+		view.disableStartMenuItem();
+		view.enableStopMenuItem();
 	}
 
 	@Override

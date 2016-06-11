@@ -12,10 +12,11 @@ public class MyMp3TestDrive1 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		MP3Model model = new MP3Model();
-		MP3Controller controller = new MP3Controller(model);
-		DJView view = new DJView(controller,new MP3Adapter(model));
+		DJView view = new DJView(null,new MP3Adapter(model));
 		view.createView();
 		view.createControls();
+		MP3Controller controller = new MP3Controller(model, view);
+		view.setController(controller);
 	}
 
 }
