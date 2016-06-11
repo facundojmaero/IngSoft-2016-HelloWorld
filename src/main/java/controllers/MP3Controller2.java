@@ -30,12 +30,14 @@ public class MP3Controller2 implements ControllerInterface {
 	@Override
 	public void increaseBPM() {
 		model.nextSong();
+		view.MakePauseIcon();
 		
 	}
 
 	@Override
 	public void decreaseBPM() {
 		model.previousSong();
+		view.MakePauseIcon();
 		
 	}
 

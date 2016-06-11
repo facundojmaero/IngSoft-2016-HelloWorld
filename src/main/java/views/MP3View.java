@@ -174,6 +174,9 @@ public class MP3View extends JFrame implements ActionListener {
 		 btnPrev.addActionListener(this);
 		 btnNext.addActionListener(this);
 		 btnAdd.addActionListener(this);
+		 btnMute.addActionListener(this);
+		 btnVolUp.addActionListener(this);
+		 btnVolDown.addActionListener(this);
 	}
 	
 	//Metodo para manejar los eventos debependiendo que boton se toco
@@ -194,6 +197,15 @@ public class MP3View extends JFrame implements ActionListener {
 		}
 		else if(event.getSource() == btnAdd){
 			System.out.println("Click en add");
+		}
+		else if(event.getSource() == btnMute){
+			controller.setVolumen(0);
+		}
+		else if(event.getSource() == btnVolUp){
+			controller.increaseVolumen();
+		}
+		else if(event.getSource() == btnVolDown){
+			controller.decreaseVolumen();
 		}
 	}
 	

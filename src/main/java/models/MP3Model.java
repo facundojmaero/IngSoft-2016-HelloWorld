@@ -146,6 +146,12 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		else{
 			this.volumen = volumen;
+			try {
+				player.setGain(volumen);
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
