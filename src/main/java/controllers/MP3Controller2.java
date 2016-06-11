@@ -2,6 +2,7 @@ package main.java.controllers;
 
 import main.java.models.MP3ModelInterface;
 import main.java.views.DJView;
+import main.java.views.MP3View;
 
 public class MP3Controller2 implements ControllerInterface {
 	MP3ModelInterface model;
@@ -10,11 +11,13 @@ public class MP3Controller2 implements ControllerInterface {
 	public MP3Controller2(MP3ModelInterface model, MP3View view){
 		this.model = model;
 		this.view = view;
+		view.setVisible(true);
 	}
 	
 	@Override
 	public void start() {
 		model.play();
+		view.MakePauseIcon();
 		
 	}
 
@@ -58,6 +61,7 @@ public class MP3Controller2 implements ControllerInterface {
 	
 	public void pause(){
 		model.pause();
+		view.MakePlayIcon();
 	}
 
 }

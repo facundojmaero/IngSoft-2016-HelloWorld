@@ -22,7 +22,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import main.java.controllers.ControllerInterface;
+import main.java.controllers.MP3Controller2;
+import main.java.models.MP3ModelInterface;
+
 public class MP3View extends JFrame implements ActionListener {
+	MP3ModelInterface model;
+	MP3Controller2 controller = null;
 	//Other
 	DefaultListModel<String> songList = new DefaultListModel<String>();
 	ScheduledExecutorService timersExec = Executors.newSingleThreadScheduledExecutor();	
@@ -58,8 +64,9 @@ public class MP3View extends JFrame implements ActionListener {
 	/**
 	 * Class/Frame constructor
 	 */
-	public MP3View()
+	public MP3View(MP3ModelInterface model)
 	{
+		this.model = model;
 		this.init();	//Inicializa la vista
 		this.addListeners();	//Añade EventListener a los botones
 	}
@@ -147,17 +154,33 @@ public class MP3View extends JFrame implements ActionListener {
 	//Metodo para manejar los eventos debependiendo que boton se toco
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == btnPlay) {
-			System.out.println("Click en play");
-			btnPlay.setIcon(pauseIcon);
+			if(model.IsPlaying()){
+				controller.pause();
+			}
+			else{
+				controller.start();
+			}
 		}
 		else if(event.getSource() == btnPrev){
-			System.out.println("Click en anterior");
+			controller.decreaseBPM();
 		}
 		else if(event.getSource() == btnNext){
-			System.out.println("Click en siguiente");
+			controller.increaseBPM();
 		}
 		else if(event.getSource() == btnAdd){
 			System.out.println("Click en add");
 		}
+	}
+	
+	public void setController(MP3Controller2 controller){
+		this.controller = controller;
+	}
+	
+	public void MakePlayIcon(){
+		btnPlay.setIcon(playIcon);
+	}
+	
+	public void MakePauseIcon(){
+		btnPlay.setIcon(pauseIcon);
 	}
 }
