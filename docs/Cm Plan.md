@@ -189,7 +189,7 @@ Los tipos de ramificaciones utilizadas se describen a continuación:
 * **Development Branch**: aloja desarrollos de nuevas características, que deberán ser testeadas y pulidas adecuadamente para poder llegar a un nivel mínimo de calidad y ser insertadas en el Master. El formato para nombrar estas ramas es: dev-branch<cambio>  
 Ej: dev-branch-singleton, dev-branch-controlador-mp3, etc.
 
-* **Hotfix Branch**: son las ramas que pueden ser utilizadas para corregir errores o bugs detectados en el código, aislando el problema y así pudiendo continuar con el desarrollo en las ramas de desarrollo. Se les dará el nombre de hotfix-branch<bug>.  
+* **Hotfix Branch**: son las ramas que pueden ser utilizadas para corregir errores o bugs detectados en el código, aislando el problema y así pudiendo continuar con el desarrollo en las ramas de desarrollo. Se les dará el nombre de hotfix-branch-feature.  
 Por ejemplo: hotfix-branch-singleton.
 
 Luego de definir los tipos de ramas, queda claro que la principal motivación al utilizar este esquema es mantener aislado el código inestable y bajo desarrollo del código estable y potencial a ser lanzado como producto final. 
@@ -198,9 +198,11 @@ Es posible que se realicen desarrollos de nuevas características en la rama Mas
 
 ##### 6.1.2. Definición de Tags: 
 
-* **Development tags**: en las ramas de desarrollo se etiquetara numéricamente la última versión del código, el que se considere apto para un merge hacia ramas más estables y de entrega de producto, para tener una referencia a la hora de realizar el merge y completar la documentación pertinente, siguiendo el esquema dev-branch<cambio><ID>. Ej: dev-branch-dropDown 0.1.0.
-
+* **Development tags**: en las ramas de desarrollo se etiquetara numéricamente la última versión del código, el que se considere apto para un merge hacia ramas más estables y de entrega de producto, para tener una referencia a la hora de realizar el merge y completar la documentación pertinente, siguiendo el esquema dev-branch<cambio><ID>. Ej: dev-branch-dropDown 0.1.0.  
 El identificador representa las versiones del código puesto en configuración en esa rama, comenzando por el 0.1.0, luego el 0.2.0. Esta numeración será utilizada en la mayoría de los casos, cuando el nuevo contenido del archivo amerite un cambio de nomenclatura. 
+
+* **Hotfix Tags**: usados en las ramas de hotfix, permiten identificar la versión de la misma previa al merge con la rama de donde se creó, permitiendo saber que el problema está resuelto y que puede continuarse el desarrollo normalmente.  
+El identificador usado seguirá la sintaxis: 0.x.0-hotfix, para dejar claro que no es un tag de desarrollo, sino uno de corrección de errores.
 
 ##### 6.1.3. Archivos Auxiliares:
 
