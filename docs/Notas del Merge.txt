@@ -39,4 +39,11 @@ Desarrollador: Gustavo Gonzalez
 Merge del branch 0.6.0 al branch Master
 Se agregó la funcionalidad MP3View con funciones basicas
 Se corrigió el error: no se corrigieron errores.
-Comentarios: Ñ
+Comentarios: --
+
+11-06-2016
+Desarrollador: Facundo Maero
+Merge del branch 0.7.0 al branch Master
+Se agregó la funcionalidad: MP3Controller2 para controlar la nueva vista. Solo tiene funcionalidades basicas.
+Se corrigió el error: no se corrigieron errores.
+Comentarios: No compila porque se declaro una vista MP3View pero en esta rama ese archivo no existe. Se soluciona al hacer merge.
