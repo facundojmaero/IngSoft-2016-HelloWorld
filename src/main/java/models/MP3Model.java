@@ -33,8 +33,7 @@ public class MP3Model implements MP3ModelInterface {
 		this.opened = false;		//ningun archivo abierto
 		this.playlist = new ArrayList<String>();
 		//playlist por default
-//		this.addPlayList("default songs");
-		this.addPlayList("src\\main\\resources");
+		this.addPlayList("src/main/resources/default songs");
 	}
 
 	@Override
