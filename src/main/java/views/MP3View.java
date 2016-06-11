@@ -40,6 +40,10 @@ public class MP3View extends JFrame implements ActionListener {
 	JButton btnAdd = new JButton();
 	JButton btnNext = new JButton();
 	JButton btnPrev = new JButton();
+	JButton btnVolUp = new JButton();
+	JButton btnVolDown = new JButton();
+	JButton btnMute = new JButton();
+	JButton btnCover = new JButton();
 	JButton btnShSt = new JButton();
 	JButton btnShWf = new JButton();
 	JButton btnShDi = new JButton();
@@ -60,6 +64,9 @@ public class MP3View extends JFrame implements ActionListener {
 	ImageIcon frameIcon = new ImageIcon("src/main/resources/images/frameicon.png");
 	ImageIcon playIcon = new ImageIcon("src/main/resources/images/playicon.png");
 	ImageIcon pauseIcon = new ImageIcon("src/main/resources/images/pauseicon.png");
+	ImageIcon volUpIcon = new ImageIcon("src/main/resources/images/up.png");
+	ImageIcon volDownIcon = new ImageIcon("src/main/resources/images/down.png");
+	ImageIcon muteIcon = new ImageIcon("src/main/resources/images/off.png");
 	
 	/**
 	 * Class/Frame constructor
@@ -91,7 +98,8 @@ public class MP3View extends JFrame implements ActionListener {
 		//Buttons
 		int btn_h = 35;		//altura de los botones
 		int btn_w = 50;		//ancho de los botones
-		int line1 = 80;		//posicion y
+		int line1 = 80;		//posicion "y"
+		//Panel para los botones prev,play y next
 		JPanel contBtns = new JPanel();
 		contBtns.setBounds(0, line1, 320, btn_h);
 		btnPrev.setText("<<");
@@ -101,14 +109,31 @@ public class MP3View extends JFrame implements ActionListener {
 		btnPlay.setSize(btn_w,btn_h);
 		btnNext.setText(">>");
 		btnNext.setSize(btn_w,btn_h);
-		int line2 = 125;
-		btnAdd.setText("Add Song");
-		btnAdd.setBounds(_W/2-35,line2,70,btn_h);
 		contBtns.add(btnPrev);
 		contBtns.add(btnPlay);
 		contBtns.add(btnNext);
 		container.add(contBtns);
-		container.add(btnAdd);
+		//Panel para botones de volumen y ADD
+		int line2 = 125;
+		btn_w = 30; //hago los siguientes botones mas chicos
+		JPanel volBtns = new JPanel();
+		volBtns.setBounds(0, line2, 320, btn_h);
+		btnVolUp.setIcon(volUpIcon);
+		btnVolUp.setSize(btn_w,btn_h);
+		btnVolDown.setIcon(volDownIcon);
+		btnVolDown.setSize(btn_w,btn_h);
+		btnMute.setIcon(muteIcon);
+		btnMute.setSize(btn_w,btn_h);
+		btnAdd.setText("Add Song");
+		btnAdd.setSize(70,btn_h);
+		btnCover.setText("Show Cover");
+		btnCover.setSize(btn_w,btn_h);
+		volBtns.add(btnMute);
+		volBtns.add(btnVolDown);
+		volBtns.add(btnVolUp);
+		volBtns.add(btnAdd);
+		volBtns.add(btnCover);
+		container.add(volBtns);
 		//Now Playing Panel
 		JPanel panelNP = new JPanel();
 		panelNP.setLayout(new BoxLayout(panelNP, BoxLayout.PAGE_AXIS));
