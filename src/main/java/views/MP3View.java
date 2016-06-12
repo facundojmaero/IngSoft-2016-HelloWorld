@@ -57,6 +57,12 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	JButton btnShDi = new JButton();
 	JButton btnDel = new JButton();
 	JButton btnDelAll = new JButton();
+	JButton btnStop = new JButton();
+	
+	JButton btnDelete = new JButton();
+	JButton btnInfo = new JButton();
+	JButton btnArt = new JButton();
+	
 	JMenuBar topMenu = new JMenuBar();
 	JList<String> jSongList = new JList<String>(songList);
 	JLabel lblplaying = new JLabel();
@@ -75,6 +81,13 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	ImageIcon volUpIcon = new ImageIcon("src/main/resources/images/up.png");
 	ImageIcon volDownIcon = new ImageIcon("src/main/resources/images/down.png");
 	ImageIcon muteIcon = new ImageIcon("src/main/resources/images/off.png");
+	ImageIcon prevIcon = new ImageIcon("src/main/resources/images/prev.png");
+	ImageIcon nextIcon = new ImageIcon("src/main/resources/images/next.png");
+	ImageIcon addIcon = new ImageIcon("src/main/resources/images/add.png");
+	ImageIcon stopIcon = new ImageIcon("src/main/resources/images/stop.png");
+	ImageIcon deleteIcon = new ImageIcon("src/main/resources/images/delete.png");
+	ImageIcon infoIcon = new ImageIcon("src/main/resources/images/songinfo.png");
+	ImageIcon artIcon = new ImageIcon("src/main/resources/images/songart.png");
 	
 	/**
 	 * Class/Frame constructor
@@ -82,9 +95,9 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	public MP3View(MP3ModelInterface model)
 	{
 		this.model = model;
-		this.init();	//Inicializa la vista
-		this.updatePlaylistInfo();		//Muestra la playlist añadida por defecto en el JScrollPanel
-		this.addListeners();	//Añade EventListener a los botones
+		this.init();										//Inicializa la vista
+		this.updatePlaylistInfo();							//Muestra la playlist añadida por defecto en el JScrollPanel
+		this.addListeners();								//Añade EventListener a los botones
 		model.registerObserver((TrackObserver)this);
 	}
 	
@@ -96,12 +109,12 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		//MainView
 		setIconImage(frameIcon.getImage());
 		setTitle("Music Player - Java - 1.0");
-		int _H = 300;
+		int _H = 400;
 		int _W = 330;
 		setSize(_W,_H);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		//Container
 		container.setLayout(null);
 		getContentPane().add(container);
@@ -109,18 +122,21 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		int btn_h = 35;		//altura de los botones
 		int btn_w = 50;		//ancho de los botones
 		int line1 = 80;		//posicion "y"
-		//Panel para los botones prev,play y next
+		//Panel para los botones prev,play,stop y next
 		JPanel contBtns = new JPanel();
-		contBtns.setBounds(0, line1, 320, btn_h);
-		btnPrev.setText("<<");
+		contBtns.setBounds(0, line1, 320, btn_h);		
+		btnPrev.setIcon(prevIcon);
 		btnPrev.setSize(btn_w,btn_h);
 		btnPlay.setIcon(playIcon);
 		btnPlay.setMnemonic(KeyEvent.VK_SPACE);
 		btnPlay.setSize(btn_w,btn_h);
-		btnNext.setText(">>");
+		btnNext.setIcon(nextIcon);
 		btnNext.setSize(btn_w,btn_h);
+		btnStop.setIcon(stopIcon);
+		btnStop.setSize(btn_w,btn_h);
 		contBtns.add(btnPrev);
 		contBtns.add(btnPlay);
+		contBtns.add(btnStop);
 		contBtns.add(btnNext);
 		container.add(contBtns);
 		//Panel para botones de volumen y ADD
@@ -134,16 +150,40 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		btnVolDown.setSize(btn_w,btn_h);
 		btnMute.setIcon(muteIcon);
 		btnMute.setSize(btn_w,btn_h);
-		btnAdd.setText("Add Song");
-		btnAdd.setSize(70,btn_h);
-		btnCover.setText("Show Cover");
-		btnCover.setSize(btn_w,btn_h);
+		
+//		btnAdd.setIcon(addIcon);
+//		btnAdd.setSize(70,btn_h);
+//		btnCover.setText("Show Cover");
+//		btnCover.setSize(btn_w,btn_h);
+		
 		volBtns.add(btnMute);
 		volBtns.add(btnVolDown);
 		volBtns.add(btnVolUp);
-		volBtns.add(btnAdd);
-		volBtns.add(btnCover);
+		
+//		volBtns.add(btnAdd);
+//		volBtns.add(btnCover);
+		
 		container.add(volBtns);
+		
+		//Panel para botones de ver info, agregar y borrar playlist
+		int line4 = 170;
+		btn_w = 30; //hago los siguientes botones mas chicos
+		JPanel configBtns = new JPanel();
+		configBtns.setBounds(0, line4, 320, btn_h);
+		btnAdd.setIcon(addIcon);
+		btnAdd.setSize(btn_w,btn_h);
+		btnDelete.setIcon(deleteIcon);
+		btnDelete.setSize(btn_w,btn_h);
+		btnInfo.setIcon(infoIcon);
+		btnInfo.setSize(btn_w,btn_h);
+		btnArt.setIcon(artIcon);
+		btnArt.setSize(70,btn_h);
+		configBtns.add(btnAdd);
+		configBtns.add(btnDelete);
+		configBtns.add(btnInfo);
+		configBtns.add(btnArt);
+		container.add(configBtns);
+		
 		//Panel de nowPlaying(el que va arriba)
 		JPanel panelNP = new JPanel();
 		panelNP.setLayout(new BoxLayout(panelNP, BoxLayout.PAGE_AXIS));
@@ -158,7 +198,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		container.add(panelNP);
 		//SongList
 		int h_list = 100;
-		int line3 = 175;
+		int line3 = 215;
 		//Panel para la playilist
 		JScrollPane listScroller = new JScrollPane(jSongList);
 		listScroller.setPreferredSize(new Dimension(_W-10,h_list));
