@@ -71,7 +71,7 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public void pause() {
-		currentState.pause();
+		currentState.paused();
 	}
 
 	@Override
@@ -94,11 +94,13 @@ public class MP3Model implements MP3ModelInterface {
 	@Override
 	public void previousSong() {
 		currentState.previousSong();
+		notifyTrackObservers();
 	}
 
 	@Override
 	public void nextSong() {
 		currentState.nextSong();
+		notifyTrackObservers();
 	}
 
 	@Override
@@ -214,8 +216,12 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public boolean IsPlaying() {
-//		return (!paused) && (!stopped); //devuelve true solo si esta reproduciendo
-		return false;
+		if (currentState instanceof PlayingState ){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class StoppedState implements MP3State {
 	}
 
 	@Override
-	public void pause() {}
+	public void paused() {}
 
 	@Override
 	public void addPlaylist() {}

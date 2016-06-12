@@ -27,6 +27,7 @@ public class EmptyState implements MP3State {
 	@Override
 	public void addPlaylist() {
 		model.setState(model.getStoppedState());
+	}
 
 	@Override
 	public void nextSong() {

@@ -34,6 +34,7 @@ public class PlayingState implements MP3State {
 	@Override
 	public void addPlaylist() {
 		// No hago nada
+	}
 
 	@Override
 	public void nextSong() {
