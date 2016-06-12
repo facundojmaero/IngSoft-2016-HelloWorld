@@ -157,8 +157,10 @@ Se usará para gestionar los cambios en el proyecto la herramienta Issues de Git
 ## 4. Configuration Identification
 
 El repositorio de Github será usado para guardar y compartir recursos de diferentes versiones.  
-El esquema de directorios a usar será el estándar para proyectos en Java, conformado por la carpeta principal ya mencionada, seguido de la carpeta src, donde se encontrara la carpeta main, con los archivos de código fuente del proyecto.  
+El esquema de directorios a usar será el estándar para proyectos en Java, conformado por la carpeta principal ya mencionada, seguido de la carpeta src, donde se encontrara la carpeta main, con los archivos de código fuente del proyecto. 
+Dentro de la carpeta src se encuentra la carpeta resources donde estan todos los recurso estaticos necesarios para el correcto funcionamiento del reproductor(por ejemplo imagenes para los iconos y archivos mp3 que vienen incluidos con el mismo).
 Para los archivos de testing también se utilizará el esquema standard, ubicando las clases de Unit Test bajo la carpeta test, dentro del directorio principal del proyecto.
+La carpeta principal tambien contiene una carpeta llamada docs donde se encuentra la documentacion del proyecto.
 
 ## 5. Equipos de Desarrollo del Proyecto
 
