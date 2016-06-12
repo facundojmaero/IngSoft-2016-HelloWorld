@@ -63,36 +63,37 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public void play() {
-		if(playlist.size() == 0){
-			return;
-		}
-		
-		if(stopped){
-			File f = new File(playlist.get(index));
-			try {
-				player.open(f);
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
-			try {
-				player.play();
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
-			opened = true; //el archivo fue abierto
-			stopped = false; //salimos del estado stoped
-			notifyBPMObservers();
-			notifyTrackObservers();
-		}
-		if(paused && opened){
-			try {
-				player.resume();
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
-			paused = false;
-
-		}
+		currentState.play();
+//		if(playlist.size() == 0){
+//			return;
+//		}
+//		
+//		if(stopped){
+//			File f = new File(playlist.get(index));
+//			try {
+//				player.open(f);
+//			} catch (BasicPlayerException e) {
+//				e.printStackTrace();
+//			}
+//			try {
+//				player.play();
+//			} catch (BasicPlayerException e) {
+//				e.printStackTrace();
+//			}
+//			opened = true; //el archivo fue abierto
+//			stopped = false; //salimos del estado stoped
+//			notifyBPMObservers();
+//			notifyTrackObservers();
+//		}
+//		if(paused && opened){
+//			try {
+//				player.resume();
+//			} catch (BasicPlayerException e) {
+//				e.printStackTrace();
+//			}
+//			paused = false;
+//
+//		}
 		//Seteo la ganancia aca para que se pueda subir el volumen antes de dar play y el
 		//reproductor lo entienda
 		try {
@@ -104,64 +105,69 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public void pause() {
-		try {
-			player.pause();
-		} catch (BasicPlayerException e) {
-			e.printStackTrace();
-		}
-		paused = true;
+		currentState.paused();
+//		try {
+//			player.pause();
+//		} catch (BasicPlayerException e) {
+//			e.printStackTrace();
+//		}
+//		paused = true;
 	}
 
 	@Override
 	public void addPlayList(String Path) {
-		File file = new File(Path);				// Uso la ruta para crear un nuevo File
-		if (file.isFile()) { 					// Si la ruta es una sola cancion
-			playlist.add(Path);
-		} else { 								// Si la ruta es una carpeta con canciones
-			File list[] = file.listFiles();
-			if (list != null) {
-				for (int i = 0; i < list.length; i++) {
-					playlist.add(list[i].getAbsolutePath());
-				}
-			}
-		}
+		currentState.addPlaylist(Path);
+//		File file = new File(Path);				// Uso la ruta para crear un nuevo File
+//		if (file.isFile()) { 					// Si la ruta es una sola cancion
+//			playlist.add(Path);
+//		} else { 								// Si la ruta es una carpeta con canciones
+//			File list[] = file.listFiles();
+//			if (list != null) {
+//				for (int i = 0; i < list.length; i++) {
+//					playlist.add(list[i].getAbsolutePath());
+//				}
+//			}
+//		}
 		notifyTrackObservers();
 	}
 
 	@Override
 	public void previousSong() {
-		if(playlist.size() == 0)
-			return;
-			paused = false;
-			stopped = true;
-			index = (index-1)%playlist.size();
-			if(index<0){
-				index = playlist.size()-1;
-			}
-			this.play();
+//		if(playlist.size() == 0)
+//			return;
+//			paused = false;
+//			stopped = true;
+//			index = (index-1)%playlist.size();
+//			if(index<0){
+//				index = playlist.size()-1;
+//			}
+//			this.play();
+		currentState.previousSong();
 	}
 
 	@Override
 	public void nextSong() {
-		if(playlist.size() == 0)
-			return;
-			paused = false;
-			stopped = true;
-			index = (index+1)%playlist.size();
-			this.play();
+//		if(playlist.size() == 0)
+//			return;
+//			paused = false;
+//			stopped = true;
+//			index = (index+1)%playlist.size();
+//			this.play();
+		currentState.nextSong();
 	}
 
 	@Override
 	public void stop() {
-		if(opened){
-			try {
-				player.stop();
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
-			stopped = true;
-			paused = false;
-		}
+		currentState.stop();
+//		if(opened){
+//			try {
+//				player.stop();
+//			} catch (BasicPlayerException e) {
+//				e.printStackTrace();
+//			}
+//			stopped = true;
+//			paused = false;
+//		}
 	}
 
 	@Override
@@ -271,10 +277,10 @@ public class MP3Model implements MP3ModelInterface {
 		return songDuration;
 	}
 
-	@Override
-	public boolean IsPlaying() {
-		return (!paused) && (!stopped); //devuelve true solo si esta reproduciendo
-	}
+//	@Override
+//	public boolean IsPlaying() {
+//		return (!paused) && (!stopped); //devuelve true solo si esta reproduciendo
+//	}
 
 	@Override
 	public String[] getCurrentPlaylist() {
@@ -335,21 +341,10 @@ public class MP3Model implements MP3ModelInterface {
 		this.currentState = newState;
 	}
 	
-	public MP3State getPlayingState(){
-		return playing;
-	}
-	
-	public MP3State getPausedState(){
-		return paused;
-	}
-	
-	public MP3State getEmptyState(){
-		return empty;
-	}
-	
-	public MP3State getStoppedState(){
-		return stopped;
-	}
+	public MP3State getPlayingState(){return playing;}
+	public MP3State getPausedState() {return paused;}
+	public MP3State getEmptyState()  {return empty;}
+	public MP3State getStoppedState(){return stopped;}
 	
 	
 }
