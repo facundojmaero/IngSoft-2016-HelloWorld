@@ -72,4 +72,7 @@ public class MP3Controller implements ControllerInterface {
 		model.setVolumen(volumen_actual-0.1);
 	}
 	
+	public void clearPlaylist(){
+		model.clearPlaylist();
+	}
 }

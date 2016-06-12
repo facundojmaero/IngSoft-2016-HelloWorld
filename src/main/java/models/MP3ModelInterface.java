@@ -2,6 +2,8 @@ package main.java.models;
 
 import java.io.File;
 
+import com.mpatric.mp3agic.ID3v2;
+
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
 import main.java.views.TrackObserver;
@@ -46,5 +48,9 @@ public interface MP3ModelInterface {
 	void removeObserver(TrackObserver o);
 
 	void clearPlaylist();
+
+	ID3v2 getSongInfo();
+
+	ID3v2 getAlbumArt();
 	
 }

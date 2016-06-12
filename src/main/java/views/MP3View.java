@@ -2,15 +2,19 @@ package main.java.views;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -26,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
@@ -262,14 +267,42 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 			controller.stop();
 		}
 		else if(event.getSource() == btnArt){
-			//
+			ID3v2 songTag = model.getAlbumArt();
+			byte[] imageData = songTag.getAlbumImage();
+            BufferedImage img = null;
+			try {
+				img = ImageIO.read(new ByteArrayInputStream(imageData));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+            JFrame frame = new JFrame();
+	        frame.getContentPane().setLayout(new FlowLayout());
+	        frame.getContentPane().add(new JLabel(new ImageIcon(img)));
+	        frame.pack();
+	        frame.setTitle("Album Art");
+	        frame.setVisible(true);
 		}
 		else if(event.getSource() == btnInfo){
-			//
+			ID3v2 songTag = model.getSongInfo();
+			JFrame container = new JFrame();
+	    	DefaultListModel<String> songinfo = new DefaultListModel<String>();
+	        songinfo.addElement("Track: " + songTag.getTrack());
+	        songinfo.addElement("Artist: " + songTag.getArtist());
+	        songinfo.addElement("Title: " + songTag.getTitle());
+	        songinfo.addElement("Album: " + songTag.getAlbum());
+	        songinfo.addElement("Year: " + songTag.getYear());
+	        songinfo.addElement("Genre: " + songTag.getGenreDescription());
+	
+	    	JList<String> jSongList = new JList<String>(songinfo);
+	    	container.add(jSongList);
+	    	container.setTitle("Song Info");       
+	    	container.setSize(240, 160);
+	    	container.setLocationRelativeTo(null);
+	    	container.setVisible(true);
 		}
-//		else if(event.getSource() == btnDelete){
-//			controller.clearPlaylist();
-//		}
+		else if(event.getSource() == btnDelete){
+			controller.clearPlaylist();
+		}
 	}
 	
 	public void setController(MP3Controller2 controller){

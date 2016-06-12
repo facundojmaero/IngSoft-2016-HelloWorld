@@ -68,5 +68,4 @@ public class MP3Controller2 implements ControllerInterface {
 		view.MakePlayIcon();
 		model.clearPlaylist();
 	}
-
 }

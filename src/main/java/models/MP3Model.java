@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
@@ -69,8 +71,8 @@ public class MP3Model implements MP3ModelInterface {
 			}
 			opened = true; //el archivo fue abierto
 			stopped = false; //salimos del estado stoped
-			this.notifyBPMObservers();
-			this.notifyTrackObservers();
+			notifyBPMObservers();
+			notifyTrackObservers();
 		}
 		if(paused && opened){
 			try {
@@ -113,7 +115,7 @@ public class MP3Model implements MP3ModelInterface {
 				}
 			}
 		}
-		this.notifyTrackObservers();
+		notifyTrackObservers();
 	}
 
 	@Override
@@ -282,10 +284,40 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		return playlistArray;
 	}
-
+	
+	@Override
+	public ID3v2 getSongInfo() {
+		Mp3File song = null;
+		try {
+			song = new Mp3File(playlist.get(index));
+		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+			e.printStackTrace();
+		}
+		if (song.hasId3v2Tag()) {
+			ID3v2 id3v2Tag = song.getId3v2Tag();
+			return id3v2Tag;
+		}
+		return null;
+	}
+	
+	@Override
+	public ID3v2 getAlbumArt(){
+		Mp3File song = null;
+		try {
+			song = new Mp3File(playlist.get(index));
+		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+			e.printStackTrace();
+		}
+		if (song.hasId3v2Tag()) {
+			ID3v2 id3v2Tag = song.getId3v2Tag();
+			return id3v2Tag;
+        }
+		return null;
+	}
+	
 	@Override
 	public void clearPlaylist() {
-//		playlist.clear();
+		playlist.clear();
 //		notifyTrackObservers();
 	}
 	
