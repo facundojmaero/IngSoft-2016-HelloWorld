@@ -17,16 +17,13 @@ public class EmptyState implements MP3State {
 	}
 
 	@Override
-	public void paused() {
+	public void pause() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void addPlaylist(String path) {
-		// TODO Auto-generated method stub
-
-	}
+	public void addPlaylist() {}
 
 	@Override
 	public void nextSong() {

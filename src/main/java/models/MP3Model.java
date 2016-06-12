@@ -41,10 +41,6 @@ public class MP3Model implements MP3ModelInterface {
 	//------------------------
 	private int index;
 	private double volumen;
-	//private boolean paused;
-	private boolean opened;
-	//private boolean stopped;
-	
 	
 	public MP3Model(){
 		this.player = new BasicPlayer();
@@ -64,38 +60,8 @@ public class MP3Model implements MP3ModelInterface {
 	@Override
 	public void play() {
 		currentState.play();
-//		if(playlist.size() == 0){
-//			return;
-//		}
-//		
-//		if(stopped){
-//			File f = new File(playlist.get(index));
-//			try {
-//				player.open(f);
-//			} catch (BasicPlayerException e) {
-//				e.printStackTrace();
-//			}
-//			try {
-//				player.play();
-//			} catch (BasicPlayerException e) {
-//				e.printStackTrace();
-//			}
-//			opened = true; //el archivo fue abierto
-//			stopped = false; //salimos del estado stoped
-//			notifyBPMObservers();
-//			notifyTrackObservers();
-//		}
-//		if(paused && opened){
-//			try {
-//				player.resume();
-//			} catch (BasicPlayerException e) {
-//				e.printStackTrace();
-//			}
-//			paused = false;
-//
-//		}
-		//Seteo la ganancia aca para que se pueda subir el volumen antes de dar play y el
-		//reproductor lo entienda
+		notifyBPMObservers();
+		notifyTrackObservers();
 		try {
 			player.setGain(volumen);
 		} catch (BasicPlayerException e) {
@@ -105,69 +71,39 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public void pause() {
-		currentState.paused();
-//		try {
-//			player.pause();
-//		} catch (BasicPlayerException e) {
-//			e.printStackTrace();
-//		}
-//		paused = true;
+		currentState.pause();
 	}
 
 	@Override
 	public void addPlayList(String Path) {
-		currentState.addPlaylist(Path);
-//		File file = new File(Path);				// Uso la ruta para crear un nuevo File
-//		if (file.isFile()) { 					// Si la ruta es una sola cancion
-//			playlist.add(Path);
-//		} else { 								// Si la ruta es una carpeta con canciones
-//			File list[] = file.listFiles();
-//			if (list != null) {
-//				for (int i = 0; i < list.length; i++) {
-//					playlist.add(list[i].getAbsolutePath());
-//				}
-//			}
-//		}
+		File file = new File(Path);				// Uso la ruta para crear un nuevo File
+		if (file.isFile()) { 					// Si la ruta es una sola cancion
+			playlist.add(Path);
+		} else { 								// Si la ruta es una carpeta con canciones
+			File list[] = file.listFiles();
+			if (list != null) {
+				for (int i = 0; i < list.length; i++) {
+					playlist.add(list[i].getAbsolutePath());
+				}
+			}
+		}
 		notifyTrackObservers();
+		currentState.addPlaylist();
 	}
 
 	@Override
 	public void previousSong() {
-//		if(playlist.size() == 0)
-//			return;
-//			paused = false;
-//			stopped = true;
-//			index = (index-1)%playlist.size();
-//			if(index<0){
-//				index = playlist.size()-1;
-//			}
-//			this.play();
 		currentState.previousSong();
 	}
 
 	@Override
 	public void nextSong() {
-//		if(playlist.size() == 0)
-//			return;
-//			paused = false;
-//			stopped = true;
-//			index = (index+1)%playlist.size();
-//			this.play();
 		currentState.nextSong();
 	}
 
 	@Override
 	public void stop() {
 		currentState.stop();
-//		if(opened){
-//			try {
-//				player.stop();
-//			} catch (BasicPlayerException e) {
-//				e.printStackTrace();
-//			}
-//			stopped = true;
-//			paused = false;
-//		}
 	}
 
 	@Override
@@ -183,7 +119,6 @@ public class MP3Model implements MP3ModelInterface {
 				e.printStackTrace();
 			}
 		}
-
 	}
 	
 	public double getVolumen(){
@@ -277,11 +212,6 @@ public class MP3Model implements MP3ModelInterface {
 		return songDuration;
 	}
 
-//	@Override
-//	public boolean IsPlaying() {
-//		return (!paused) && (!stopped); //devuelve true solo si esta reproduciendo
-//	}
-
 	@Override
 	public String[] getCurrentPlaylist() {
 		String[] playlistArray = new String[playlist.size()];
@@ -346,5 +276,16 @@ public class MP3Model implements MP3ModelInterface {
 	public MP3State getEmptyState()  {return empty;}
 	public MP3State getStoppedState(){return stopped;}
 	
+	public BasicPlayer getPlayer(){return player;}
+	public int getPlaylistSize(){return playlist.size();}
 	
+	public void playNow(int index){
+		//implementar
+	}
+
+	@Override
+	public boolean IsPlaying() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
