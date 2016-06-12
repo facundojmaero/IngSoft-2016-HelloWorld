@@ -186,9 +186,9 @@ El gráfico siguiente muestra el esquema de ramificado que será seguido en los 
 
 Los tipos de ramificaciones utilizadas se describen a continuación:
 
-* **Rama Principal / Master**: es la rama donde se alojan las versiones estables y finales del producto, con funcionalidades testeadas y la menor cantidad de bugs posible. Aquí se integrarán las nuevas funcionalidades una vez pasado un tiempo de testing, siempre que sean necesarias para seguir trabajando en otros branches de release o de desarrollo. Ademas, cuando se considere finalizado, se generarán los builds ejecutables desde los archivos ubicados en esta rama.
+* **Rama Principal / Master**: es la rama donde se alojan las versiones estables y finales del producto, con funcionalidades testeadas y la menor cantidad de bugs posible. Aquí se integrarán las nuevas funcionalidades una vez pasado un tiempo de testing, siempre que sean necesarias para seguir trabajando en otros branches de release o de desarrollo.Desde esta rama se realizaran los build para release.
 
-* **Development Branch**: aloja desarrollos de nuevas características, que deberán ser testeadas y pulidas adecuadamente para poder llegar a un nivel mínimo de calidad y ser insertadas en el Master. El formato para nombrar estas ramas es: dev-branch<cambio>  
+* **Development Branch**: aloja desarrollos de nuevas características, que deberán ser testeadas y pulidas adecuadamente para poder llegar a un nivel mínimo de calidad y ser insertadas en el Master. El formato para nombrar estas ramas es: dev-branch-<funcionalidad>  
 Ej: dev-branch-singleton, dev-branch-controlador-mp3, etc.
 
 * **Hotfix Branch**: son las ramas que pueden ser utilizadas para corregir errores o bugs detectados en el código, aislando el problema y así pudiendo continuar con el desarrollo en las ramas de desarrollo. Se les dará el nombre de hotfix-branch-feature.  
@@ -200,7 +200,7 @@ Es posible que se realicen desarrollos de nuevas características en la rama Mas
 
 ##### 6.1.2. Definición de Tags: 
 
-* **Development tags**: en las ramas de desarrollo se etiquetara numéricamente la última versión del código, el que se considere apto para un merge hacia ramas más estables y de entrega de producto, para tener una referencia a la hora de realizar el merge y completar la documentación pertinente, siguiendo el esquema dev-branch<cambio><ID>. Ej: dev-branch-dropDown 0.1.0.  
+* **Development tags**: en las ramas de desarrollo se etiquetara numéricamente la última versión del código, el que se considere apto para un merge hacia ramas más estables y de entrega de producto, para tener una referencia a la hora de realizar el merge y completar la documentación pertinente, siguiendo el esquema v<ID>. Ej: v0.1.0.  
 El identificador representa las versiones del código puesto en configuración en esa rama, comenzando por el 0.1.0, luego el 0.2.0. Esta numeración será utilizada en la mayoría de los casos, cuando el nuevo contenido del archivo amerite un cambio de nomenclatura. 
 
 * **Hotfix Tags**: usados en las ramas de hotfix, permiten identificar la versión de la misma previa al merge con la rama de donde se creó, permitiendo saber que el problema está resuelto y que puede continuarse el desarrollo normalmente.  
