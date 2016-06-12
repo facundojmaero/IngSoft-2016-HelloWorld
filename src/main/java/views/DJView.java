@@ -27,8 +27,12 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
     JButton decreaseBPMButton;
     JMenuBar menuBar;
     JMenu menu;
+    JMenu menuStrategy;
     JMenuItem startMenuItem;
     JMenuItem stopMenuItem;
+    JMenuItem djMenuItem;
+    JMenuItem heartMenuItem;
+    JMenuItem mp3MenuItem;
 
     public DJView(ControllerInterface controller, BeatModelInterface model) {	
 		this.controller = controller;
@@ -90,6 +94,33 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 
         menu.add(exit);
         menuBar.add(menu);
+        
+        //Barra dropdown con selector de modelo
+        menuStrategy = new JMenu("Model");
+        djMenuItem = new JMenuItem("DJ Model");
+        menuStrategy.add(djMenuItem);
+        djMenuItem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent event){
+        		//lo que hace el boton
+        	}
+        });
+        heartMenuItem = new JMenuItem("Heart Model");
+        menuStrategy.add(heartMenuItem);
+        heartMenuItem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent event){
+        		//lo que hace el boton
+        	}
+        });
+        mp3MenuItem = new JMenuItem("MP3 Model");
+        menuStrategy.add(mp3MenuItem);
+        djMenuItem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent event){
+        		//lo que hace el boton
+        	}
+        });
+        
+        menuBar.add(menuStrategy);
+        
         controlFrame.setJMenuBar(menuBar);
 
         bpmTextField = new JTextField(2);
@@ -141,6 +172,31 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 	public void disableStartMenuItem() {
     	startMenuItem.setEnabled(false);
 	}
+	
+	public void enableDJStartMenuItem(){
+		djMenuItem.setEnabled(true);
+	}
+	
+	public void disableDJStartMenuItem(){
+		djMenuItem.setEnabled(false);
+	}
+	
+	public void enableHeartStartMenuItem(){
+		heartMenuItem.setEnabled(true);
+	}
+	
+	public void disableHeartStartMenuItem(){
+		heartMenuItem.setEnabled(false);
+	}
+	
+	public void enableMP3StartMenuItem(){
+		mp3MenuItem.setEnabled(true);
+	}
+	
+	public void disableMP3StartMenuItem(){
+		mp3MenuItem.setEnabled(false);
+	}
+	
 
     public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == setBPMButton) {

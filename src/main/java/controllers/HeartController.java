@@ -17,6 +17,9 @@ public class HeartController implements ControllerInterface {
         view.createControls();
 		view.disableStopMenuItem();
 		view.disableStartMenuItem();
+		view.disableDJStartMenuItem();
+		view.disableHeartStartMenuItem();
+		view.disableMP3StartMenuItem();
 	}
   
 	public void start() {}
