@@ -12,6 +12,7 @@ ___
 | Versión | Fecha    | Resumen de cambios |
 |:-------:|----------|--------------------|
 |  1.0.0  | 10/06/16 | Primera versión    |
+|  1.1.0  | 12/06/16 | Pequeños cambios generales |
 
 ### Página de Aprobación
 
@@ -94,6 +95,7 @@ En el presente documento se abarca el Plan de Gestión de las Configuraciones pa
 | Github                	| Servicio de repositorio y hosting de ítems puestos en control de configuración  	|
 | Travis CI             	| Servicio de Integración Continua                                                	|
 | Gradle                	| Sistema de automatización de builds                                             	|
+| Visual Paradigm Community Edition | Software de modelado UML | 
 
 *Tabla 3 - Herramientas utilizadas*
 
