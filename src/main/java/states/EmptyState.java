@@ -1,5 +1,7 @@
 package main.java.states;
 
+import java.io.File;
+
 import main.java.models.MP3Model;
 
 public class EmptyState implements MP3State {
@@ -12,34 +14,35 @@ public class EmptyState implements MP3State {
 
 	@Override
 	public void play() {
-		// TODO Auto-generated method stub
+		// No hago nada
 
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
+	public void paused() {
+		// No hago anda
 
 	}
 
 	@Override
-	public void addPlaylist() {}
+	public void addPlaylist() {
+		model.setState(model.getStoppedState());
 
 	@Override
 	public void nextSong() {
-		// TODO Auto-generated method stub
+		// No hago nada
 
 	}
 
 	@Override
 	public void previousSong() {
-		// TODO Auto-generated method stub
+		// No hago nada
 
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		// No hago nada
 
 	}
 

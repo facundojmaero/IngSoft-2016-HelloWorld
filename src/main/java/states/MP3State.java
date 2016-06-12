@@ -2,7 +2,7 @@ package main.java.states;
 
 public interface MP3State {
 	void play();
-	void pause();
+	void paused();
 	void addPlaylist();
 	void nextSong();
 	void previousSong();

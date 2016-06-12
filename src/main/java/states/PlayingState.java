@@ -1,5 +1,7 @@
 package main.java.states;
 
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.models.MP3Model;
 import main.java.states.MP3State;
 
@@ -13,34 +15,54 @@ public class PlayingState implements MP3State {
 
 	@Override
 	public void play() {
-		// TODO Auto-generated method stub
+		//No hago nada
 
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
+	public void paused() {
+		try {
+			model.getPlayer().pause();
+		} catch (BasicPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.setState(model.getPausedState());
 
 	}
 
 	@Override
-	public void addPlaylist() {}
+	public void addPlaylist() {
+		// No hago nada
 
 	@Override
 	public void nextSong() {
-		// TODO Auto-generated method stub
+		int index = (model.getIndex()+1)%model.getPlaylistSize();
+		model.setIndex(index);
+		model.playNow(index);
 
 	}
 
 	@Override
 	public void previousSong() {
-		// TODO Auto-generated method stub
+		int index = (model.getIndex()-1)%model.getPlaylistSize();
+		if(index<0){
+			index = model.getPlaylistSize()-1;
+		}
+		model.setIndex(index);
+		model.playNow(index);
 
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		try {
+			model.getPlayer().stop();
+		} catch (BasicPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.setState(model.getStoppedState());
 
 	}
 

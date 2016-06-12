@@ -87,8 +87,8 @@ public class MP3Model implements MP3ModelInterface {
 				}
 			}
 		}
-		notifyTrackObservers();
 		currentState.addPlaylist();
+		notifyTrackObservers();
 	}
 
 	@Override
@@ -213,6 +213,12 @@ public class MP3Model implements MP3ModelInterface {
 	}
 
 	@Override
+	public boolean IsPlaying() {
+//		return (!paused) && (!stopped); //devuelve true solo si esta reproduciendo
+		return false;
+	}
+
+	@Override
 	public String[] getCurrentPlaylist() {
 		String[] playlistArray = new String[playlist.size()];
 		Mp3File song = null;
@@ -276,16 +282,27 @@ public class MP3Model implements MP3ModelInterface {
 	public MP3State getEmptyState()  {return empty;}
 	public MP3State getStoppedState(){return stopped;}
 	
-	public BasicPlayer getPlayer(){return player;}
-	public int getPlaylistSize(){return playlist.size();}
+	public BasicPlayer getPlayer(){
+		return player;
+	}
+	
+	public int getPlaylistSize(){
+		return playlist.size();
+	}
 	
 	public void playNow(int index){
-		//implementar
+		File f = new File(playlist.get(index));
+		try {
+			player.open(f);
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
+		}
+		try {
+			player.play();
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
+		}
 	}
-
-	@Override
-	public boolean IsPlaying() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
+	
 }
