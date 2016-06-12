@@ -47,3 +47,10 @@ Merge del branch 0.7.0 al branch Master
 Se agregó la funcionalidad: MP3Controller2 para controlar la nueva vista. Solo tiene funcionalidades basicas.
 Se corrigió el error: no se corrigieron errores.
 Comentarios: No compila porque se declaro una vista MP3View pero en esta rama ese archivo no existe. Se soluciona al hacer merge.
+
+12-06-2016
+Desarrollador: Gustavo Gonzalez
+Merge del branch 0.8.0 al branch Master
+Se agregó la funcionalidad: PlayListUi y a–adir canciones desde la Vista.
+Se corrigió el error: no se corrigieron errores.
+Comentarios: Por el momento se puede a–adir œnicamente un mp3 a la vez.
