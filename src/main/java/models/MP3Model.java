@@ -24,6 +24,7 @@ import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
 import main.java.views.TrackObserver;
+import main.java.states.*;
 
 public class MP3Model implements MP3ModelInterface {
 	private BasicPlayer player;
@@ -31,11 +32,18 @@ public class MP3Model implements MP3ModelInterface {
 	private ArrayList<BPMObserver> bpmObservers;
 	private ArrayList<BeatObserver> beatObservers;
 	private ArrayList<TrackObserver> trackObservers;
+	//States
+	private MP3State currentState;
+	private MP3State playing;
+	private MP3State stopped;
+	private MP3State empty;
+	private MP3State paused;
+	//------------------------
 	private int index;
 	private double volumen;
-	private boolean paused;
+	//private boolean paused;
 	private boolean opened;
-	private boolean stopped;
+	//private boolean stopped;
 	
 	
 	public MP3Model(){
@@ -44,9 +52,11 @@ public class MP3Model implements MP3ModelInterface {
 		this.beatObservers = new ArrayList<BeatObserver>();
 		this.index = 0;	
 		this.volumen = 1;			//maximo volumen
-		this.stopped = true;		    //stop comienza true
-		this.paused = false;		//pausado comienza como false
-		this.opened = false;		//ningun archivo abierto
+		this.empty = new EmptyState(this);
+		this.stopped = new StoppedState(this);
+		this.paused = new PausedState(this);
+		this.playing = new PlayingState(this);
+		this.currentState = empty;
 		this.playlist = new ArrayList<String>();
 		this.trackObservers = new ArrayList<TrackObserver>();
 	}
@@ -320,5 +330,26 @@ public class MP3Model implements MP3ModelInterface {
 		playlist.clear();
 //		notifyTrackObservers();
 	}
+	
+	public void setState(MP3State newState){
+		this.currentState = newState;
+	}
+	
+	public MP3State getPlayingState(){
+		return playing;
+	}
+	
+	public MP3State getPausedState(){
+		return paused;
+	}
+	
+	public MP3State getEmptyState(){
+		return empty;
+	}
+	
+	public MP3State getStoppedState(){
+		return stopped;
+	}
+	
 	
 }
