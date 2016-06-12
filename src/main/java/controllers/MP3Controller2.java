@@ -57,4 +57,9 @@ public class MP3Controller2 implements ControllerInterface {
 		model.pause();
 		view.MakePlayIcon();
 	}
+	
+	public void addPlaylist(String Path){
+		model.addPlayList(Path);
+	}
+
 }
