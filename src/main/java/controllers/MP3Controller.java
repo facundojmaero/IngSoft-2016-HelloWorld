@@ -13,6 +13,7 @@ public class MP3Controller implements ControllerInterface {
 		this.view = view;
 		view.disableStopMenuItem();
 		view.enableStartMenuItem();
+		model.addPlayList("src/main/resources/default songs");	//playlist por default
 	}
 
 	@Override
