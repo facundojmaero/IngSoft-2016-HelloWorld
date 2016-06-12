@@ -112,7 +112,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		setSize(_W,_H);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setResizable(true);
+		setResizable(false);
 		//Container
 		container.setLayout(null);
 		getContentPane().add(container);
@@ -186,7 +186,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		container.add(panelNP);
 		
 		//SongList
-		int h_list = 100;
+		int h_list = 150;
 		int line3 = 215;
 		//Panel para la playilist
 		JScrollPane listScroller = new JScrollPane(jSongList);
