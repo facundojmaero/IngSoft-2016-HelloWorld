@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -23,6 +24,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
@@ -61,7 +63,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	JLabel lblst = new JLabel();
 	JLabel lblet = new JLabel();
 	//SeekBar seekbar = new SeekBar();
-	JFileChooser fc = new JFileChooser();
+	JFileChooser chooser = new JFileChooser();
 	//Frames
 	//WaveformParallelFrame wff = null;
 	//FFTParallelFrame fdf = null;
@@ -142,7 +144,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		volBtns.add(btnAdd);
 		volBtns.add(btnCover);
 		container.add(volBtns);
-		//Now Playing Panel
+		//Panel de nowPlaying(el que va arriba)
 		JPanel panelNP = new JPanel();
 		panelNP.setLayout(new BoxLayout(panelNP, BoxLayout.PAGE_AXIS));
 		panelNP.setToolTipText("Now Playing");
@@ -157,7 +159,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		//SongList
 		int h_list = 100;
 		int line3 = 175;
-		//jSongList.setBounds(0, line1+50, _W, h_list);
+		//Panel para la playilist
 		JScrollPane listScroller = new JScrollPane(jSongList);
 		listScroller.setPreferredSize(new Dimension(_W-10,h_list));
 		listScroller.setBounds(0, line3, _W-10, h_list);
@@ -204,6 +206,15 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 			controller.increaseBPM();
 		}
 		else if(event.getSource() == btnAdd){
+		    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        "mp3 Files", "mp3");
+		    chooser.setFileFilter(filter);
+		    int returnVal = chooser.showOpenDialog(btnAdd);
+		    if(returnVal == JFileChooser.APPROVE_OPTION) {
+		    	File file = chooser.getSelectedFile();
+		    	String path = file.getAbsolutePath();
+		    	controller.addPlaylist(path);
+		    }
 		}
 		else if(event.getSource() == btnMute){
 			controller.setVolumen(0);
@@ -236,6 +247,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	@Override
 	public void updatePlaylistInfo() {
 		String[] playlist = model.getCurrentPlaylist();
+		songList.clear(); //Borro la songList que habia y le pido al modelo que me de la nueva(el clear es necesario para evitar duplicados)
 		for(int i=0;i<playlist.length;i++){
 			songList.addElement(playlist[i]);
 		}

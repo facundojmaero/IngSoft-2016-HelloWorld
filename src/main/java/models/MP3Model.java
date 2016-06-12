@@ -40,7 +40,7 @@ public class MP3Model implements MP3ModelInterface {
 		this.playlist = new ArrayList<String>();
 		//playlist por default
 		this.trackObservers = new ArrayList<TrackObserver>();
-		this.addPlayList("src/main/resources/default songs");
+		this.addPlayList("src/main/resources/default songs");	//playlist por default
 	}
 
 	@Override
@@ -109,6 +109,7 @@ public class MP3Model implements MP3ModelInterface {
 				}
 			}
 		}
+		this.notifyTrackObservers();
 	}
 
 	@Override
