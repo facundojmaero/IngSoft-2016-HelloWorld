@@ -232,7 +232,7 @@ public class MP3Model implements MP3ModelInterface {
 		return index;
 	}
 	
-	public String getCurrentTrackName(){
+	public String getCurrentTrackName(){		
 		String path = playlist.get(index);
 		Mp3File mp3file = null;
 		try {
@@ -281,6 +281,12 @@ public class MP3Model implements MP3ModelInterface {
 			playlistArray[i] = songTag.getTitle();
 		}
 		return playlistArray;
+	}
+
+	@Override
+	public void clearPlaylist() {
+//		playlist.clear();
+//		notifyTrackObservers();
 	}
 	
 }

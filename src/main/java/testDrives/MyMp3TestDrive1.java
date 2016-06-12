@@ -10,7 +10,6 @@ import main.java.views.DJView;
 public class MyMp3TestDrive1 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		MP3Model model = new MP3Model();
 		DJView view = new DJView(null,new MP3Adapter(model));
 		view.createView();

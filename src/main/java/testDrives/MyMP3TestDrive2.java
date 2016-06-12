@@ -12,5 +12,4 @@ public class MyMP3TestDrive2 {
 		MP3Controller2 controller = new MP3Controller2(model,view);
 		view.setController(controller);
 	}
-
 }

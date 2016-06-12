@@ -44,5 +44,7 @@ public interface MP3ModelInterface {
 	void registerObserver(TrackObserver o);
 	
 	void removeObserver(TrackObserver o);
+
+	void clearPlaylist();
 	
 }

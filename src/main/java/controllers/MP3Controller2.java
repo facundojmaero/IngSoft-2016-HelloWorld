@@ -22,6 +22,7 @@ public class MP3Controller2 implements ControllerInterface {
 	@Override
 	public void stop() {
 		model.stop();
+		view.MakePlayIcon();
 	}
 
 	@Override
@@ -60,6 +61,12 @@ public class MP3Controller2 implements ControllerInterface {
 	
 	public void addPlaylist(String Path){
 		model.addPlayList(Path);
+	}
+
+	public void clearPlaylist() {
+		model.stop();
+		view.MakePlayIcon();
+		model.clearPlaylist();
 	}
 
 }

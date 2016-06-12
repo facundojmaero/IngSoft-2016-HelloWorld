@@ -55,8 +55,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	JButton btnShSt = new JButton();
 	JButton btnShWf = new JButton();
 	JButton btnShDi = new JButton();
-	JButton btnDel = new JButton();
-	JButton btnDelAll = new JButton();
 	JButton btnStop = new JButton();
 	
 	JButton btnDelete = new JButton();
@@ -139,7 +137,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		contBtns.add(btnStop);
 		contBtns.add(btnNext);
 		container.add(contBtns);
-		//Panel para botones de volumen y ADD
+		
+		//Panel para botones de volumen
 		int line2 = 125;
 		btn_w = 30; //hago los siguientes botones mas chicos
 		JPanel volBtns = new JPanel();
@@ -150,24 +149,13 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		btnVolDown.setSize(btn_w,btn_h);
 		btnMute.setIcon(muteIcon);
 		btnMute.setSize(btn_w,btn_h);
-		
-//		btnAdd.setIcon(addIcon);
-//		btnAdd.setSize(70,btn_h);
-//		btnCover.setText("Show Cover");
-//		btnCover.setSize(btn_w,btn_h);
-		
 		volBtns.add(btnMute);
 		volBtns.add(btnVolDown);
 		volBtns.add(btnVolUp);
-		
-//		volBtns.add(btnAdd);
-//		volBtns.add(btnCover);
-		
 		container.add(volBtns);
 		
 		//Panel para botones de ver info, agregar y borrar playlist
 		int line4 = 170;
-		btn_w = 30; //hago los siguientes botones mas chicos
 		JPanel configBtns = new JPanel();
 		configBtns.setBounds(0, line4, 320, btn_h);
 		btnAdd.setIcon(addIcon);
@@ -196,6 +184,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		//panelNP.add(lblnp);
 		panelNP.add(lblplaying);
 		container.add(panelNP);
+		
 		//SongList
 		int h_list = 100;
 		int line3 = 215;
@@ -227,9 +216,13 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		 btnMute.addActionListener(this);
 		 btnVolUp.addActionListener(this);
 		 btnVolDown.addActionListener(this);
+		 btnStop.addActionListener(this);
+		 btnArt.addActionListener(this);
+		 btnInfo.addActionListener(this);
+		 btnDelete.addActionListener(this);
 	}
 	
-	//Metodo para manejar los eventos debependiendo que boton se toco
+	//Metodo para manejar los eventos dependiendo que boton se toco
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == btnPlay) {
 			if(model.IsPlaying()){
@@ -265,6 +258,18 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		else if(event.getSource() == btnVolDown){
 			controller.decreaseVolumen();
 		}
+		else if(event.getSource() == btnStop){
+			controller.stop();
+		}
+		else if(event.getSource() == btnArt){
+			//
+		}
+		else if(event.getSource() == btnInfo){
+			//
+		}
+//		else if(event.getSource() == btnDelete){
+//			controller.clearPlaylist();
+//		}
 	}
 	
 	public void setController(MP3Controller2 controller){
