@@ -314,6 +314,16 @@ public class MP3Model implements MP3ModelInterface {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void removePlayList(int index) {
+		if(this.IsPlaying() && this.getIndex() == index){
+			this.stop();
+		}
+		if(playlist != null && !playlist.isEmpty()){
+			playlist.remove(index);
+		}
+	}
 	
 	
 }

@@ -15,6 +15,8 @@ public interface MP3ModelInterface {
 
 	void addPlayList(String Path);
 
+	void removePlayList(int index);
+
 	void previousSong();
 
 	void nextSong();

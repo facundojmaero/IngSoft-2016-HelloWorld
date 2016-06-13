@@ -63,9 +63,10 @@ public class MP3Controller2 implements ControllerInterface {
 		model.addPlayList(Path);
 	}
 
-	public void clearPlaylist() {
-		model.stop();
-		view.MakePlayIcon();
-		model.clearPlaylist();
+	public void removeTrack(int index) {
+		//model.stop();
+		//view.MakePlayIcon();
+		model.removePlayList(index);
+		view.updatePlaylistInfo();
 	}
 }

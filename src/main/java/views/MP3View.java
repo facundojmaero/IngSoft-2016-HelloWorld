@@ -311,7 +311,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	    	container.setVisible(true);
 		}
 		else if(event.getSource() == btnDelete){
-			controller.clearPlaylist();
+			controller.removeTrack(jSongList.getSelectedIndex());
 		}
 	}
 	
