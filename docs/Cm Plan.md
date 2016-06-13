@@ -13,6 +13,7 @@ ___
 |:-------:|----------|--------------------|
 |  1.0.0  | 10/06/16 | Primera versión    |
 |  1.1.0  | 12/06/16 | Pequeños cambios generales |
+| 1.1.1   | 12/06/16 | Correcciones en las imagenes |
 
 ### Página de Aprobación
 
@@ -236,7 +237,7 @@ Al realizar merges, es recomendable especificar el End tag (version a ser reinte
 
 ![alt text][merge strategy]
 
-[merge strategy]: http://s33.postimg.org/gzip7s5tr/merge_strategy.jpg "Merge Strategy"
+[merge strategy]: http://s33.postimg.org/lz7pa9xmn/merge_strategy.jpg "Merge Strategy"
 
 Por ejemplo, en el gráfico se observa que se quiere hacer el merge entre la rama dev-branch-singleton y el HEAD, partiendo del Start tag dev-branch-singleton, y siendo el End tag dev-branch-singleton 0.1.0.  
 Luego, se necesito realizar otro merge, siendo el nuevo Start tag dev-branch-singleton 0.1.0, y el nuevo End tag dev-branch-singleton 0.2.0.  
