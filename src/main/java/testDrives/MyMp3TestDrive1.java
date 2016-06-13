@@ -10,7 +10,7 @@ import main.java.views.DJView;
 public class MyMp3TestDrive1 {
 
 	public static void main(String[] args) {
-		MP3Model model = new MP3Model();
+		MP3Model model = MP3Model.getInstance();
 		DJView view = new DJView(null,new MP3Adapter(model));
 		view.createView();
 		view.createControls();

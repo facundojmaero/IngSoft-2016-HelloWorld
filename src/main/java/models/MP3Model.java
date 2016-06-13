@@ -27,6 +27,8 @@ import main.java.views.TrackObserver;
 import main.java.states.*;
 
 public class MP3Model implements MP3ModelInterface {
+	private static MP3Model uniqueMP3 = null;
+	
 	private BasicPlayer player;
 	private ArrayList<String> playlist;
 	private ArrayList<BPMObserver> bpmObservers;
@@ -42,7 +44,7 @@ public class MP3Model implements MP3ModelInterface {
 	private int index;
 	private double volumen;
 	
-	public MP3Model(){
+	private MP3Model(){
 		this.player = new BasicPlayer();
 		this.bpmObservers = new ArrayList<BPMObserver>();
 		this.beatObservers = new ArrayList<BeatObserver>();
@@ -55,6 +57,13 @@ public class MP3Model implements MP3ModelInterface {
 		this.currentState = empty;
 		this.playlist = new ArrayList<String>();
 		this.trackObservers = new ArrayList<TrackObserver>();
+	}
+	
+	public static MP3Model getInstance(){
+		if (uniqueMP3 == null){
+			uniqueMP3 = new MP3Model();
+		}
+		return uniqueMP3;
 	}
 
 	@Override
@@ -95,12 +104,14 @@ public class MP3Model implements MP3ModelInterface {
 	public void previousSong() {
 		currentState.previousSong();
 		notifyTrackObservers();
+		notifyBPMObservers();
 	}
 
 	@Override
 	public void nextSong() {
 		currentState.nextSong();
 		notifyTrackObservers();
+		notifyBPMObservers();
 	}
 
 	@Override

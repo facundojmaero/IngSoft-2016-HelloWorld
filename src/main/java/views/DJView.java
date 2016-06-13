@@ -5,10 +5,15 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import main.java.models.BeatModel;
 import main.java.models.BeatModelInterface;
 import main.java.models.HeartAdapter;
+import main.java.models.HeartModel;
 import main.java.models.MP3Adapter;
+import main.java.models.MP3Model;
+import main.java.controllers.BeatController;
 import main.java.controllers.ControllerInterface;
+import main.java.controllers.HeartController;
 import main.java.controllers.MP3Controller;
 
 public class DJView implements ActionListener,  BeatObserver, BPMObserver {
@@ -99,25 +104,13 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
         menuStrategy = new JMenu("Model");
         djMenuItem = new JMenuItem("DJ Model");
         menuStrategy.add(djMenuItem);
-        djMenuItem.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent event){
-        		//lo que hace el boton
-        	}
-        });
         heartMenuItem = new JMenuItem("Heart Model");
         menuStrategy.add(heartMenuItem);
-        heartMenuItem.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent event){
-        		//lo que hace el boton
-        	}
-        });
         mp3MenuItem = new JMenuItem("MP3 Model");
         menuStrategy.add(mp3MenuItem);
-        djMenuItem.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent event){
-        		//lo que hace el boton
-        	}
-        });
+        djMenuItem.addActionListener(this);
+        heartMenuItem.addActionListener(this);
+        mp3MenuItem.addActionListener(this);
         
         menuBar.add(menuStrategy);
         
@@ -207,6 +200,41 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		} else if (event.getSource() == decreaseBPMButton) {
 			controller.decreaseBPM();
 		}
+		// Todos los botones para cambiar de modelo
+		else{
+			if (event.getSource() == heartMenuItem) {
+			model.removeObserver((BPMObserver)this);
+			model.removeObserver((BeatObserver)this);
+			setModel(new HeartAdapter(HeartModel.getInstance()));
+			model.registerObserver((BPMObserver)this);
+			model.registerObserver((BeatObserver)this);
+			setController(new HeartController(HeartModel.getInstance(),this));
+			}
+			if (event.getSource() == djMenuItem) {
+			model.removeObserver((BPMObserver)this);
+			model.removeObserver((BeatObserver)this);
+			setModel(new BeatModel());
+			model.registerObserver((BPMObserver)this);
+			model.registerObserver((BeatObserver)this);
+			setController(new BeatController(model,this));
+			} 
+			if (event.getSource() == mp3MenuItem) {
+			controller.stop();
+			model.removeObserver((BPMObserver)this);
+			model.removeObserver((BeatObserver)this);
+			
+			MP3Model mp3model = MP3Model.getInstance();
+			
+			setModel(new MP3Adapter(mp3model));
+			model.registerObserver((BPMObserver)this);
+			model.registerObserver((BeatObserver)this);
+			setController(new MP3Controller(mp3model,this));
+			}
+			//Al final siempre habilito los botones para cambiar de modelo 
+			this.enableDJStartMenuItem();
+			this.enableHeartStartMenuItem();
+			this.enableMP3StartMenuItem();
+		}
     }
 
 	public void updateBPM() {
@@ -242,5 +270,9 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;
+	}
+	
+	public void setModel(BeatModelInterface newModel){
+		this.model = newModel;
 	}
 }

@@ -7,7 +7,7 @@ import main.java.views.MP3View;
 public class MyMP3TestDrive2 {
 
 	public static void main(String[] args) {
-		MP3Model model = new MP3Model();
+		MP3Model model = MP3Model.getInstance();
 		MP3View view = new MP3View(model);
 		MP3Controller2 controller = new MP3Controller2(model,view);
 		view.setController(controller);
