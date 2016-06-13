@@ -1,7 +1,5 @@
 package main.java.models;
 
-import java.io.File;
-
 import com.mpatric.mp3agic.ID3v2;
 
 import main.java.views.BPMObserver;

@@ -1,18 +1,8 @@
 package main.java.models;
 
-import java.awt.FlowLayout;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
 
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
@@ -40,7 +30,7 @@ public class MP3Model implements MP3ModelInterface {
 	private MP3State stopped;
 	private MP3State empty;
 	private MP3State paused;
-	//------------------------
+	//-----------------------------
 	private int index;
 	private double volumen;
 	
@@ -307,6 +297,10 @@ public class MP3Model implements MP3ModelInterface {
 		return playlist.size();
 	}
 	
+	//Metodo usado por el estado, para no perder encapsulamiento.
+	//En lugar de proveer acceso al arraylist playlist simplemente 
+	//muestro el indice de la cancion a reproducir con un getter, y proveo
+	//el metodo playNow para que comience a sonar segun el indice que le paso
 	public void playNow(int index){
 		File f = new File(playlist.get(index));
 		try {

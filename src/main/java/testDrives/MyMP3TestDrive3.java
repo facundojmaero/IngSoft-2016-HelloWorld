@@ -14,26 +14,30 @@ import main.java.views.DJView;
 
 public class MyMP3TestDrive3 {
 
+	//Este Test Drive muestra los 3 modelos funcionando al mismo tiempo, en 3 vistas distintas,
+	//independientes entre si.
 	public static void main(String[] args) {
 		
-		MP3Model model1 = MP3Model.getInstance();									//creo mp3model
-		DJView mp3View = new DJView(null,new MP3Adapter(model1));				//con su vista y 
-		mp3View.createView();													//controlador
+		//Creo el MP3Model con su vista y controlador especifico
+		MP3Model model1 = MP3Model.getInstance();
+		DJView mp3View = new DJView(null,new MP3Adapter(model1)); 
+		mp3View.createView();
 		mp3View.createControls();
 		MP3Controller controller1 = new MP3Controller(model1, mp3View);
 		mp3View.setController(controller1);
 		
-		BeatModelInterface model2 = new BeatModel();						//creo beatmodel
+		//Creo el BeatModel con su vista y controlador especifico
+		BeatModelInterface model2 = new BeatModel();
 		DJView djview = new DJView(null,model2);
-		djview.createView();													//controlador
+		djview.createView();
 		djview.createControls();
-		ControllerInterface controller2 = new BeatController(model2,djview);		//el controlador crea
-		djview.setController(controller2);																	//la vista
+		ControllerInterface controller2 = new BeatController(model2,djview);
+		djview.setController(controller2);
 		
-		
+		//Creo el HeartModel con su vista y controlador especifico
 		HeartModel heartModel = HeartModel.getInstance();
 		DJView heartView = new DJView(null,new HeartAdapter(heartModel));
-		heartView.createView();													//controlador
+		heartView.createView();	
 		heartView.createControls();
 		ControllerInterface controller = new HeartController(heartModel,heartView);
 		heartView.setController(controller);

@@ -1,6 +1,5 @@
 package main.java.controllers;
 
-import main.java.models.MP3Model;
 import main.java.models.MP3ModelInterface;
 import main.java.views.DJView;
 

@@ -14,12 +14,6 @@ public class PlayingState implements MP3State {
 	}
 
 	@Override
-	public void play() {
-		//No hago nada
-
-	}
-
-	@Override
 	public void paused() {
 		try {
 			model.getPlayer().pause();
@@ -28,12 +22,6 @@ public class PlayingState implements MP3State {
 			e.printStackTrace();
 		}
 		model.setState(model.getPausedState());
-
-	}
-
-	@Override
-	public void addPlaylist() {
-		// No hago nada
 	}
 
 	@Override
@@ -41,7 +29,6 @@ public class PlayingState implements MP3State {
 		int index = (model.getIndex()+1)%model.getPlaylistSize();
 		model.setIndex(index);
 		model.playNow(index);
-
 	}
 
 	@Override
@@ -52,7 +39,6 @@ public class PlayingState implements MP3State {
 		}
 		model.setIndex(index);
 		model.playNow(index);
-
 	}
 
 	@Override
@@ -64,7 +50,12 @@ public class PlayingState implements MP3State {
 			e.printStackTrace();
 		}
 		model.setState(model.getStoppedState());
-
 	}
-
+	
+	//Los siguientes metodos no realizan ninguna accion en el estadoa actual
+	@Override
+	public void addPlaylist() {}
+	
+	@Override
+	public void play() {}
 }

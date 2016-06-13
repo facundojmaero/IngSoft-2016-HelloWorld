@@ -11,40 +11,26 @@ public class EmptyState implements MP3State {
 	public EmptyState(MP3Model model){
 		this.model = model;
 	}
-
-	@Override
-	public void play() {
-		// No hago nada
-
-	}
-
-	@Override
-	public void paused() {
-		// No hago anda
-
-	}
-
+	
 	@Override
 	public void addPlaylist() {
 		model.setState(model.getStoppedState());
 	}
+	
+	//Los siguientes metodos no realizan ninguna accion en el estado actual
+	@Override
+	public void play() {}
 
 	@Override
-	public void nextSong() {
-		// No hago nada
-
-	}
+	public void paused() {}
 
 	@Override
-	public void previousSong() {
-		// No hago nada
-
-	}
+	public void nextSong() {}
 
 	@Override
-	public void stop() {
-		// No hago nada
+	public void previousSong() {}
 
-	}
+	@Override
+	public void stop() {}
 
 }

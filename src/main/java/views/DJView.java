@@ -149,48 +149,19 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
         controlFrame.pack();
         controlFrame.setVisible(true);
     }
-
-	public void enableStopMenuItem() {
-    	stopMenuItem.setEnabled(true);
-	}
-
-	public void disableStopMenuItem() {
-    	stopMenuItem.setEnabled(false);
-	}
-
-	public void enableStartMenuItem() {
-    	startMenuItem.setEnabled(true);
-	}
-
-	public void disableStartMenuItem() {
-    	startMenuItem.setEnabled(false);
-	}
+    //Habilitadores y deshabilitadores de los botones en los dropdown menus
+	public void enableStopMenuItem() {stopMenuItem.setEnabled(true);}
+	public void disableStopMenuItem() {stopMenuItem.setEnabled(false);}
+	public void enableStartMenuItem() {startMenuItem.setEnabled(true);}
+	public void disableStartMenuItem() {startMenuItem.setEnabled(false);}
+	public void enableDJStartMenuItem(){djMenuItem.setEnabled(true);}
+	public void disableDJStartMenuItem(){djMenuItem.setEnabled(false);}
+	public void enableHeartStartMenuItem(){heartMenuItem.setEnabled(true);}
+	public void disableHeartStartMenuItem(){heartMenuItem.setEnabled(false);}
+	public void enableMP3StartMenuItem(){mp3MenuItem.setEnabled(true);}
+	public void disableMP3StartMenuItem(){mp3MenuItem.setEnabled(false);}
 	
-	public void enableDJStartMenuItem(){
-		djMenuItem.setEnabled(true);
-	}
-	
-	public void disableDJStartMenuItem(){
-		djMenuItem.setEnabled(false);
-	}
-	
-	public void enableHeartStartMenuItem(){
-		heartMenuItem.setEnabled(true);
-	}
-	
-	public void disableHeartStartMenuItem(){
-		heartMenuItem.setEnabled(false);
-	}
-	
-	public void enableMP3StartMenuItem(){
-		mp3MenuItem.setEnabled(true);
-	}
-	
-	public void disableMP3StartMenuItem(){
-		mp3MenuItem.setEnabled(false);
-	}
-	
-
+	//ActionListener que delega al controlador las interacciones con los botones
     public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == setBPMButton) {
 			int bpm = Integer.parseInt(bpmTextField.getText());
@@ -200,8 +171,9 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		} else if (event.getSource() == decreaseBPMButton) {
 			controller.decreaseBPM();
 		}
-		// Todos los botones para cambiar de modelo
+		// Todos los botones para cambiar de modelo -> Patron Strategy
 		else{
+			//Si presiono heartMenuItem cambio al modelo heartmodel
 			if (event.getSource() == heartMenuItem) {
 			model.removeObserver((BPMObserver)this);
 			model.removeObserver((BeatObserver)this);
@@ -210,6 +182,7 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 			model.registerObserver((BeatObserver)this);
 			setController(new HeartController(HeartModel.getInstance(),this));
 			}
+			//Si presiono djMenuItem cambio al modelo beatmodel
 			if (event.getSource() == djMenuItem) {
 			model.removeObserver((BPMObserver)this);
 			model.removeObserver((BeatObserver)this);
@@ -217,26 +190,27 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 			model.registerObserver((BPMObserver)this);
 			model.registerObserver((BeatObserver)this);
 			setController(new BeatController(model,this));
-			} 
+			}
+			//Si presiono mp3MenuItem cambio al modelo propio
 			if (event.getSource() == mp3MenuItem) {
 			controller.stop();
 			model.removeObserver((BPMObserver)this);
 			model.removeObserver((BeatObserver)this);
-			
 			MP3Model mp3model = MP3Model.getInstance();
-			
 			setModel(new MP3Adapter(mp3model));
 			model.registerObserver((BPMObserver)this);
 			model.registerObserver((BeatObserver)this);
 			setController(new MP3Controller(mp3model,this));
 			}
+			
 			//Al final siempre habilito los botones para cambiar de modelo 
 			this.enableDJStartMenuItem();
 			this.enableHeartStartMenuItem();
 			this.enableMP3StartMenuItem();
 		}
     }
-
+    
+    //Actualiza BPM usando patron observer
 	public void updateBPM() {
 		if (model != null) {
 			int bpm = model.getBPM();
@@ -267,7 +241,7 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 			 beatBar.setValue(100);
 		}
 	}
-
+	//Setters de controlador y modelo para implementar patron Strategy
 	public void setController(ControllerInterface controller) {
 		this.controller = controller;
 	}

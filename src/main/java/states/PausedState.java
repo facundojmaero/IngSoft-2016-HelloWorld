@@ -22,12 +22,6 @@ public class PausedState implements MP3State {
 	}
 
 	@Override
-	public void paused() {}
-
-	@Override
-	public void addPlaylist() {}
-
-	@Override
 	public void nextSong() {
 		model.setIndex((model.getIndex()+1)%model.getPlaylistSize());
 		model.playNow(model.getIndex());
@@ -53,5 +47,12 @@ public class PausedState implements MP3State {
 		}
 		model.setState(model.getStoppedState());
 	}
+	
+	//Los siguientes metodos no realizan ninguna accion en el estadoa actual
+	@Override
+	public void paused() {}
+
+	@Override
+	public void addPlaylist() {}
 
 }

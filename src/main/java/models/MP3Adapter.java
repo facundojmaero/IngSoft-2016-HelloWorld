@@ -11,24 +11,16 @@
 		}
 		
 		@Override
-		public void initialize() {
-			// TODO Auto-generated method stub
-		}
+		public void initialize() {}
 
 		@Override
-		public void on() {
-			// TODO Auto-generated method stub
-		}
+		public void on() {}
 
 		@Override
-		public void off() {
-			// TODO Auto-generated method stub
-		}
+		public void off() {}
 
 		@Override
-		public void setBPM(int bpm) {
-			// TODO Auto-generated method stub
-		}
+		public void setBPM(int bpm) {}
 
 		@Override
 		public int getBPM() {
@@ -38,25 +30,21 @@
 		@Override
 		public void registerObserver(BeatObserver o) {
 			player.registerObserver(o);
-			
 		}
 
 		@Override
 		public void removeObserver(BeatObserver o) {
 			player.removeObserver(o);
-			
 		}
 
 		@Override
 		public void registerObserver(BPMObserver o) {
 			player.registerObserver(o);
-			
 		}
 
 		@Override
 		public void removeObserver(BPMObserver o) {
 			player.removeObserver(o);
-			
 		}
 
 	}
