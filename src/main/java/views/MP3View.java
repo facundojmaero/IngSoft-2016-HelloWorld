@@ -78,19 +78,33 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	//FFTParallelFrame fdf = null;
 	//public static StatusFrame stf = new StatusFrame();
 	//Icons
-	ImageIcon frameIcon = new ImageIcon("src/main/resources/images/frameicon.png");
-	ImageIcon playIcon = new ImageIcon("src/main/resources/images/playicon.png");
-	ImageIcon pauseIcon = new ImageIcon("src/main/resources/images/pauseicon.png");
-	ImageIcon volUpIcon = new ImageIcon("src/main/resources/images/up.png");
-	ImageIcon volDownIcon = new ImageIcon("src/main/resources/images/down.png");
-	ImageIcon muteIcon = new ImageIcon("src/main/resources/images/off.png");
-	ImageIcon prevIcon = new ImageIcon("src/main/resources/images/prev.png");
-	ImageIcon nextIcon = new ImageIcon("src/main/resources/images/next.png");
-	ImageIcon addIcon = new ImageIcon("src/main/resources/images/add.png");
-	ImageIcon stopIcon = new ImageIcon("src/main/resources/images/stop.png");
-	ImageIcon deleteIcon = new ImageIcon("src/main/resources/images/delete.png");
-	ImageIcon infoIcon = new ImageIcon("src/main/resources/images/songinfo.png");
-	ImageIcon artIcon = new ImageIcon("src/main/resources/images/songart.png");
+	String frameIconPath = "main/resources/images/frameicon.png";
+	ImageIcon frameIcon = new ImageIcon(getClass().getClassLoader().getResource(frameIconPath));
+	String playIconPath = "main/resources/images/playicon.png";
+	ImageIcon playIcon = new ImageIcon(getClass().getClassLoader().getResource(playIconPath));
+	String pauseIconPath = "main/resources/images/pauseicon.png";
+	ImageIcon pauseIcon = new ImageIcon(getClass().getClassLoader().getResource(pauseIconPath));
+	String volUpIconPath = "main/resources/images/up.png";
+	ImageIcon volUpIcon = new ImageIcon(getClass().getClassLoader().getResource(volUpIconPath));
+	String volDownIconPath = "main/resources/images/down.png";
+	ImageIcon volDownIcon = new ImageIcon(getClass().getClassLoader().getResource(volDownIconPath));
+	String muteIconPath = "main/resources/images/off.png";
+	ImageIcon muteIcon = new ImageIcon(getClass().getClassLoader().getResource(muteIconPath));
+	String prevIconPath = "main/resources/images/prev.png";
+	ImageIcon prevIcon = new ImageIcon(getClass().getClassLoader().getResource(prevIconPath));
+	String nextIconPath = "main/resources/images/next.png";
+	ImageIcon nextIcon = new ImageIcon(getClass().getClassLoader().getResource(nextIconPath));
+	String addIconPath = "main/resources/images/add.png";
+	ImageIcon addIcon = new ImageIcon(getClass().getClassLoader().getResource(addIconPath));
+	String stopIconPath = "main/resources/images/stop.png";
+	ImageIcon stopIcon = new ImageIcon(getClass().getClassLoader().getResource(stopIconPath));
+	String deleteIconPath = "main/resources/images/delete.png";
+	ImageIcon deleteIcon = new ImageIcon(getClass().getClassLoader().getResource(deleteIconPath));
+	String infoIconPath = "main/resources/images/songinfo.png";
+	ImageIcon infoIcon = new ImageIcon(getClass().getClassLoader().getResource(infoIconPath));
+	String artIconPath = "main/resources/images/songart.png";
+	ImageIcon artIcon = new ImageIcon(getClass().getClassLoader().getResource(artIconPath));
+
 	
 	/**
 	 * Class/Frame constructor
