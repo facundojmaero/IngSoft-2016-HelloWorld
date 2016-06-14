@@ -318,7 +318,11 @@ public class MP3Model implements MP3ModelInterface {
 	@Override
 	public void removePlayList(int index) {
 		if(this.IsPlaying() && this.getIndex() == index){
-			this.stop();
+			if(this.getPlaylistSize()>1){
+				this.nextSong();
+			} else {
+				this.stop();
+			}
 		}
 		if(playlist != null && !playlist.isEmpty()){
 			playlist.remove(index);

@@ -4,7 +4,7 @@ import main.java.controllers.MP3Controller2;
 import main.java.models.MP3Model;
 import main.java.views.MP3View;
 
-public class OfMyMP3TestDrive5 {
+public class MyMP3TestDrive5 {
 	
 	//Este Test Drive permite probar la vista nueva MP3View, con el modelo propio MP3Model
 	//Se pueden agregar canciones manualmente con un dialogo de seleccion, usar todos los 

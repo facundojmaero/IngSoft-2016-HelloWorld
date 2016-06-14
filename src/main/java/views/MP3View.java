@@ -341,5 +341,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		for(int i=0;i<playlist.length;i++){
 			songList.addElement(playlist[i]);
 		}
+		jSongList.setSelectedIndex(model.getIndex());
 	}
 }
