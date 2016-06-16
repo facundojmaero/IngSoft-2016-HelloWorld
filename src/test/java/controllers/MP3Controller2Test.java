@@ -1,13 +1,13 @@
-package main.java.controllers;
+package test.java.controllers;
 
 import main.java.models.MP3ModelInterface;
 import main.java.views.MP3View;
 
-public class MP3Controller2 implements ControllerInterface {
+public class MP3Controller2Test implements ControllerInterface {
 	MP3ModelInterface model;
 	MP3View view;
 
-	public MP3Controller2(MP3ModelInterface model, MP3View view){
+	public MP3Controller2Test(MP3ModelInterface model, MP3View view){
 		this.model = model;
 		this.view = view;
 		view.setVisible(true);
@@ -44,8 +44,14 @@ public class MP3Controller2 implements ControllerInterface {
 		model.setVolumen(volumen);
 	}
 	
-	public void setTime(long time){
-		model.setTime(time);
+	public void increaseVolumen(){
+		double volumen_actual = model.getVolumen();
+		model.setVolumen(volumen_actual+0.1);
+	}
+	
+	public void decreaseVolumen(){
+		double volumen_actual = model.getVolumen();
+		model.setVolumen(volumen_actual-0.1);
 	}
 	
 	public void pause(){
@@ -58,6 +64,8 @@ public class MP3Controller2 implements ControllerInterface {
 	}
 
 	public void removeTrack(int index) {
+		//model.stop();
+		//view.MakePlayIcon();
 		model.removePlayList(index);
 		view.updatePlaylistInfo();
 	}

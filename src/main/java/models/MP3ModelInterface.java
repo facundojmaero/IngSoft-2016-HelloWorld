@@ -4,6 +4,7 @@ import com.mpatric.mp3agic.ID3v2;
 
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
+import main.java.views.MP3View;
 import main.java.views.TrackObserver;
 
 public interface MP3ModelInterface {
@@ -14,6 +15,8 @@ public interface MP3ModelInterface {
 	void setVolumen(double volumen);
 
 	void addPlayList(String Path);
+
+	void removePlayList(int index);
 
 	void previousSong();
 
@@ -29,6 +32,10 @@ public interface MP3ModelInterface {
 
 	void removeObserver(BPMObserver o);
 	
+	void setTime(long time);
+	
+	void addPlayerListener(MP3View mp3View, long t);
+	
 	double getVolumen();
 	
 	boolean setIndex(int index);
@@ -38,6 +45,10 @@ public interface MP3ModelInterface {
 	boolean IsPlaying();
 	
 	String getCurrentTrackName();
+	
+	String getCurrentSongDuration();
+	
+	long getCurrentSongDurationMil();
 	
 	String[] getCurrentPlaylist();
 	

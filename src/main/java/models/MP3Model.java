@@ -13,10 +13,12 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
+import main.java.views.MP3View;
 import main.java.views.TrackObserver;
 import main.java.states.*;
 
 public class MP3Model implements MP3ModelInterface {
+	
 	private static MP3Model uniqueMP3 = null;
 	
 	private BasicPlayer player;
@@ -33,6 +35,38 @@ public class MP3Model implements MP3ModelInterface {
 	//-----------------------------
 	private int index;
 	private double volumen;
+
+	/*
+	public static class ProgressBarListener implements Runnable {
+		private static class ProgressBarListenerHolder {
+			public static ProgressBarListener uniqueProgressBarListener = new ProgressBarListener();
+		}
+		
+		private static MP3View view = null;
+
+		private ProgressBarListener(){}
+		private void setView(MP3View viewInstance){
+			view = viewInstance;
+		}
+		
+		public static ProgressBarListener getInstance(MP3View viewInstance){
+			if(ProgressBarListenerHolder.uniqueProgressBarListener==null){
+				ProgressBarListenerHolder.uniqueProgressBarListener.setView(viewInstance);
+			} else if (view==null){
+				view = viewInstance;
+			}
+			return ProgressBarListenerHolder.uniqueProgressBarListener;
+		}
+		
+		public void run() {
+			while (view.updateProgressBar()) {
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {}
+			}
+		}
+	}
+	*/
 	
 	private MP3Model(){
 		this.player = new BasicPlayer();
@@ -82,7 +116,9 @@ public class MP3Model implements MP3ModelInterface {
 			File list[] = file.listFiles();
 			if (list != null) {
 				for (int i = 0; i < list.length; i++) {
-					playlist.add(list[i].getAbsolutePath());
+					if(list[i].getAbsolutePath().endsWith(".mp3")){
+						playlist.add(list[i].getAbsolutePath());
+					}
 				}
 			}
 		}
@@ -199,7 +235,7 @@ public class MP3Model implements MP3ModelInterface {
 		ID3v2 songTag = mp3file.getId3v2Tag();
 		return songTag.getTitle();
 	}
-	
+
 	public String getCurrentSongDuration(){
 		String path = playlist.get(index);
 		Mp3File song = null;
@@ -213,6 +249,18 @@ public class MP3Model implements MP3ModelInterface {
 		int seconds = (int)duration%60;
 		String songDuration = String.format("%02d:%02d", minutes, seconds);
 		return songDuration;
+	}
+	
+	public long getCurrentSongDurationMil(){
+		String path = playlist.get(index);
+		Mp3File song = null;
+		try {
+			song = new Mp3File(path);
+		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+			e.printStackTrace();
+		}
+		long duration = song.getLengthInMilliseconds();
+		return duration;
 	}
 
 	@Override
@@ -235,7 +283,6 @@ public class MP3Model implements MP3ModelInterface {
 			try {
 				song = new Mp3File(path);
 			} catch (UnsupportedTagException | InvalidDataException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			songTag = song.getId3v2Tag();
@@ -314,6 +361,35 @@ public class MP3Model implements MP3ModelInterface {
 			e.printStackTrace();
 		}
 	}
-	
+
+	@Override
+	public void removePlayList(int index) {
+		if(this.IsPlaying() && this.getIndex() == index){
+			if(this.getPlaylistSize()>1){
+				this.nextSong();
+			} else {
+				this.stop();
+			}
+		}
+		if(playlist != null && !playlist.isEmpty()){
+			playlist.remove(index);
+		}
+	}
+
+	@Override
+	public void setTime(long time) {
+		if(!(this.currentState instanceof EmptyState) || !(this.currentState instanceof StoppedState)){
+			try {
+				this.player.seek(time/34);
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void addPlayerListener(MP3View mp3View, long t) {
+		this.player.addBasicPlayerListener(MP3View.PlayerListener.getInstance(mp3View, t));
+	}
 	
 }
