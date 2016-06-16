@@ -1,6 +1,5 @@
 package main.java.states;
 
-import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.models.MP3Model;
 import main.java.states.MP3State;

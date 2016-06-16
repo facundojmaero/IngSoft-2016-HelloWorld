@@ -44,14 +44,8 @@ public class MP3Controller2 implements ControllerInterface {
 		model.setVolumen(volumen);
 	}
 	
-	public void increaseVolumen(){
-		double volumen_actual = model.getVolumen();
-		model.setVolumen(volumen_actual+0.1);
-	}
-	
-	public void decreaseVolumen(){
-		double volumen_actual = model.getVolumen();
-		model.setVolumen(volumen_actual-0.1);
+	public void setTime(long time){
+		model.setTime(time);
 	}
 	
 	public void pause(){
@@ -64,8 +58,6 @@ public class MP3Controller2 implements ControllerInterface {
 	}
 
 	public void removeTrack(int index) {
-		//model.stop();
-		//view.MakePlayIcon();
 		model.removePlayList(index);
 		view.updatePlaylistInfo();
 	}

@@ -11,8 +11,8 @@ public class MyMP3TestDrive4 {
 	//quien crea y asigna los nuevos modelo y controlador a medida que elijamos cambiar.
 	public static void main(String[] args) {
 		BeatModelInterface beatModel = new BeatModel();
-		HeartModel heartModel = HeartModel.getInstance();
-		MP3Model mp3Model = MP3Model.getInstance();
+//		HeartModel heartModel = HeartModel.getInstance();
+//		MP3Model mp3Model = MP3Model.getInstance();
 		
 		DJView view = new DJView(null,beatModel);
 		view.createView();

@@ -8,8 +8,8 @@ import main.java.views.BeatObserver;
 
 public class HeartModel implements HeartModelInterface, Runnable {
 	private static HeartModel unique_model;
-	ArrayList beatObservers = new ArrayList();
-	ArrayList bpmObservers = new ArrayList();
+	ArrayList<BeatObserver> beatObservers = new ArrayList<BeatObserver>();
+	ArrayList<BPMObserver> bpmObservers = new ArrayList<BPMObserver>();
 	int time = 1000;
 	int bpm = 90;
 	static int intentos = 0; // Numero de intentos de crear el modelo

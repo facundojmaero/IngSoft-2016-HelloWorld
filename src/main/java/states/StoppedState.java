@@ -1,8 +1,5 @@
 package main.java.states;
 
-import java.io.File;
-
-import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.models.MP3Model;
 
 public class StoppedState implements MP3State {

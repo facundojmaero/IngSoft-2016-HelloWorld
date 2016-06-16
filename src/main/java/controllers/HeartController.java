@@ -1,7 +1,6 @@
 package main.java.controllers;
 
 import main.java.views.DJView;
-import main.java.models.HeartAdapter;
 import main.java.models.HeartModel;
 import main.java.models.HeartModelInterface;
 

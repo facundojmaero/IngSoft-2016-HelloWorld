@@ -1,11 +1,10 @@
 package main.java.views;
-  
-import java.awt.*;
-import java.awt.event.*;
+
 import javax.swing.*;
 
-public class BeatBar extends JProgressBar implements Runnable { 
-    JProgressBar progressBar;
+public class BeatBar extends JProgressBar implements Runnable {
+	private static final long serialVersionUID = 1L;
+	JProgressBar progressBar;
 	Thread thread;
 
 	public BeatBar() {

@@ -1,7 +1,5 @@
 package main.java.states;
 
-import java.io.File;
-
 import main.java.models.MP3Model;
 
 public class EmptyState implements MP3State {
