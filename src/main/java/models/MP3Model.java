@@ -213,8 +213,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 	
 	public boolean setIndex (int index){
-		if ( index > (playlist.size()-1) || index < 0)
+		if ( index > (playlist.size()-1) || index < 0){
 			return false;
+		}
 		this.index = index;
 		return true;
 	}
@@ -349,15 +350,17 @@ public class MP3Model implements MP3ModelInterface {
 	//muestro el indice de la cancion a reproducir con un getter, y proveo
 	//el metodo playNow para que comience a sonar segun el indice que le paso
 	public void playNow(int index){
-		File f = new File(playlist.get(index));
+		this.setIndex(index);
+		File f = new File(playlist.get(this.getIndex()));
 		try {
 			player.open(f);
 		} catch (BasicPlayerException e) {
 			e.printStackTrace();
 		}
 		try {
+			this.setState(playing);
 			player.play();
-		} catch (BasicPlayerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
