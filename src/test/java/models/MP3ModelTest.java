@@ -11,7 +11,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MP3ModelTest {
-	MP3Model mp3Model = null;
+	private MP3Model mp3Model = null;
+	private String playListPath = "src/main/resources/default songs";
 	
 	@Before
 	public void setUp() throws Exception {
@@ -43,14 +44,14 @@ public class MP3ModelTest {
 		
 		assertEquals(0, playList.length); 
 		
-		mp3Model.addPlayList("./src/main/resources/default songs");
+		mp3Model.addPlayList(playListPath);
 		
 		assertEquals(4, mp3Model.getCurrentPlaylist().length); 
 	}
 	
 	@Test
 	public void testClearPlayList(){
-		mp3Model.addPlayList("./src/main/resources/default songs");
+		mp3Model.addPlayList(playListPath);
 		
 		assertEquals(4, mp3Model.getCurrentPlaylist().length); 
 		
@@ -65,7 +66,7 @@ public class MP3ModelTest {
 	public void testGetPlayListSize(){
 		assertEquals(0, mp3Model.getPlaylistSize()); 
 		
-		mp3Model.addPlayList("./src/main/resources/default songs");
+		mp3Model.addPlayList(playListPath);
 		
 		assertEquals(4, mp3Model.getPlaylistSize());
 	}
@@ -76,7 +77,7 @@ public class MP3ModelTest {
 		
 		assertEquals(0, mp3Model.getIndex());
 		
-		mp3Model.addPlayList("./src/main/resources/default songs");
+		mp3Model.addPlayList(playListPath);
 
 		assertEquals(4, mp3Model.getPlaylistSize());
 		
@@ -93,7 +94,7 @@ public class MP3ModelTest {
 		
 		assertEquals(indexValue, mp3Model.getIndex());
 		
-		mp3Model.addPlayList("./src/main/resources/default songs");
+		mp3Model.addPlayList(playListPath);
 
 		assertEquals(4, mp3Model.getPlaylistSize());
 		
@@ -106,7 +107,7 @@ public class MP3ModelTest {
 	public void testPlayNow(){
 		assertEquals(0, mp3Model.getPlaylistSize()); 
 		
-		mp3Model.addPlayList("./src/main/resources/default songs");
+		mp3Model.addPlayList(playListPath);
 
 		assertEquals(4, mp3Model.getPlaylistSize());
 		
@@ -121,7 +122,7 @@ public class MP3ModelTest {
 		
 		assertFalse(mp3Model.IsPlaying());
 		
-		mp3Model.addPlayList("./src/main/resources/default songs");
+		mp3Model.addPlayList(playListPath);
 
 		assertEquals(4, mp3Model.getPlaylistSize());
 
