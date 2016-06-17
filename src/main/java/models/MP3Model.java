@@ -36,37 +36,6 @@ public class MP3Model implements MP3ModelInterface {
 	private int index;
 	private double volumen;
 
-	/*
-	public static class ProgressBarListener implements Runnable {
-		private static class ProgressBarListenerHolder {
-			public static ProgressBarListener uniqueProgressBarListener = new ProgressBarListener();
-		}
-		
-		private static MP3View view = null;
-
-		private ProgressBarListener(){}
-		private void setView(MP3View viewInstance){
-			view = viewInstance;
-		}
-		
-		public static ProgressBarListener getInstance(MP3View viewInstance){
-			if(ProgressBarListenerHolder.uniqueProgressBarListener==null){
-				ProgressBarListenerHolder.uniqueProgressBarListener.setView(viewInstance);
-			} else if (view==null){
-				view = viewInstance;
-			}
-			return ProgressBarListenerHolder.uniqueProgressBarListener;
-		}
-		
-		public void run() {
-			while (view.updateProgressBar()) {
-				try {
-					Thread.sleep(500);
-				} catch (Exception e) {}
-			}
-		}
-	}
-	*/
 	
 	private MP3Model(){
 		this.player = new BasicPlayer();
@@ -225,6 +194,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 	
 	public String getCurrentTrackName(){		
+		if (currentState instanceof EmptyState){
+			return "";
+		}
 		String path = playlist.get(index);
 		Mp3File mp3file = null;
 		try {
@@ -237,6 +209,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 
 	public String getCurrentSongDuration(){
+		if (currentState instanceof EmptyState){
+			return "00:00";
+		}
 		String path = playlist.get(index);
 		Mp3File song = null;
 		try {
@@ -364,32 +339,21 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public void removePlayList(int index) {
-		if(this.IsPlaying() && this.getIndex() == index){
-			if(this.getPlaylistSize()>1){
-				this.nextSong();
-			} else {
+		if(!playlist.isEmpty()){
+			//Si solo hay una cancion en la playlist paso al estado empty
+			if (playlist.size() == 1){
 				this.stop();
+				this.setState(empty);
 			}
-		}
-		if(playlist != null && !playlist.isEmpty()){
-			playlist.remove(index);
-		}
-	}
-
-	@Override
-	public void setTime(long time) {
-		if(!(this.currentState instanceof EmptyState) || !(this.currentState instanceof StoppedState)){
-			try {
-				this.player.seek(time/34);
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
+			//Si la cancion elegida es la que estoy reproduciendo paso al estado stop
+			else if(this.getIndex() == index){
+				this.stop();
+				this.setState(stopped);
 			}
+			playlist.remove(index); //Borro la cancion en index
+			
 		}
-	}
-
-	@Override
-	public void addPlayerListener(MP3View mp3View, long t) {
-		this.player.addBasicPlayerListener(MP3View.PlayerListener.getInstance(mp3View, t));
+		this.notifyTrackObservers();
 	}
 	
 }

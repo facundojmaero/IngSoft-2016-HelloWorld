@@ -44,9 +44,6 @@ public class MP3Controller2 implements ControllerInterface {
 		model.setVolumen(volumen);
 	}
 	
-	public void setTime(long time){
-		model.setTime(time);
-	}
 	
 	public void pause(){
 		model.pause();
@@ -59,6 +56,11 @@ public class MP3Controller2 implements ControllerInterface {
 
 	public void removeTrack(int index) {
 		model.removePlayList(index);
-		view.updatePlaylistInfo();
+		if (model.IsPlaying()){
+			view.MakePauseIcon(); //si esta reproduciendo actualizo la vista p/ que muestre el icono pausa
+		}
+		else{
+			view.MakePlayIcon(); //si no muestro la opcion play
+		}
 	}
 }
