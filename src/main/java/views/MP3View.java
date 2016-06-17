@@ -56,13 +56,10 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	JFrame songArt = null;
 	JFrame songInfo = null;
 	JSlider volSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-	JSlider timeSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 0);
 	JButton btnPlay = new JButton();
 	JButton btnAdd = new JButton();
 	JButton btnNext = new JButton();
 	JButton btnPrev = new JButton();
-//	JButton btnVolUp = new JButton();
-//	JButton btnVolDown = new JButton();
 	JButton btnMute = new JButton();
 	JButton btnCover = new JButton();
 	JButton btnShSt = new JButton();
@@ -147,10 +144,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		panelNP.setToolTipText("Now Playing");
 		panelNP.setBorder(BorderFactory.createMatteBorder(1, 0, 2, 0, Color.gray));
 		panelNP.setBounds(5, 0, _W-15, 20);
-		//JLabel lblnp = new JLabel("Now Playing:");
 		lblplaying.setText("Now Playing: ");
 		lblplaying.setBounds(5, 0, 100, 40);
-		//panelNP.add(lblnp);
 		panelNP.add(lblplaying);
 		container.add(panelNP);
 		
@@ -163,23 +158,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		lblst.setBorder(new EmptyBorder(0, 0, 0, 300));
 		lblet.setText("00:00");
 		container.add(contSlbl);
-		
-		
-		//Panel para los botones prev,play,stop y next
-		JPanel contTime = new JPanel();
-		contTime.setBounds(0, 40, 400, 40);
-		contTime.setLayout(null);
-
-		timeSlider.setBounds(0, 0, 400, 40);
-		timeSlider.setMinimumSize(new Dimension(400, 40));
-		timeSlider.setMinorTickSpacing(10);
-		timeSlider.setMajorTickSpacing(100);
-		timeSlider.setPaintTicks(true);
-		timeSlider.setPaintLabels(false);
-		timeSlider.setVisible(true);
-		
-		contTime.add(timeSlider);
-		container.add(contTime);
 		
 		//Buttons
 		int btn_h = 35;		//altura de los botones
@@ -221,14 +199,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		btnMute.setSize(btn_w,btn_h);
 		volBtns.add(btnMute);
 		volBtns.add(volSlider);
-		/*
-		btnVolDown.setIcon(volDownIcon);
-		btnVolDown.setSize(btn_w,btn_h);
-		volBtns.add(btnVolDown);
-		btnVolUp.setIcon(volUpIcon);
-		btnVolUp.setSize(btn_w,btn_h);
-		volBtns.add(btnVolUp);
-		*/
 		container.add(volBtns);
 		
 		//Panel para botones de ver info, agregar y borrar playlist
@@ -247,22 +217,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		configBtns.add(btnDelete);
 		configBtns.add(btnInfo);
 		configBtns.add(btnArt);
-		container.add(configBtns);
-		
-		//Panel para botones de volumen
-		/*
-		JPanel volBar = new JPanel();
-		volBar.setBounds(0, 200, 320, 30);
-		volSlider.setSize(new Dimension(100,20));
-		volSlider.setMinorTickSpacing(2);
-		volSlider.setMajorTickSpacing(10);
-		volSlider.setPaintTicks(true);
-		volSlider.setPaintLabels(true);
-		volSlider.setVisible(true);		
-		volBar.add(volSlider);
-		container.add(volBar);
-		*/
-		
+		container.add(configBtns);		
 		
 		//SongList
 		int h_list = 150;
@@ -272,10 +227,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		listScroller.setPreferredSize(new Dimension(_W-10,h_list));
 		listScroller.setBounds(0, line3, _W-10, h_list);
 		container.add(listScroller);
-		//container.add(jSongList);
-		//SeekBar
-		//seekbar.setBounds(5, 10, _W-15, 10);
-		//container.add(seekbar);
 	}
 	
 	private void addListeners(){
@@ -288,9 +239,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		btnArt.addActionListener(this);
 		btnInfo.addActionListener(this);
 		btnDelete.addActionListener(this);
-//		Se cambio por volSlider
-//		btnVolUp.addActionListener(this);
-//		btnVolDown.addActionListener(this);
 		volSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				controller.setVolumen(Double.valueOf(((JSlider) e.getSource()).getValue()) / 100.0);
@@ -379,14 +327,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		else if(event.getSource() == btnDelete){
 			controller.removeTrack(jSongList.getSelectedIndex());
 		}
-		/*
-		else if(event.getSource() == btnVolUp){
-			controller.increaseVolumen();
-		}
-		else if(event.getSource() == btnVolDown){
-			controller.decreaseVolumen();
-		}
-		*/
 	}
 	
 	public void setController(MP3Controller2 controller){
