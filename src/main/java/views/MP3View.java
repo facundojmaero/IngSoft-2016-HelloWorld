@@ -44,124 +44,13 @@ import main.java.models.MP3ModelInterface;
 
 public class MP3View extends JFrame implements ActionListener, TrackObserver {
 
-	public static class PlayerListener implements BasicPlayerListener {
-		private static class PlayerListenerHolder {
-			public static PlayerListener uniquePlayerListener = new PlayerListener();
-		}
-		
-		private static long time = -1;
-		private static long songLenght = -1;
-		private static MP3View view = null;
-
-		private PlayerListener(){}
-		private void setSongLength(long t){
-			songLenght = t;
-		}
-		private void setView(MP3View mp3View){
-			view = mp3View;
-		}
-		
-		public static PlayerListener getInstance(MP3View mp3View, long t){
-			PlayerListenerHolder.uniquePlayerListener.setSongLength(t);
-			PlayerListenerHolder.uniquePlayerListener.setView(mp3View);
-			return PlayerListenerHolder.uniquePlayerListener;
-		}
-		
-		@Override
-		public void opened(Object arg0, @SuppressWarnings("rawtypes") Map arg1) {}
-
-		@Override
-		public void progress(int arg0, long arg1, byte[] arg2, @SuppressWarnings("rawtypes") Map arg3) {
-			if(arg1-time < 500000){
-				time = arg1;
-				if(!view.seeking){
-					view.updateProgressBar(Double.valueOf(time/(songLenght*1000.0)));
-					System.out.println("arg1="+arg1+" - "+songLenght);
-				}
-			}
-//			if(arg1%1000000 < 100000){
-//				System.out.println("arg0="+arg0+" - arg1="+arg1+" - arg2="+arg2+" - arg3+");
-//			}
-		}
-
-		@Override
-		public void setController(BasicController arg0) {}
-
-		@Override
-		public void stateUpdated(BasicPlayerEvent arg0) {}
-		
-	}
-	
-
-	public class TimeSliderListener implements ChangeListener {
-		private MP3View view = null;
-		
-		public TimeSliderListener(MP3View mp3View){
-			view = mp3View;
-		}
-		
-		@Override
-		public void stateChanged(ChangeEvent e) {
-			if(e != null && e.getSource() != null){
-				int newValue = ((JSlider) e.getSource()).getValue();
-				if(view.seeking){
-					System.out.println("stateChanged");
-					seekingTime = newValue * model.getCurrentSongDurationMil();
-//					controller.setTime(newValue * model.getCurrentSongDurationMil());
-				}
-			}
-		}
-		
-	}
 
 	
-	public class TimeSliderMouseListener implements MouseListener {
-		private MP3View view = null;
-		
-		public TimeSliderMouseListener(MP3View mp3View){
-			view = mp3View;
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {}
-
-		@Override
-		public void mouseExited(MouseEvent e) {}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			view.seeking = true;
-			System.out.println(view.seeking+" - "+seekingTime);
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			controller.setTime(seekingTime);
-			view.seeking = false;
-			System.out.println(view.seeking+" - "+seekingTime);
-		}
-	}
-	
-	public void updateProgressBar(double progress){
-		timeSlider.setValue((int) (progress*1000));
-		System.out.println("progress = "+progress);
-	}
-	
-	private static final long serialVersionUID = 1L;
 	MP3ModelInterface model;
 	MP3Controller2 controller = null;
-	Thread progressBarThread = null;
-//	MP3Model.ProgressBarListener progressBarListener = null;
 	//Other
 	DefaultListModel<String> songList = new DefaultListModel<String>();
-//	ScheduledExecutorService timersExec = Executors.newSingleThreadScheduledExecutor();	
-//	ScheduledExecutorService titleExec = Executors.newSingleThreadScheduledExecutor();
-	float currentAudioDurationSec = 0;
-	boolean seeking = false;
-	long seekingTime = -1;
+	
 	//Components
 	JPanel container = new JPanel();
 	JFrame songArt = null;
@@ -190,12 +79,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	JLabel lblplaying = new JLabel();
 	JLabel lblst = new JLabel();
 	JLabel lblet = new JLabel();
-	//SeekBar seekbar = new SeekBar();
 	JFileChooser chooser = new JFileChooser();
-	//Frames
-	//WaveformParallelFrame wff = null;
-	//FFTParallelFrame fdf = null;
-	//public static StatusFrame stf = new StatusFrame();
+	
 	//Icons
 	String frameIconPath = "main/resources/images/frameicon.png";
 	ImageIcon frameIcon = new ImageIcon(getClass().getClassLoader().getResource(frameIconPath));
@@ -411,12 +296,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 				controller.setVolumen(Double.valueOf(((JSlider) e.getSource()).getValue()) / 100.0);
 			}
 		});
-		timeSlider.addChangeListener(new TimeSliderListener(this));
-		timeSlider.addMouseListener(new TimeSliderMouseListener(this));
-		model.addPlayerListener(this, -1);
-//		progressBarListener = MP3Model.ProgressBarListener.getInstance(this);
-//		progressBarThread = new Thread(progressBarListener);
-//		progressBarThread.start();
 	}
 	
 	//Metodo para manejar los eventos dependiendo que boton se toco
