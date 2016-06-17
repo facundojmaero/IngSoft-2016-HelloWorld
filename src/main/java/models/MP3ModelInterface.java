@@ -34,8 +34,6 @@ public interface MP3ModelInterface {
 	
 	void setTime(long time);
 	
-	void addPlayerListener(MP3View mp3View, long t);
-	
 	double getVolumen();
 	
 	boolean setIndex(int index);

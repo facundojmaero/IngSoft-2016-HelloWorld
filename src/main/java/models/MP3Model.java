@@ -364,16 +364,21 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public void removePlayList(int index) {
-		if(this.IsPlaying() && this.getIndex() == index){
-			if(this.getPlaylistSize()>1){
-				this.nextSong();
-			} else {
+		if(!playlist.isEmpty()){
+			//Si solo hay una cancion en la playlist paso al estado empty
+			if (playlist.size() == 1){
 				this.stop();
+				this.setState(empty);
 			}
+			//Si la cancion elegida es la que estoy reproduciendo paso al estado stop
+			else if(this.getIndex() == index){
+				this.stop();
+				this.setState(stopped);
+			}
+			playlist.remove(index); //Borro la cancion en index
+			
 		}
-		if(playlist != null && !playlist.isEmpty()){
-			playlist.remove(index);
-		}
+		this.notifyTrackObservers();
 	}
 
 	@Override
@@ -385,11 +390,6 @@ public class MP3Model implements MP3ModelInterface {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public void addPlayerListener(MP3View mp3View, long t) {
-		this.player.addBasicPlayerListener(MP3View.PlayerListener.getInstance(mp3View, t));
 	}
 	
 }

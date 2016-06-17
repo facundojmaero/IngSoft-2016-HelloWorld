@@ -306,16 +306,13 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 			}
 			else{
 				controller.start();
-				model.addPlayerListener(this, model.getCurrentSongDurationMil());
 			}
 		}
 		else if(event.getSource() == btnPrev){
 			controller.decreaseBPM();
-			model.addPlayerListener(this, model.getCurrentSongDurationMil());
 		}
 		else if(event.getSource() == btnNext){
 			controller.increaseBPM();
-			model.addPlayerListener(this, model.getCurrentSongDurationMil());
 		}
 		else if(event.getSource() == btnAdd){
 		    FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3 Files", "mp3");
