@@ -30,33 +30,34 @@ A continuación se listan las personas a las que se deberá solicitar su aprobac
 Tabla de Contenidos
 ===================
 
-* 1\. [Introducción]()
-    * 1.1\. [Propósito y Alcance]()
-    * 1.2\. [Propósito de las Prácticas del Software Configuration Management Plan]()
-    * 1.3\. [Acrónimos]()
-    * 1.4\. [Herramientas del Configuration Management Plan]()
-* 2\. [Roles de Gestion de Configuraciones]()
-    * 2.1\. [Configuration Manager del Proyecto]()
-    * 2.2\. [Responsabilidades del plan de CM]()
-* 3\. [Gestión de Cambios]()
-    * 3.1\. [Alcance]()
-    * 3.2\. [Módulos de clientes y Releases]()
-        * 3.2.1\. [CCB (Change Control Board)]()
-            * 3.2.1.1\. [Miembros]()
-            * 3.2.1.2\. [Frecuencia]()
-            * 3.2.1.3\. [Herramienta de Gestión de Cambios]()
-* 4\. [Configuration Identification]()
-* 5\. [Equipos de Desarrollo del Proyecto]()
-* 6\.	[Gestión de la Configuración del Código Fuente]()
-    * 6.1\.	[Módulos Centrales]()
-        * 6.1.1\.	[Definición de Ramas]()
-        * 6.1.2\.	[Definición de Tags]()
-        * 6.1.3\.	[Archivos Auxiliares]()
-        * 6.1.4\.	[Estrategia de Merging]()
-        * 6.1.5\.	[Dirección y forma de acceso a las herramientas utilizadas]()
-* 7\.	[Build Management]()
-* 8\.	[Release Management]()
-* 9\.	[Backup y Recuperación de la Información]()
+    1. Introducción
+        1.1. Propósito y Alcance
+        1.2. Propósito de las Prácticas del Software Configuration Management Plan
+        1.3. Acrónimos
+        1.4. Herramientas del Configuration Management Plan
+    2. Roles de Gestion de Configuraciones
+        2.1. Configuration Manager del Proyecto
+        2.2. Responsabilidades del plan de CM
+    3. Gestión de Cambios
+        3.1. Alcance
+        3.2. Módulos de clientes y Releases
+            3.2.1. CCB (Change Control Board)
+                3.2.1.1. Miembros
+                3.2.1.2. Frecuencia
+                3.2.1.3. Herramienta de Gestión de Cambios
+    4. Configuration Identification
+    5. Equipos de Desarrollo del Proyecto
+    6.	Gestión de la Configuración del Código Fuente
+        6.1.	Módulos Centrales
+            6.1.1.	Definición de Ramas
+            6.1.2.	Definición de Tags
+            6.1.3.	Archivos Auxiliares
+            6.1.4.	Estrategia de Merging
+            6.1.5.	Dirección y forma de acceso a las herramientas utilizadas
+    7.	Build Management
+    8.	Release Management
+    9.	Backup y Recuperación de la Información
+
 
 
 ## 1. Introducción
