@@ -194,6 +194,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 	
 	public String getCurrentTrackName(){		
+		if (currentState instanceof EmptyState){
+			return "";
+		}
 		String path = playlist.get(index);
 		Mp3File mp3file = null;
 		try {
@@ -206,6 +209,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 
 	public String getCurrentSongDuration(){
+		if (currentState instanceof EmptyState){
+			return "00:00";
+		}
 		String path = playlist.get(index);
 		Mp3File song = null;
 		try {

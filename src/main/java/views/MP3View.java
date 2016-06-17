@@ -410,10 +410,10 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	@Override
 	public void updatePlaylistInfo() {
 		String[] playlist = model.getCurrentPlaylist();
-		songList.clear(); //Borro la songList que habia y le pido al modelo que me de la nueva(el clear es necesario para evitar duplicados)
-		for(int i=0;i<playlist.length;i++){
-			songList.addElement(playlist[i]);
-		}
+			songList.clear(); //Borro la songList que habia y le pido al modelo que me de la nueva(el clear es necesario para evitar duplicados)
+			for(int i=0;i<playlist.length;i++){
+				songList.addElement(playlist[i]);
+			}
 		jSongList.setSelectedIndex(model.getIndex());
 	}
 }
