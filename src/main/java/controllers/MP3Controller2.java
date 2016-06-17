@@ -59,6 +59,5 @@ public class MP3Controller2 implements ControllerInterface {
 
 	public void removeTrack(int index) {
 		model.removePlayList(index);
-		view.updatePlaylistInfo();
 	}
 }

@@ -36,37 +36,6 @@ public class MP3Model implements MP3ModelInterface {
 	private int index;
 	private double volumen;
 
-	/*
-	public static class ProgressBarListener implements Runnable {
-		private static class ProgressBarListenerHolder {
-			public static ProgressBarListener uniqueProgressBarListener = new ProgressBarListener();
-		}
-		
-		private static MP3View view = null;
-
-		private ProgressBarListener(){}
-		private void setView(MP3View viewInstance){
-			view = viewInstance;
-		}
-		
-		public static ProgressBarListener getInstance(MP3View viewInstance){
-			if(ProgressBarListenerHolder.uniqueProgressBarListener==null){
-				ProgressBarListenerHolder.uniqueProgressBarListener.setView(viewInstance);
-			} else if (view==null){
-				view = viewInstance;
-			}
-			return ProgressBarListenerHolder.uniqueProgressBarListener;
-		}
-		
-		public void run() {
-			while (view.updateProgressBar()) {
-				try {
-					Thread.sleep(500);
-				} catch (Exception e) {}
-			}
-		}
-	}
-	*/
 	
 	private MP3Model(){
 		this.player = new BasicPlayer();
