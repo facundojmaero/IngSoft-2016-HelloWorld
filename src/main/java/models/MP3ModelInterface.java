@@ -32,8 +32,6 @@ public interface MP3ModelInterface {
 
 	void removeObserver(BPMObserver o);
 	
-	void setTime(long time);
-	
 	double getVolumen();
 	
 	boolean setIndex(int index);

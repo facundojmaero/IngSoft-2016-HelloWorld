@@ -355,16 +355,5 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		this.notifyTrackObservers();
 	}
-
-	@Override
-	public void setTime(long time) {
-		if(!(this.currentState instanceof EmptyState) || !(this.currentState instanceof StoppedState)){
-			try {
-				this.player.seek(time/34);
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 }
