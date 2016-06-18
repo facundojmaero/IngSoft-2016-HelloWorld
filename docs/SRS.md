@@ -13,6 +13,7 @@ ___
 |:-------:|----------|--------------------|
 |  1.0.0  | 17/06/16 | Primera versión    |
 |  1.1.0  | 18/06/16 | Agrego Diagramas de Secuencia|
+|  1.2.0  | 18/07/16 | Agrego Diagrama de Actividades|
 
 
 Tabla de Contenidos
@@ -45,7 +46,11 @@ Se muestra a continuación un diagrama de casos de uso del sistema, donde se pue
 
 ![Diagrama de Casos de Uso](https://s32.postimg.org/fie55hfdx/Use_Case_Diagram.jpg)
 
-**Diagramas de Secuencia de Casos de Uso:**
+
+----------
+
+
+**Diagramas de Secuencia: Casos de Uso:**
 
 1- Agregar una canción a la playlist:
  
@@ -67,6 +72,16 @@ Se muestra a continuación un diagrama de casos de uso del sistema, donde se pue
 
 ![Modificar Volumen](http://s33.postimg.org/8ira4xxyn/Case_Volumen.jpg)
 
+
+----------
+
+
+**Diagrama de Actividades:**
+
+![Diagrama de Actividades](http://s33.postimg.org/4s72l8gxb/Diagrama_de_Actividades.jpg)
+
+
+----------
 
 
 #### 3.1 Requerimientos funcionales
