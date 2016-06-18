@@ -17,7 +17,6 @@ public class PlayingState implements MP3State {
 		try {
 			model.getPlayer().pause();
 		} catch (BasicPlayerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.setState(model.getPausedState());
@@ -45,7 +44,6 @@ public class PlayingState implements MP3State {
 		try {
 			model.getPlayer().stop();
 		} catch (BasicPlayerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.setState(model.getStoppedState());

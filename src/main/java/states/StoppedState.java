@@ -1,6 +1,7 @@
 package main.java.states;
 
 import main.java.models.MP3Model;
+import main.java.models.ProgressThread;
 
 public class StoppedState implements MP3State {
 	
