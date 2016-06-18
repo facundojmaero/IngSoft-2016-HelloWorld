@@ -107,11 +107,10 @@ public class MP3Model implements MP3ModelInterface {
 		currentState.paused();
 	}
 
-	@Override
-	public void addPlayList(String Path) {
-		File file = new File(Path);				// Uso la ruta para crear un nuevo File
+	public void addPlayListPath(String path) {
+		File file = new File(path);				// Uso la ruta para crear un nuevo File
 		if (file.isFile()) { 					// Si la ruta es una sola cancion
-			playlist.add(Path);
+			playlist.add(path);
 		} else { 								// Si la ruta es una carpeta con canciones
 			File list[] = file.listFiles();
 			if (list != null) {
@@ -122,8 +121,12 @@ public class MP3Model implements MP3ModelInterface {
 				}
 			}
 		}
-		currentState.addPlaylist();
 		notifyTrackObservers();
+	}
+	
+	@Override
+	public void addPlayList(String path) {
+		currentState.addPlaylist(path);
 	}
 
 	@Override
@@ -291,6 +294,10 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		return playlistArray;
 	}
+
+	public ArrayList<String> getPlaylist() {
+		return this.playlist;
+	}
 	
 	@Override
 	public ID3v2 getSongInfo() {
@@ -326,6 +333,10 @@ public class MP3Model implements MP3ModelInterface {
 	public void clearPlaylist() {
 		playlist.clear();
 //		notifyTrackObservers();
+	}
+	
+	public MP3State getState(){
+		return this.currentState;
 	}
 	
 	public void setState(MP3State newState){

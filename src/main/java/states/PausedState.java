@@ -53,6 +53,8 @@ public class PausedState implements MP3State {
 	public void paused() {}
 
 	@Override
-	public void addPlaylist() {}
+	public void addPlaylist(String path) {
+		model.addPlayListPath(path);
+	}
 
 }

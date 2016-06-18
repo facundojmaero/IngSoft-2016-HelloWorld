@@ -53,7 +53,9 @@ public class PlayingState implements MP3State {
 	
 	//Los siguientes metodos no realizan ninguna accion en el estadoa actual
 	@Override
-	public void addPlaylist() {}
+	public void addPlaylist(String path) {
+		model.addPlayListPath(path);
+	}
 	
 	@Override
 	public void play() {}
