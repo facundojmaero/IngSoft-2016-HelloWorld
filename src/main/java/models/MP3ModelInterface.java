@@ -4,7 +4,6 @@ import com.mpatric.mp3agic.ID3v2;
 
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
-import main.java.views.MP3View;
 import main.java.views.ProgressObserver;
 import main.java.views.TrackObserver;
 
@@ -58,8 +57,6 @@ public interface MP3ModelInterface {
 	ID3v2 getSongInfo();
 
 	ID3v2 getAlbumArt();
-
-	String getCurrentSongTime();
 	
 	void registerObserver(ProgressObserver o);
 	

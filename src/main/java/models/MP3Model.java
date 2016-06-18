@@ -13,7 +13,6 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
-import main.java.views.MP3View;
 import main.java.views.ProgressObserver;
 import main.java.views.TrackObserver;
 import main.java.states.*;
@@ -373,11 +372,6 @@ public class MP3Model implements MP3ModelInterface {
 			
 		}
 		this.notifyTrackObservers();
-	}
-	
-	public String getCurrentSongTime(){
-		String currentTime = "";
-		return currentTime;
 	}
 	
 	public void notifyProgressObservers(int progress) {
