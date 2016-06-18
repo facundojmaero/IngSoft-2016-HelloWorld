@@ -6,13 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -33,18 +30,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import javazoom.jlgui.basicplayer.BasicController;
-import javazoom.jlgui.basicplayer.BasicPlayerEvent;
-import javazoom.jlgui.basicplayer.BasicPlayerListener;
-
-import com.mpatric.mp3agic.ID3v2;
-
 import main.java.controllers.MP3Controller2;
 import main.java.models.MP3ModelInterface;
 
 public class MP3View extends JFrame implements ActionListener, TrackObserver {
-
-
 	
 	MP3ModelInterface model;
 	MP3Controller2 controller = null;
@@ -195,6 +184,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		volSlider.setPaintTicks(true);
 		volSlider.setPaintLabels(false);
 		volSlider.setVisible(true);
+		volSlider.setValue(volSlider.getMaximum());
 		btnMute.setIcon(muteIcon);
 		btnMute.setSize(btn_w,btn_h);
 		volBtns.add(btnMute);
@@ -279,8 +269,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 			controller.stop();
 		}
 		else if(event.getSource() == btnArt){
-			ID3v2 songTag = model.getAlbumArt();
-			byte[] imageData = songTag.getAlbumImage();
+			byte[] imageData = model.getAlbumArt();
             BufferedImage img = null;
 			try {
 				img = ImageIO.read(new ByteArrayInputStream(imageData));
@@ -306,16 +295,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 				songInfo.removeAll();
 				songInfo = null;
 			} else {
-				ID3v2 songTag = model.getSongInfo();
+				DefaultListModel<String> songDetails = model.getSongInfo();
 				songInfo = new JFrame();
-		    	DefaultListModel<String> songDetails = new DefaultListModel<String>();
-		    	songDetails.addElement("Track: " + songTag.getTrack());
-		    	songDetails.addElement("Artist: " + songTag.getArtist());
-		    	songDetails.addElement("Title: " + songTag.getTitle());
-		    	songDetails.addElement("Album: " + songTag.getAlbum());
-		    	songDetails.addElement("Year: " + songTag.getYear());
-		    	songDetails.addElement("Genre: " + songTag.getGenreDescription());
-		
 		    	JList<String> jSongList = new JList<String>(songDetails);
 		    	songInfo.add(jSongList);
 		    	songInfo.setTitle("Song Info");

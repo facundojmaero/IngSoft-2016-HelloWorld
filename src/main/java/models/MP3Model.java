@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -13,7 +15,6 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
-import main.java.views.MP3View;
 import main.java.views.TrackObserver;
 import main.java.states.*;
 
@@ -206,8 +207,11 @@ public class MP3Model implements MP3ModelInterface {
 		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
 			e.printStackTrace();
 		}
-		ID3v2 songTag = mp3file.getId3v2Tag();
-		return songTag.getTitle();
+		String songName = mp3file.getId3v2Tag().getTitle();
+		if(songName==null){
+			return new File(path).getName();
+		}
+		return songName;
 	}
 
 	public String getCurrentSongDuration(){
@@ -254,7 +258,6 @@ public class MP3Model implements MP3ModelInterface {
 	public String[] getCurrentPlaylist() {
 		String[] playlistArray = new String[playlist.size()];
 		Mp3File song = null;
-		ID3v2 songTag = null;
 		for(int i=0;i<playlist.size();i++){
 			String path = playlist.get(i);
 			try {
@@ -262,14 +265,19 @@ public class MP3Model implements MP3ModelInterface {
 			} catch (UnsupportedTagException | InvalidDataException | IOException e) {
 				e.printStackTrace();
 			}
-			songTag = song.getId3v2Tag();
-			playlistArray[i] = songTag.getTitle();
+			String songTitle = song.getId3v2Tag().getTitle();
+			if(songTitle==null){
+				playlistArray[i] = new File(path).getName();
+			}		
+			else{
+				playlistArray[i] = songTitle;
+			}
 		}
 		return playlistArray;
 	}
 	
 	@Override
-	public ID3v2 getSongInfo() {
+	public DefaultListModel<String> getSongInfo() {
 		Mp3File song = null;
 		try {
 			song = new Mp3File(playlist.get(index));
@@ -277,14 +285,21 @@ public class MP3Model implements MP3ModelInterface {
 			e.printStackTrace();
 		}
 		if (song.hasId3v2Tag()) {
-			ID3v2 id3v2Tag = song.getId3v2Tag();
-			return id3v2Tag;
+			ID3v2 songTag = song.getId3v2Tag();
+			DefaultListModel<String> songDetails = new DefaultListModel<String>();
+	    	songDetails.addElement("Track: " + songTag.getTrack());
+	    	songDetails.addElement("Artist: " + songTag.getArtist());
+	    	songDetails.addElement("Title: " + songTag.getTitle());
+	    	songDetails.addElement("Album: " + songTag.getAlbum());
+	    	songDetails.addElement("Year: " + songTag.getYear());
+	    	songDetails.addElement("Genre: " + songTag.getGenreDescription());
+			return songDetails;
 		}
 		return null;
 	}
 	
 	@Override
-	public ID3v2 getAlbumArt(){
+	public byte[] getAlbumArt(){
 		Mp3File song = null;
 		try {
 			song = new Mp3File(playlist.get(index));
@@ -292,8 +307,8 @@ public class MP3Model implements MP3ModelInterface {
 			e.printStackTrace();
 		}
 		if (song.hasId3v2Tag()) {
-			ID3v2 id3v2Tag = song.getId3v2Tag();
-			return id3v2Tag;
+			byte[] albumArt = song.getId3v2Tag().getAlbumImage();
+			return albumArt;
         }
 		return null;
 	}
