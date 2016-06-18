@@ -1,4 +1,4 @@
-10-06-2016
+﻿10-06-2016
 Desarrollador: Facundo Maero
 Merge del branch dev-branch-singleton al branch Master
 Se agregó la funcionalidad: Singleton en el Heart Model
@@ -68,3 +68,10 @@ Merge del branch 0.10.0 al branch Master
 Se agregó la funcionalidad: Ninguna.
 Se corrigió el error: Se corrigieron bugs en la vista para tener una version estable del producto.
 Comentarios: Fue necesario peque–os cambios en en controlador y el modelo para solucionar el problema.
+
+18-06-2016
+Desarrollador: Facundo Maero
+Merge del branch 0.11.0 al branch Master
+Se agregó la funcionalidad: Barra de progreso en sincronia con el progreso de la cancion. Se cuentan los segundos desde que se comenzo a reproducir la pista. Para realizarlo se crearon las clases ProgressThread y ProgressBar.
+Se corrigió el error: Cuando una cancion finaliza, ahora se avanza a la siguiente en la lista automaticamente.
+Comentarios: Para lograr esta funcionalidad se implemento un nuevo tipo de Observer para la vista, por el cual se le notifica que avance la barra de progreso y el tiempo en segundos.
