@@ -73,8 +73,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 	JLabel lblet = new JLabel();
 	JFileChooser chooser = new JFileChooser();
 	
-	JPanel progressPanel;
-	ProgressBar progressBar;
+	JPanel progressPanel = new JPanel();
+	ProgressBar progressBar = new ProgressBar();
 	
 	//Icons
 	String frameIconPath = "main/resources/images/frameicon.png";
@@ -154,14 +154,13 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 		contSlbl.add(lblst);
 		contSlbl.add(lblet);
 		lblst.setText("00:00");
-		lblst.setBorder(new EmptyBorder(0, 0, 0, 300));
+		lblst.setBorder(new EmptyBorder(0, 0, 0, 200));
 		lblet.setText("00:00");
 		container.add(contSlbl);
 		
-		progressPanel = new JPanel();
+		//Progress Panel and ProgressBar
 		progressPanel.setBounds(0, 40, 400, 20);
 		progressPanel.setLayout(null);
-		progressBar = new ProgressBar();
  		progressBar.setBounds(0, 0, 400, 40);
  		progressBar.setMinimumSize(new Dimension(400, 40));
  		progressBar.setVisible(true);

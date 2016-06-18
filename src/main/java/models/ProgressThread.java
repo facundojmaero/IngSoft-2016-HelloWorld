@@ -11,16 +11,19 @@ public class ProgressThread implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 		playing = false;
+		value = 0;
 	}
 	public void run() {
 		while(true) {
+			//Si estoy reproduciendo aumento value
 			if(playing){
 				value++;
+				//Si ya llegue al final de la cancion
 				if(value==maximum+1){
-					model.nextSong();
-					value = 0;
+					model.nextSong(); //Paso a la siguiente
+					value = 0; //Reseteo el valor a 0
 				}
-				model.notifyProgressObservers(value);
+				model.notifyProgressObservers(value); //Cada un segundo notifico a los Progress0bservers
 				try {
 					Thread.sleep(1000);
 				} catch (Exception e) {};	
