@@ -168,18 +168,19 @@ public class PausedStateTest {
 		pauseState.addPlaylist(playListPath + pinkPantherSongName);
 		assertEquals(1, mp3Model.getPlaylistSize());
 		
-		mp3Model.stop();
+		mp3Model.pause();
 		
 		assertNotEquals(this.currentPlaylist.length, mp3Model.getCurrentPlaylist().length);
-		assertEquals(this.index, mp3Model.getIndex());
 		assertEquals(this.player, mp3Model.getPlayer());
-		assertEquals(1, mp3Model.getPlaylistSize());
 		assertTrue(Double.valueOf(this.volumen).equals(mp3Model.getVolumen()));
+		assertEquals(0, mp3Model.getIndex());
+		assertEquals(1, mp3Model.getPlaylistSize());
 		assertFalse(mp3Model.IsPlaying());
 		
 		pauseState.addPlaylist(playListPath + missionImpossibleSongName);
+		assertEquals(0, mp3Model.getIndex());
 		assertEquals(2, mp3Model.getPlaylistSize());
-		assertTrue(mp3Model.IsPlaying());
+		assertFalse(mp3Model.IsPlaying());
 	}
 	
 }
