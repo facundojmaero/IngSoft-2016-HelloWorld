@@ -61,3 +61,10 @@ Merge del branch 0.9.0 al branch Master
 Se agregó la funcionalidad: Patron State.
 Se corrigió el error: no se corrigieron errores.
 Comentarios: Se implemento el patron State al MP3Model. Se creo la interfaz MP3State y las clases que la implementan.
+
+18-06-2016
+Desarrollador: Gustavo Gonzalez
+Merge del branch 1.0.0 al branch Master
+Se agregó la funcionalidad: Ninguna.
+Se corrigió el error: Se corrigieron bugs en la vista para tener una version estable del producto.
+Comentarios: Fue necesario peque–os cambios en en controlador y el modelo para solucionar el problema.
