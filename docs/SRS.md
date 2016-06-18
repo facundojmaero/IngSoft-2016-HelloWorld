@@ -12,6 +12,7 @@ ___
 | Versión | Fecha    | Resumen de cambios |
 |:-------:|----------|--------------------|
 |  1.0.0  | 17/06/16 | Primera versión    |
+|  1.1.0  | 18/06/16 | Agrego Diagramas de Secuencia|
 
 
 Tabla de Contenidos
@@ -42,7 +43,31 @@ Dicho sistema se utilizará para reproducir archivos de audio, permitiendo diver
 ---
 Se muestra a continuación un diagrama de casos de uso del sistema, donde se pueden observar las diferentes interacciones que soporta el mismo.
 
-(Diagrama de caso de uso)
+![Diagrama de Casos de Uso](https://s32.postimg.org/fie55hfdx/Use_Case_Diagram.jpg)
+
+**Diagramas de Secuencia de Casos de Uso:**
+
+1- Agregar una canción a la playlist:
+ 
+![Agregar Canción a la Playlist](http://s33.postimg.org/9mk4p0gfj/Case_Add_Song.jpg)
+
+2- Cambiar de canción en reproducción:
+
+![Cambiar de canción](http://s33.postimg.org/cz5uye81b/Case_Change_Song.jpg)
+
+3- Pausar / Iniciar canción:
+
+![Play/Pausa](http://s33.postimg.org/5ojjdr6en/Case_Play_Pause.jpg)
+
+4- Detener canción:
+
+![Detener canción](http://s33.postimg.org/nm8uvauy7/Case_Stop.jpg)
+
+5- Modificar volumen: 
+
+![Modificar Volumen](http://s33.postimg.org/8ira4xxyn/Case_Volumen.jpg)
+
+
 
 #### 3.1 Requerimientos funcionales
 Se listan los requerimientos funcionales del sistema, seguido de gráficos explicativos de algunos de ellos:
@@ -60,8 +85,6 @@ Se listan los requerimientos funcionales del sistema, seguido de gráficos expli
 11. **Mostrar información:** El sistema debería mostrarle al usuario la información de la canción que se está reproduciendo en una ventana emergente.
 12. **Mostrar portada:** El sistema debería mostrar la portada del álbum que se está reproduciendo.
 13. **Modificar volumen:** El sistema debería permitir al usuario cambiar de volumen.
-
-(Diagramas de secuencia explicativos)
 
 #### 3.2 Requerimientos no funcionales
 
