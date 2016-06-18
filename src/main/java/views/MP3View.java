@@ -340,6 +340,10 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	public void MakePauseIcon(){
 		btnPlay.setIcon(pauseIcon);
 	}
+	
+	public void MakeVolSliderMute(){
+		volSlider.setValue(volSlider.getMinimum());  //Pone la barra de volumen en minimo
+	}
 
 	@Override
 	public void updateTrackInfo() {

@@ -54,6 +54,9 @@ public class MP3Controller2 implements ControllerInterface {
 	
 	public void setVolumen(double volumen){
 		model.setVolumen(volumen);
+		if(volumen == 0){
+			view.MakeVolSliderMute();  //Si se apreto el boton mute(vol=0) actualizo la barra
+		}
 	}
 	
 	
