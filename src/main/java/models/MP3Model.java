@@ -98,6 +98,7 @@ public class MP3Model implements MP3ModelInterface {
 	@Override
 	public void previousSong() {
 		currentState.previousSong();
+		this.setVolumen(volumen);
 		notifyTrackObservers();
 		notifyBPMObservers();
 	}
@@ -105,6 +106,7 @@ public class MP3Model implements MP3ModelInterface {
 	@Override
 	public void nextSong() {
 		currentState.nextSong();
+		this.setVolumen(volumen);
 		notifyTrackObservers();
 		notifyBPMObservers();
 	}
