@@ -33,8 +33,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import main.java.controllers.MP3Controller2;
 import main.java.models.MP3ModelInterface;
 
-public class MP3View extends JFrame implements ActionListener, TrackObserver {
-	
+public class MP3View extends JFrame implements ActionListener, TrackObserver, ProgressObserver {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	MP3ModelInterface model;
 	MP3Controller2 controller = null;
 	//Other
@@ -66,6 +70,9 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	JLabel lblst = new JLabel();
 	JLabel lblet = new JLabel();
 	JFileChooser chooser = new JFileChooser();
+	
+	JPanel progressPanel = new JPanel();
+	ProgressBar progressBar = new ProgressBar();
 	
 	//Icons
 	String frameIconPath = "main/resources/images/frameicon.png";
@@ -106,6 +113,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		this.updatePlaylistInfo();							//Muestra la playlist añadida por defecto en el JScrollPanel
 		this.addListeners();								//Añade EventListener a los botones
 		model.registerObserver((TrackObserver)this);
+		model.registerObserver((ProgressObserver)this);
 	}
 	
 	/**
@@ -144,9 +152,19 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		contSlbl.add(lblst);
 		contSlbl.add(lblet);
 		lblst.setText("00:00");
-		lblst.setBorder(new EmptyBorder(0, 0, 0, 300));
+		lblst.setBorder(new EmptyBorder(0, 0, 0, 200));
 		lblet.setText("00:00");
 		container.add(contSlbl);
+		
+		//Progress Panel and ProgressBar
+		progressPanel.setBounds(0, 40, 400, 20);
+		progressPanel.setLayout(null);
+ 		progressBar.setBounds(0, 0, 400, 40);
+ 		progressBar.setMinimumSize(new Dimension(400, 40));
+ 		progressBar.setVisible(true);
+ 		
+ 		progressPanel.add(progressBar);
+ 		container.add(progressPanel);
 		
 		//Buttons
 		int btn_h = 35;		//altura de los botones
@@ -340,5 +358,20 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 				songList.addElement(playlist[i]);
 			}
 		jSongList.setSelectedIndex(model.getIndex());
+	}
+
+	@Override
+	public void updateTrackProgress(int progress, int size) {
+		if (progress==0){
+			progressBar.reset();
+		}
+		else {
+			progressBar.increase();
+		}
+		progressBar.setMax(size);
+		int minutes = progress/60;
+		int seconds = progress%60;
+		String a = String.format("%02d:%02d", minutes, seconds);
+		lblst.setText(a);
 	}
 }

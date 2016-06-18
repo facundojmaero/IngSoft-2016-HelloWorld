@@ -15,6 +15,7 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
+import main.java.views.ProgressObserver;
 import main.java.views.TrackObserver;
 import main.java.states.*;
 
@@ -27,6 +28,7 @@ public class MP3Model implements MP3ModelInterface {
 	private ArrayList<BPMObserver> bpmObservers;
 	private ArrayList<BeatObserver> beatObservers;
 	private ArrayList<TrackObserver> trackObservers;
+	private ArrayList<ProgressObserver> progressObservers;
 	//States
 	private MP3State currentState;
 	private MP3State playing;
@@ -36,7 +38,8 @@ public class MP3Model implements MP3ModelInterface {
 	//-----------------------------
 	private int index;
 	private double volumen;
-
+	//ProgressThread es un hilo que cuenta segundos
+	private ProgressThread progressThread;
 	
 	private MP3Model(){
 		this.player = new BasicPlayer();
@@ -51,6 +54,9 @@ public class MP3Model implements MP3ModelInterface {
 		this.currentState = empty;
 		this.playlist = new ArrayList<String>();
 		this.trackObservers = new ArrayList<TrackObserver>();
+		this.progressThread = new ProgressThread();
+		progressThread.setModel(this);
+		this.progressObservers = new ArrayList<ProgressObserver>();
 	}
 	
 	public static MP3Model getInstance(){
@@ -70,11 +76,16 @@ public class MP3Model implements MP3ModelInterface {
 		} catch (BasicPlayerException e) {
 			e.printStackTrace();
 		}
+		//Cuando comienzo a reproducir una nueva cancion obtengo su duracion y se la paso al hilo
+		//y le digo que empiece a contar
+		progressThread.setMax(getCurrentSongDurationSec());
+		progressThread.start();
 	}
 
 	@Override
 	public void pause() {
 		currentState.paused();
+		progressThread.stop();
 	}
 
 	@Override
@@ -102,6 +113,9 @@ public class MP3Model implements MP3ModelInterface {
 		this.setVolumen(volumen);
 		notifyTrackObservers();
 		notifyBPMObservers();
+		progressThread.reset();
+		progressThread.setMax(getCurrentSongDurationSec());
+		progressThread.start();
 	}
 
 	@Override
@@ -110,10 +124,15 @@ public class MP3Model implements MP3ModelInterface {
 		this.setVolumen(volumen);
 		notifyTrackObservers();
 		notifyBPMObservers();
+		progressThread.reset();
+		progressThread.setMax(getCurrentSongDurationSec());
+		progressThread.start();
 	}
 
 	@Override
 	public void stop() {
+		progressThread.stop();
+		progressThread.reset();
 		currentState.stop();
 	}
 
@@ -228,11 +247,11 @@ public class MP3Model implements MP3ModelInterface {
 		long duration = song.getLengthInSeconds();
 		int minutes = (int)duration/60;
 		int seconds = (int)duration%60;
-		String songDuration = String.format("%02d:%02d", minutes, seconds);
+		String songDuration = String.format("%02d:%02d", minutes, seconds+1);
 		return songDuration;
 	}
 	
-	public long getCurrentSongDurationMil(){
+	public int getCurrentSongDurationSec(){
 		String path = playlist.get(index);
 		Mp3File song = null;
 		try {
@@ -240,8 +259,8 @@ public class MP3Model implements MP3ModelInterface {
 		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
 			e.printStackTrace();
 		}
-		long duration = song.getLengthInMilliseconds();
-		return duration;
+		int duration = (int)song.getLengthInSeconds();
+		return duration+1;
 	}
 
 	@Override
@@ -373,4 +392,21 @@ public class MP3Model implements MP3ModelInterface {
 		this.notifyTrackObservers();
 	}
 	
+	public void notifyProgressObservers(int progress) {
+		for (int i = 0; i < progressObservers.size(); i++) {
+			ProgressObserver observer = (ProgressObserver) progressObservers.get(i);
+			observer.updateTrackProgress(progress, getCurrentSongDurationSec());
+		}
+	}
+
+	public void registerObserver(ProgressObserver o) {
+		progressObservers.add(o);	
+	}
+	
+	public void removeObserver(ProgressObserver o) {
+		int i = progressObservers.indexOf(o);
+		if (i >= 0) {
+			progressObservers.remove(i);
+		}
+	}
 }

@@ -4,6 +4,7 @@ import javax.swing.DefaultListModel;
 
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
+import main.java.views.ProgressObserver;
 import main.java.views.TrackObserver;
 
 public interface MP3ModelInterface {
@@ -43,7 +44,7 @@ public interface MP3ModelInterface {
 	
 	String getCurrentSongDuration();
 	
-	long getCurrentSongDurationMil();
+	int getCurrentSongDurationSec();
 	
 	String[] getCurrentPlaylist();
 	
@@ -56,5 +57,9 @@ public interface MP3ModelInterface {
 	DefaultListModel<String> getSongInfo();
 
 	byte[] getAlbumArt();
+	
+	void registerObserver(ProgressObserver o);
+	
+	void removeObserver (ProgressObserver o);
 	
 }
