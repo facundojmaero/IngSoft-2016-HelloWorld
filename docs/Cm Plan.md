@@ -1,4 +1,4 @@
-﻿# Grupo Hello World
+# Grupo Hello World
 ### Trabajo Final - Reproductor Mp3
 ### Configuration Management Plan
 ___
