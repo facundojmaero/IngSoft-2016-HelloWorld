@@ -14,6 +14,7 @@ import main.java.models.MP3Model;
 import main.java.states.MP3State;
 
 public class PlayingStateTest {
+	/*
 	private MP3Model mp3Model = null;
 	private MP3State playingState = null;
 	private String playListPath = "src/main/resources/default songs/";
@@ -207,5 +208,5 @@ public class PlayingStateTest {
 		assertTrue(Double.valueOf(newVolume).equals(mp3Model.getVolumen()));
 		assertTrue(mp3Model.IsPlaying());
 	}
-	
+	*/
 }
