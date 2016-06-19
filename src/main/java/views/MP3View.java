@@ -6,13 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -33,147 +30,29 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import javazoom.jlgui.basicplayer.BasicController;
-import javazoom.jlgui.basicplayer.BasicPlayerEvent;
-import javazoom.jlgui.basicplayer.BasicPlayerListener;
-
-import com.mpatric.mp3agic.ID3v2;
-
 import main.java.controllers.MP3Controller2;
 import main.java.models.MP3ModelInterface;
 
-public class MP3View extends JFrame implements ActionListener, TrackObserver {
+public class MP3View extends JFrame implements ActionListener, TrackObserver, ProgressObserver {
 
-	public static class PlayerListener implements BasicPlayerListener {
-		private static class PlayerListenerHolder {
-			public static PlayerListener uniquePlayerListener = new PlayerListener();
-		}
-		
-		private static long time = -1;
-		private static long songLenght = -1;
-		private static MP3View view = null;
-
-		private PlayerListener(){}
-		private void setSongLength(long t){
-			songLenght = t;
-		}
-		private void setView(MP3View mp3View){
-			view = mp3View;
-		}
-		
-		public static PlayerListener getInstance(MP3View mp3View, long t){
-			PlayerListenerHolder.uniquePlayerListener.setSongLength(t);
-			PlayerListenerHolder.uniquePlayerListener.setView(mp3View);
-			return PlayerListenerHolder.uniquePlayerListener;
-		}
-		
-		@Override
-		public void opened(Object arg0, @SuppressWarnings("rawtypes") Map arg1) {}
-
-		@Override
-		public void progress(int arg0, long arg1, byte[] arg2, @SuppressWarnings("rawtypes") Map arg3) {
-			if(arg1-time < 500000){
-				time = arg1;
-				if(!view.seeking){
-					view.updateProgressBar(Double.valueOf(time/(songLenght*1000.0)));
-					System.out.println("arg1="+arg1+" - "+songLenght);
-				}
-			}
-//			if(arg1%1000000 < 100000){
-//				System.out.println("arg0="+arg0+" - arg1="+arg1+" - arg2="+arg2+" - arg3+");
-//			}
-		}
-
-		@Override
-		public void setController(BasicController arg0) {}
-
-		@Override
-		public void stateUpdated(BasicPlayerEvent arg0) {}
-		
-	}
-	
-
-	public class TimeSliderListener implements ChangeListener {
-		private MP3View view = null;
-		
-		public TimeSliderListener(MP3View mp3View){
-			view = mp3View;
-		}
-		
-		@Override
-		public void stateChanged(ChangeEvent e) {
-			if(e != null && e.getSource() != null){
-				int newValue = ((JSlider) e.getSource()).getValue();
-				if(view.seeking){
-					System.out.println("stateChanged");
-					seekingTime = newValue * model.getCurrentSongDurationMil();
-//					controller.setTime(newValue * model.getCurrentSongDurationMil());
-				}
-			}
-		}
-		
-	}
-
-	
-	public class TimeSliderMouseListener implements MouseListener {
-		private MP3View view = null;
-		
-		public TimeSliderMouseListener(MP3View mp3View){
-			view = mp3View;
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {}
-
-		@Override
-		public void mouseExited(MouseEvent e) {}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			view.seeking = true;
-			System.out.println(view.seeking+" - "+seekingTime);
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			controller.setTime(seekingTime);
-			view.seeking = false;
-			System.out.println(view.seeking+" - "+seekingTime);
-		}
-	}
-	
-	public void updateProgressBar(double progress){
-		timeSlider.setValue((int) (progress*1000));
-		System.out.println("progress = "+progress);
-	}
-	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	MP3ModelInterface model;
 	MP3Controller2 controller = null;
-	Thread progressBarThread = null;
-//	MP3Model.ProgressBarListener progressBarListener = null;
 	//Other
 	DefaultListModel<String> songList = new DefaultListModel<String>();
-//	ScheduledExecutorService timersExec = Executors.newSingleThreadScheduledExecutor();	
-//	ScheduledExecutorService titleExec = Executors.newSingleThreadScheduledExecutor();
-	float currentAudioDurationSec = 0;
-	boolean seeking = false;
-	long seekingTime = -1;
+	
 	//Components
 	JPanel container = new JPanel();
 	JFrame songArt = null;
 	JFrame songInfo = null;
 	JSlider volSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-	JSlider timeSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 0);
 	JButton btnPlay = new JButton();
 	JButton btnAdd = new JButton();
 	JButton btnNext = new JButton();
 	JButton btnPrev = new JButton();
-//	JButton btnVolUp = new JButton();
-//	JButton btnVolDown = new JButton();
 	JButton btnMute = new JButton();
 	JButton btnCover = new JButton();
 	JButton btnShSt = new JButton();
@@ -190,12 +69,11 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	JLabel lblplaying = new JLabel();
 	JLabel lblst = new JLabel();
 	JLabel lblet = new JLabel();
-	//SeekBar seekbar = new SeekBar();
 	JFileChooser chooser = new JFileChooser();
-	//Frames
-	//WaveformParallelFrame wff = null;
-	//FFTParallelFrame fdf = null;
-	//public static StatusFrame stf = new StatusFrame();
+	
+	JPanel progressPanel = new JPanel();
+	ProgressBar progressBar = new ProgressBar();
+	
 	//Icons
 	String frameIconPath = "main/resources/images/frameicon.png";
 	ImageIcon frameIcon = new ImageIcon(getClass().getClassLoader().getResource(frameIconPath));
@@ -235,6 +113,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		this.updatePlaylistInfo();							//Muestra la playlist añadida por defecto en el JScrollPanel
 		this.addListeners();								//Añade EventListener a los botones
 		model.registerObserver((TrackObserver)this);
+		model.registerObserver((ProgressObserver)this);
 	}
 	
 	/**
@@ -262,10 +141,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		panelNP.setToolTipText("Now Playing");
 		panelNP.setBorder(BorderFactory.createMatteBorder(1, 0, 2, 0, Color.gray));
 		panelNP.setBounds(5, 0, _W-15, 20);
-		//JLabel lblnp = new JLabel("Now Playing:");
 		lblplaying.setText("Now Playing: ");
 		lblplaying.setBounds(5, 0, 100, 40);
-		//panelNP.add(lblnp);
 		panelNP.add(lblplaying);
 		container.add(panelNP);
 		
@@ -275,26 +152,19 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		contSlbl.add(lblst);
 		contSlbl.add(lblet);
 		lblst.setText("00:00");
-		lblst.setBorder(new EmptyBorder(0, 0, 0, 300));
+		lblst.setBorder(new EmptyBorder(0, 0, 0, 200));
 		lblet.setText("00:00");
 		container.add(contSlbl);
 		
-		
-		//Panel para los botones prev,play,stop y next
-		JPanel contTime = new JPanel();
-		contTime.setBounds(0, 40, 400, 40);
-		contTime.setLayout(null);
-
-		timeSlider.setBounds(0, 0, 400, 40);
-		timeSlider.setMinimumSize(new Dimension(400, 40));
-		timeSlider.setMinorTickSpacing(10);
-		timeSlider.setMajorTickSpacing(100);
-		timeSlider.setPaintTicks(true);
-		timeSlider.setPaintLabels(false);
-		timeSlider.setVisible(true);
-		
-		contTime.add(timeSlider);
-		container.add(contTime);
+		//Progress Panel and ProgressBar
+		progressPanel.setBounds(0, 40, 400, 20);
+		progressPanel.setLayout(null);
+ 		progressBar.setBounds(0, 0, 400, 40);
+ 		progressBar.setMinimumSize(new Dimension(400, 40));
+ 		progressBar.setVisible(true);
+ 		
+ 		progressPanel.add(progressBar);
+ 		container.add(progressPanel);
 		
 		//Buttons
 		int btn_h = 35;		//altura de los botones
@@ -332,18 +202,11 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		volSlider.setPaintTicks(true);
 		volSlider.setPaintLabels(false);
 		volSlider.setVisible(true);
+		volSlider.setValue(volSlider.getMaximum());
 		btnMute.setIcon(muteIcon);
 		btnMute.setSize(btn_w,btn_h);
 		volBtns.add(btnMute);
 		volBtns.add(volSlider);
-		/*
-		btnVolDown.setIcon(volDownIcon);
-		btnVolDown.setSize(btn_w,btn_h);
-		volBtns.add(btnVolDown);
-		btnVolUp.setIcon(volUpIcon);
-		btnVolUp.setSize(btn_w,btn_h);
-		volBtns.add(btnVolUp);
-		*/
 		container.add(volBtns);
 		
 		//Panel para botones de ver info, agregar y borrar playlist
@@ -362,22 +225,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		configBtns.add(btnDelete);
 		configBtns.add(btnInfo);
 		configBtns.add(btnArt);
-		container.add(configBtns);
-		
-		//Panel para botones de volumen
-		/*
-		JPanel volBar = new JPanel();
-		volBar.setBounds(0, 200, 320, 30);
-		volSlider.setSize(new Dimension(100,20));
-		volSlider.setMinorTickSpacing(2);
-		volSlider.setMajorTickSpacing(10);
-		volSlider.setPaintTicks(true);
-		volSlider.setPaintLabels(true);
-		volSlider.setVisible(true);		
-		volBar.add(volSlider);
-		container.add(volBar);
-		*/
-		
+		container.add(configBtns);		
 		
 		//SongList
 		int h_list = 150;
@@ -387,10 +235,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		listScroller.setPreferredSize(new Dimension(_W-10,h_list));
 		listScroller.setBounds(0, line3, _W-10, h_list);
 		container.add(listScroller);
-		//container.add(jSongList);
-		//SeekBar
-		//seekbar.setBounds(5, 10, _W-15, 10);
-		//container.add(seekbar);
 	}
 	
 	private void addListeners(){
@@ -403,20 +247,11 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		btnArt.addActionListener(this);
 		btnInfo.addActionListener(this);
 		btnDelete.addActionListener(this);
-//		Se cambio por volSlider
-//		btnVolUp.addActionListener(this);
-//		btnVolDown.addActionListener(this);
 		volSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				controller.setVolumen(Double.valueOf(((JSlider) e.getSource()).getValue()) / 100.0);
 			}
 		});
-		timeSlider.addChangeListener(new TimeSliderListener(this));
-		timeSlider.addMouseListener(new TimeSliderMouseListener(this));
-		model.addPlayerListener(this, -1);
-//		progressBarListener = MP3Model.ProgressBarListener.getInstance(this);
-//		progressBarThread = new Thread(progressBarListener);
-//		progressBarThread.start();
 	}
 	
 	//Metodo para manejar los eventos dependiendo que boton se toco
@@ -427,16 +262,13 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 			}
 			else{
 				controller.start();
-				model.addPlayerListener(this, model.getCurrentSongDurationMil());
 			}
 		}
 		else if(event.getSource() == btnPrev){
 			controller.decreaseBPM();
-			model.addPlayerListener(this, model.getCurrentSongDurationMil());
 		}
 		else if(event.getSource() == btnNext){
 			controller.increaseBPM();
-			model.addPlayerListener(this, model.getCurrentSongDurationMil());
 		}
 		else if(event.getSource() == btnAdd){
 		    FileNameExtensionFilter filter = new FileNameExtensionFilter("mp3 Files", "mp3");
@@ -455,8 +287,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 			controller.stop();
 		}
 		else if(event.getSource() == btnArt){
-			ID3v2 songTag = model.getAlbumArt();
-			byte[] imageData = songTag.getAlbumImage();
+			byte[] imageData = model.getAlbumArt();
             BufferedImage img = null;
 			try {
 				img = ImageIO.read(new ByteArrayInputStream(imageData));
@@ -482,16 +313,8 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 				songInfo.removeAll();
 				songInfo = null;
 			} else {
-				ID3v2 songTag = model.getSongInfo();
+				DefaultListModel<String> songDetails = model.getSongInfo();
 				songInfo = new JFrame();
-		    	DefaultListModel<String> songDetails = new DefaultListModel<String>();
-		    	songDetails.addElement("Track: " + songTag.getTrack());
-		    	songDetails.addElement("Artist: " + songTag.getArtist());
-		    	songDetails.addElement("Title: " + songTag.getTitle());
-		    	songDetails.addElement("Album: " + songTag.getAlbum());
-		    	songDetails.addElement("Year: " + songTag.getYear());
-		    	songDetails.addElement("Genre: " + songTag.getGenreDescription());
-		
 		    	JList<String> jSongList = new JList<String>(songDetails);
 		    	songInfo.add(jSongList);
 		    	songInfo.setTitle("Song Info");
@@ -503,14 +326,6 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 		else if(event.getSource() == btnDelete){
 			controller.removeTrack(jSongList.getSelectedIndex());
 		}
-		/*
-		else if(event.getSource() == btnVolUp){
-			controller.increaseVolumen();
-		}
-		else if(event.getSource() == btnVolDown){
-			controller.decreaseVolumen();
-		}
-		*/
 	}
 	
 	public void setController(MP3Controller2 controller){
@@ -524,6 +339,10 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	public void MakePauseIcon(){
 		btnPlay.setIcon(pauseIcon);
 	}
+	
+	public void MakeVolSliderMute(){
+		volSlider.setValue(volSlider.getMinimum());  //Pone la barra de volumen en minimo
+	}
 
 	@Override
 	public void updateTrackInfo() {
@@ -534,10 +353,25 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver {
 	@Override
 	public void updatePlaylistInfo() {
 		String[] playlist = model.getCurrentPlaylist();
-		songList.clear(); //Borro la songList que habia y le pido al modelo que me de la nueva(el clear es necesario para evitar duplicados)
-		for(int i=0;i<playlist.length;i++){
-			songList.addElement(playlist[i]);
-		}
+			songList.clear(); //Borro la songList que habia y le pido al modelo que me de la nueva(el clear es necesario para evitar duplicados)
+			for(int i=0;i<playlist.length;i++){
+				songList.addElement(playlist[i]);
+			}
 		jSongList.setSelectedIndex(model.getIndex());
+	}
+
+	@Override
+	public void updateTrackProgress(int progress, int size) {
+		if (progress==0){
+			progressBar.reset();
+		}
+		else {
+			progressBar.increase();
+		}
+		progressBar.setMax(size);
+		int minutes = progress/60;
+		int seconds = progress%60;
+		String a = String.format("%02d:%02d", minutes, seconds);
+		lblst.setText(a);
 	}
 }

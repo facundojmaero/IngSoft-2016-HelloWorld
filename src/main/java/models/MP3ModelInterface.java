@@ -1,10 +1,10 @@
 package main.java.models;
 
-import com.mpatric.mp3agic.ID3v2;
+import javax.swing.DefaultListModel;
 
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
-import main.java.views.MP3View;
+import main.java.views.ProgressObserver;
 import main.java.views.TrackObserver;
 
 public interface MP3ModelInterface {
@@ -32,10 +32,6 @@ public interface MP3ModelInterface {
 
 	void removeObserver(BPMObserver o);
 	
-	void setTime(long time);
-	
-	void addPlayerListener(MP3View mp3View, long t);
-	
 	double getVolumen();
 	
 	boolean setIndex(int index);
@@ -48,7 +44,7 @@ public interface MP3ModelInterface {
 	
 	String getCurrentSongDuration();
 	
-	long getCurrentSongDurationMil();
+	int getCurrentSongDurationSec();
 	
 	String[] getCurrentPlaylist();
 	
@@ -58,8 +54,12 @@ public interface MP3ModelInterface {
 
 	void clearPlaylist();
 
-	ID3v2 getSongInfo();
+	DefaultListModel<String> getSongInfo();
 
-	ID3v2 getAlbumArt();
+	byte[] getAlbumArt();
+	
+	void registerObserver(ProgressObserver o);
+	
+	void removeObserver (ProgressObserver o);
 	
 }

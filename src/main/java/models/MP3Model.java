@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -13,7 +15,7 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import main.java.views.BPMObserver;
 import main.java.views.BeatObserver;
-import main.java.views.MP3View;
+import main.java.views.ProgressObserver;
 import main.java.views.TrackObserver;
 import main.java.states.*;
 
@@ -26,6 +28,7 @@ public class MP3Model implements MP3ModelInterface {
 	private ArrayList<BPMObserver> bpmObservers;
 	private ArrayList<BeatObserver> beatObservers;
 	private ArrayList<TrackObserver> trackObservers;
+	private ArrayList<ProgressObserver> progressObservers;
 	//States
 	private MP3State currentState;
 	private MP3State playing;
@@ -35,38 +38,8 @@ public class MP3Model implements MP3ModelInterface {
 	//-----------------------------
 	private int index;
 	private double volumen;
-
-	/*
-	public static class ProgressBarListener implements Runnable {
-		private static class ProgressBarListenerHolder {
-			public static ProgressBarListener uniqueProgressBarListener = new ProgressBarListener();
-		}
-		
-		private static MP3View view = null;
-
-		private ProgressBarListener(){}
-		private void setView(MP3View viewInstance){
-			view = viewInstance;
-		}
-		
-		public static ProgressBarListener getInstance(MP3View viewInstance){
-			if(ProgressBarListenerHolder.uniqueProgressBarListener==null){
-				ProgressBarListenerHolder.uniqueProgressBarListener.setView(viewInstance);
-			} else if (view==null){
-				view = viewInstance;
-			}
-			return ProgressBarListenerHolder.uniqueProgressBarListener;
-		}
-		
-		public void run() {
-			while (view.updateProgressBar()) {
-				try {
-					Thread.sleep(500);
-				} catch (Exception e) {}
-			}
-		}
-	}
-	*/
+	//ProgressThread es un hilo que cuenta segundos
+	private ProgressThread progressThread;
 	
 	private MP3Model(){
 		this.player = new BasicPlayer();
@@ -81,6 +54,9 @@ public class MP3Model implements MP3ModelInterface {
 		this.currentState = empty;
 		this.playlist = new ArrayList<String>();
 		this.trackObservers = new ArrayList<TrackObserver>();
+		this.progressThread = new ProgressThread();
+		progressThread.setModel(this);
+		this.progressObservers = new ArrayList<ProgressObserver>();
 	}
 	
 	public static MP3Model getInstance(){
@@ -100,11 +76,16 @@ public class MP3Model implements MP3ModelInterface {
 		} catch (BasicPlayerException e) {
 			e.printStackTrace();
 		}
+		//Cuando comienzo a reproducir una nueva cancion obtengo su duracion y se la paso al hilo
+		//y le digo que empiece a contar
+		progressThread.setMax(getCurrentSongDurationSec());
+		progressThread.start();
 	}
 
 	@Override
 	public void pause() {
 		currentState.paused();
+		progressThread.stop();
 	}
 
 	public void addPlayListPath(String path) {
@@ -132,19 +113,29 @@ public class MP3Model implements MP3ModelInterface {
 	@Override
 	public void previousSong() {
 		currentState.previousSong();
+		this.setVolumen(volumen);
 		notifyTrackObservers();
 		notifyBPMObservers();
+		progressThread.reset();
+		progressThread.setMax(getCurrentSongDurationSec());
+		progressThread.start();
 	}
 
 	@Override
 	public void nextSong() {
 		currentState.nextSong();
+		this.setVolumen(volumen);
 		notifyTrackObservers();
 		notifyBPMObservers();
+		progressThread.reset();
+		progressThread.setMax(getCurrentSongDurationSec());
+		progressThread.start();
 	}
 
 	@Override
 	public void stop() {
+		progressThread.stop();
+		progressThread.reset();
 		currentState.stop();
 	}
 
@@ -229,6 +220,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 	
 	public String getCurrentTrackName(){		
+		if (currentState instanceof EmptyState){
+			return "";
+		}
 		String path = playlist.get(index);
 		Mp3File mp3file = null;
 		try {
@@ -236,11 +230,17 @@ public class MP3Model implements MP3ModelInterface {
 		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
 			e.printStackTrace();
 		}
-		ID3v2 songTag = mp3file.getId3v2Tag();
-		return songTag.getTitle();
+		String songName = mp3file.getId3v2Tag().getTitle();
+		if(songName==null){
+			return new File(path).getName();
+		}
+		return songName;
 	}
 
 	public String getCurrentSongDuration(){
+		if (currentState instanceof EmptyState){
+			return "00:00";
+		}
 		String path = playlist.get(index);
 		Mp3File song = null;
 		try {
@@ -251,11 +251,11 @@ public class MP3Model implements MP3ModelInterface {
 		long duration = song.getLengthInSeconds();
 		int minutes = (int)duration/60;
 		int seconds = (int)duration%60;
-		String songDuration = String.format("%02d:%02d", minutes, seconds);
+		String songDuration = String.format("%02d:%02d", minutes, seconds+1);
 		return songDuration;
 	}
 	
-	public long getCurrentSongDurationMil(){
+	public int getCurrentSongDurationSec(){
 		String path = playlist.get(index);
 		Mp3File song = null;
 		try {
@@ -263,8 +263,8 @@ public class MP3Model implements MP3ModelInterface {
 		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
 			e.printStackTrace();
 		}
-		long duration = song.getLengthInMilliseconds();
-		return duration;
+		int duration = (int)song.getLengthInSeconds();
+		return duration+1;
 	}
 
 	@Override
@@ -281,7 +281,6 @@ public class MP3Model implements MP3ModelInterface {
 	public String[] getCurrentPlaylist() {
 		String[] playlistArray = new String[playlist.size()];
 		Mp3File song = null;
-		ID3v2 songTag = null;
 		for(int i=0;i<playlist.size();i++){
 			String path = playlist.get(i);
 			try {
@@ -289,8 +288,13 @@ public class MP3Model implements MP3ModelInterface {
 			} catch (UnsupportedTagException | InvalidDataException | IOException e) {
 				e.printStackTrace();
 			}
-			songTag = song.getId3v2Tag();
-			playlistArray[i] = songTag.getTitle();
+			String songTitle = song.getId3v2Tag().getTitle();
+			if(songTitle==null){
+				playlistArray[i] = new File(path).getName();
+			}		
+			else{
+				playlistArray[i] = songTitle;
+			}
 		}
 		return playlistArray;
 	}
@@ -300,7 +304,7 @@ public class MP3Model implements MP3ModelInterface {
 	}
 	
 	@Override
-	public ID3v2 getSongInfo() {
+	public DefaultListModel<String> getSongInfo() {
 		Mp3File song = null;
 		try {
 			song = new Mp3File(playlist.get(index));
@@ -308,14 +312,21 @@ public class MP3Model implements MP3ModelInterface {
 			e.printStackTrace();
 		}
 		if (song.hasId3v2Tag()) {
-			ID3v2 id3v2Tag = song.getId3v2Tag();
-			return id3v2Tag;
+			ID3v2 songTag = song.getId3v2Tag();
+			DefaultListModel<String> songDetails = new DefaultListModel<String>();
+	    	songDetails.addElement("Track: " + songTag.getTrack());
+	    	songDetails.addElement("Artist: " + songTag.getArtist());
+	    	songDetails.addElement("Title: " + songTag.getTitle());
+	    	songDetails.addElement("Album: " + songTag.getAlbum());
+	    	songDetails.addElement("Year: " + songTag.getYear());
+	    	songDetails.addElement("Genre: " + songTag.getGenreDescription());
+			return songDetails;
 		}
 		return null;
 	}
 	
 	@Override
-	public ID3v2 getAlbumArt(){
+	public byte[] getAlbumArt(){
 		Mp3File song = null;
 		try {
 			song = new Mp3File(playlist.get(index));
@@ -323,8 +334,8 @@ public class MP3Model implements MP3ModelInterface {
 			e.printStackTrace();
 		}
 		if (song.hasId3v2Tag()) {
-			ID3v2 id3v2Tag = song.getId3v2Tag();
-			return id3v2Tag;
+			byte[] albumArt = song.getId3v2Tag().getAlbumImage();
+			return albumArt;
         }
 		return null;
 	}
@@ -378,32 +389,38 @@ public class MP3Model implements MP3ModelInterface {
 
 	@Override
 	public void removePlayList(int index) {
-		if(this.IsPlaying() && this.getIndex() == index){
-			if(this.getPlaylistSize()>1){
-				this.nextSong();
-			} else {
+		if(!playlist.isEmpty()){
+			//Si solo hay una cancion en la playlist paso al estado empty
+			if (playlist.size() == 1){
 				this.stop();
+				this.setState(empty);
 			}
-		}
-		if(playlist != null && !playlist.isEmpty()){
-			playlist.remove(index);
-		}
-	}
-
-	@Override
-	public void setTime(long time) {
-		if(!(this.currentState instanceof EmptyState) || !(this.currentState instanceof StoppedState)){
-			try {
-				this.player.seek(time/34);
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
+			//Si la cancion elegida es la que estoy reproduciendo paso al estado stop
+			else if(this.getIndex() == index){
+				this.stop();
+				this.setState(stopped);
 			}
+			playlist.remove(index); //Borro la cancion en index
+			
 		}
-	}
-
-	@Override
-	public void addPlayerListener(MP3View mp3View, long t) {
-		this.player.addBasicPlayerListener(MP3View.PlayerListener.getInstance(mp3View, t));
+		this.notifyTrackObservers();
 	}
 	
+	public void notifyProgressObservers(int progress) {
+		for (int i = 0; i < progressObservers.size(); i++) {
+			ProgressObserver observer = (ProgressObserver) progressObservers.get(i);
+			observer.updateTrackProgress(progress, getCurrentSongDurationSec());
+		}
+	}
+
+	public void registerObserver(ProgressObserver o) {
+		progressObservers.add(o);	
+	}
+	
+	public void removeObserver(ProgressObserver o) {
+		int i = progressObservers.indexOf(o);
+		if (i >= 0) {
+			progressObservers.remove(i);
+		}
+	}
 }

@@ -1,4 +1,4 @@
-﻿# Grupo Hello World
+# Grupo Hello World
 ### Trabajo Final - Reproductor Mp3
 ### Configuration Management Plan
 ___
@@ -14,6 +14,7 @@ ___
 |  1.0.0  | 10/06/16 | Primera versión    |
 |  1.1.0  | 12/06/16 | Pequeños cambios generales |
 | 1.1.1   | 12/06/16 | Correcciones en las imagenes |
+1.2.0    | 17/06/2016| Agrego ramas Test y correcciones
 
 ### Página de Aprobación
 
@@ -183,7 +184,7 @@ El gráfico siguiente muestra el esquema de ramificado que será seguido en los 
 
 ![alt text][branch strategy]
 
-[branch strategy]: http://s33.postimg.org/r10ji6qnz/branch_strategy.jpg "Branch Strategy"
+[branch strategy]: http://s33.postimg.org/k81vmdzxr/branch_strategy.jpg "Branch Strategy"
 
 #### 6.1.1. Definición de Ramas:
 
@@ -197,6 +198,9 @@ Ej: dev-branch-singleton, dev-branch-controlador-mp3, etc.
 * **Hotfix Branch**: son las ramas que pueden ser utilizadas para corregir errores o bugs detectados en el código, aislando el problema y así pudiendo continuar con el desarrollo en las ramas de desarrollo. Se les dará el nombre de hotfix-branch-feature.  
 Por ejemplo: hotfix-branch-singleton.
 
+* **Test Branch**: son las ramas de desarrollo de tests. Se diferencian de las ramas de desarrollo en que se realizan pruebas sobre las clases del proyecto, y se crean clases para utilizar con la herramienta JUnit. Se les dará el nombre de test-branch-feature. Se admite generar varios tests sobre diferentes clases en una misma rama.
+Por ejemplo: test-branch-model.
+
 Luego de definir los tipos de ramas, queda claro que la principal motivación al utilizar este esquema es mantener aislado el código inestable y bajo desarrollo del código estable y potencial a ser lanzado como producto final. 
 
 Es posible que se realicen desarrollos de nuevas características en la rama Master, sobre todo en una primera instancia, cuando el producto no tiene una estructura definida y no está cerca de un release inicial.
@@ -207,7 +211,12 @@ Es posible que se realicen desarrollos de nuevas características en la rama Mas
 El identificador representa las versiones del código puesto en configuración en esa rama, comenzando por el 0.1.0, luego el 0.2.0. Esta numeración será utilizada en la mayoría de los casos, cuando el nuevo contenido del archivo amerite un cambio de nomenclatura. 
 
 * **Hotfix Tags**: usados en las ramas de hotfix, permiten identificar la versión de la misma previa al merge con la rama de donde se creó, permitiendo saber que el problema está resuelto y que puede continuarse el desarrollo normalmente.  
-El identificador usado seguirá la sintaxis: 0.x.0-hotfix, para dejar claro que no es un tag de desarrollo, sino uno de corrección de errores.
+El identificador usado seguirá la sintaxis: v.0.x.0-hotfix, para dejar claro que no es un tag de desarrollo, sino uno de corrección de errores.
+
+* **Test Tags**: usados en las ramas de testing. Se aplican cuando los archivos creados en la rama alcanzaron un nivel aceptable, y se pueden integrar al master para utilizarlos para testear otras clases del proyecto.
+El identificador usado seguirá la sintaxis: v.0.x.0-test.
+
+* **Release Tags**: se utilizan en el MASTER para especificar que los archivos del proyecto alcanzaron un estado entregable. El identificador usado seguirá la sintaxis: v.x.x.x, con l elección de la numeración dependiendo de la magnitud del release.
 
 ##### 6.1.3. Archivos Auxiliares:
 

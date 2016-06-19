@@ -175,32 +175,34 @@ public class DJView implements ActionListener,  BeatObserver, BPMObserver {
 		else{
 			//Si presiono heartMenuItem cambio al modelo heartmodel
 			if (event.getSource() == heartMenuItem) {
-			model.removeObserver((BPMObserver)this);
-			model.removeObserver((BeatObserver)this);
-			setModel(new HeartAdapter(HeartModel.getInstance()));
-			model.registerObserver((BPMObserver)this);
-			model.registerObserver((BeatObserver)this);
-			setController(new HeartController(HeartModel.getInstance(),this));
+				controller.stop();  //Paro el modelo anterior(Si estaba reproduciendo un mp3 detengo la reproduccion)
+				model.removeObserver((BPMObserver)this);
+				model.removeObserver((BeatObserver)this);
+				setModel(new HeartAdapter(HeartModel.getInstance()));
+				model.registerObserver((BPMObserver)this);
+				model.registerObserver((BeatObserver)this);
+				setController(new HeartController(HeartModel.getInstance(),this));
 			}
 			//Si presiono djMenuItem cambio al modelo beatmodel
 			if (event.getSource() == djMenuItem) {
-			model.removeObserver((BPMObserver)this);
-			model.removeObserver((BeatObserver)this);
-			setModel(new BeatModel());
-			model.registerObserver((BPMObserver)this);
-			model.registerObserver((BeatObserver)this);
-			setController(new BeatController(model,this));
+				controller.stop();
+				model.removeObserver((BPMObserver)this);
+				model.removeObserver((BeatObserver)this);
+				setModel(new BeatModel());
+				model.registerObserver((BPMObserver)this);
+				model.registerObserver((BeatObserver)this);
+				setController(new BeatController(model,this));
 			}
 			//Si presiono mp3MenuItem cambio al modelo propio
 			if (event.getSource() == mp3MenuItem) {
-			controller.stop();
-			model.removeObserver((BPMObserver)this);
-			model.removeObserver((BeatObserver)this);
-			MP3Model mp3model = MP3Model.getInstance();
-			setModel(new MP3Adapter(mp3model));
-			model.registerObserver((BPMObserver)this);
-			model.registerObserver((BeatObserver)this);
-			setController(new MP3Controller(mp3model,this));
+				controller.stop();
+				model.removeObserver((BPMObserver)this);
+				model.removeObserver((BeatObserver)this);
+				MP3Model mp3model = MP3Model.getInstance();
+				setModel(new MP3Adapter(mp3model));
+				model.registerObserver((BPMObserver)this);
+				model.registerObserver((BeatObserver)this);
+				setController(new MP3Controller(mp3model,this));
 			}
 			
 			//Al final siempre habilito los botones para cambiar de modelo 
