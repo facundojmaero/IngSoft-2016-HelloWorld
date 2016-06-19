@@ -11,8 +11,17 @@ public class EmptyState implements MP3State {
 	}
 	
 	@Override
-	public void addPlaylist() {
-		model.setState(model.getStoppedState());
+	public void addPlaylist(String path) {
+		model.addPlayListPath(path);
+		if(model.getPlaylistSize() > 0){
+			model.setState(model.getStoppedState());
+		}
+		if(model.getState() instanceof StoppedState){
+			if(path.endsWith(".mp3")){
+				model.setIndex(model.getPlaylist().indexOf(path));
+			}
+			model.play();
+		}
 	}
 	
 	//Los siguientes metodos no realizan ninguna accion en el estado actual

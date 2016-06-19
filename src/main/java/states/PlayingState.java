@@ -43,15 +43,18 @@ public class PlayingState implements MP3State {
 	public void stop() {
 		try {
 			model.getPlayer().stop();
+			model.setState(model.getStoppedState());
 		} catch (BasicPlayerException e) {
 			e.printStackTrace();
 		}
-		model.setState(model.getStoppedState());
+	}
+
+	@Override
+	public void addPlaylist(String path) {
+		model.addPlayListPath(path);
 	}
 	
 	//Los siguientes metodos no realizan ninguna accion en el estadoa actual
-	@Override
-	public void addPlaylist() {}
 	
 	@Override
 	public void play() {}

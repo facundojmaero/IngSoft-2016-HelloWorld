@@ -19,18 +19,32 @@ public class StoppedState implements MP3State {
 	@Override
 	public void nextSong() {
 		model.setIndex((model.getIndex()+1)%model.getPlaylistSize());
-		model.playNow(model.getIndex());
-		model.setState(model.getPlayingState());
+		model.play();
+//		model.playNow(model.getIndex());
+//		model.setState(model.getPlayingState());
 	}
 
 	@Override
 	public void previousSong() {
-		model.setIndex((model.getIndex()-1)%model.getPlaylistSize());
-		if(model.getIndex()<0){
-			model.setIndex(model.getPlaylistSize()-1);
+		int index = (model.getIndex()-1)%model.getPlaylistSize();
+		if(index < 0){
+			index = model.getPlaylistSize()-1;
 		}
-		model.playNow(model.getIndex());
-		model.setState(model.getPlayingState());
+		model.setIndex(index);
+		model.play();
+//		model.playNow(model.getIndex());
+//		model.setState(model.getPlayingState());
+	}
+
+	@Override
+	public void addPlaylist(String path) {
+		model.addPlayListPath(path);
+		if(model.getPlaylistSize() > 0){
+			if(path.endsWith(".mp3")){
+				model.setIndex(model.getPlaylist().indexOf(path));
+			}
+			model.play();
+		}
 	}
 	
 	//Los siguientes metodos no realizan ninguna accion en el estadoa actual
@@ -39,8 +53,5 @@ public class StoppedState implements MP3State {
 	
 	@Override
 	public void paused() {}
-
-	@Override
-	public void addPlaylist() {}
 
 }

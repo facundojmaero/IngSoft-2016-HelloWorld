@@ -88,11 +88,10 @@ public class MP3Model implements MP3ModelInterface {
 		progressThread.stop();
 	}
 
-	@Override
-	public void addPlayList(String Path) {
-		File file = new File(Path);				// Uso la ruta para crear un nuevo File
+	public void addPlayListPath(String path) {
+		File file = new File(path);				// Uso la ruta para crear un nuevo File
 		if (file.isFile()) { 					// Si la ruta es una sola cancion
-			playlist.add(Path);
+			playlist.add(path);
 		} else { 								// Si la ruta es una carpeta con canciones
 			File list[] = file.listFiles();
 			if (list != null) {
@@ -103,8 +102,12 @@ public class MP3Model implements MP3ModelInterface {
 				}
 			}
 		}
-		currentState.addPlaylist();
 		notifyTrackObservers();
+	}
+	
+	@Override
+	public void addPlayList(String path) {
+		currentState.addPlaylist(path);
 	}
 
 	@Override
@@ -204,8 +207,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 	
 	public boolean setIndex (int index){
-		if ( index > (playlist.size()-1) || index < 0)
+		if ( index > (playlist.size()-1) || index < 0){
 			return false;
+		}
 		this.index = index;
 		return true;
 	}
@@ -294,6 +298,10 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		return playlistArray;
 	}
+
+	public ArrayList<String> getPlaylist() {
+		return this.playlist;
+	}
 	
 	@Override
 	public DefaultListModel<String> getSongInfo() {
@@ -338,6 +346,10 @@ public class MP3Model implements MP3ModelInterface {
 //		notifyTrackObservers();
 	}
 	
+	public MP3State getState(){
+		return this.currentState;
+	}
+	
 	public void setState(MP3State newState){
 		this.currentState = newState;
 	}
@@ -360,15 +372,17 @@ public class MP3Model implements MP3ModelInterface {
 	//muestro el indice de la cancion a reproducir con un getter, y proveo
 	//el metodo playNow para que comience a sonar segun el indice que le paso
 	public void playNow(int index){
-		File f = new File(playlist.get(index));
+		this.setIndex(index);
+		File f = new File(playlist.get(this.getIndex()));
 		try {
 			player.open(f);
 		} catch (BasicPlayerException e) {
 			e.printStackTrace();
 		}
 		try {
+			this.setState(playing);
 			player.play();
-		} catch (BasicPlayerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
