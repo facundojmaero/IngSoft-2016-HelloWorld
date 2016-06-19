@@ -112,6 +112,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 		this.init();										//Inicializa la vista
 		this.updatePlaylistInfo();							//Muestra la playlist añadida por defecto en el JScrollPanel
 		this.addListeners();								//Añade EventListener a los botones
+		addHoverMessages();									//Agrega mensajes de ayuda
 		model.registerObserver((TrackObserver)this);
 		model.registerObserver((ProgressObserver)this);
 	}
@@ -252,6 +253,20 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 				controller.setVolumen(Double.valueOf(((JSlider) e.getSource()).getValue()) / 100.0);
 			}
 		});
+	}
+	
+	//Agrego mensajes al apuntar con el mouse en cada boton
+	private void addHoverMessages(){
+		btnPlay.setToolTipText("Play");
+		btnPrev.setToolTipText("Play previous song");
+		btnNext.setToolTipText("Play next song");
+		btnAdd.setToolTipText("Add song to playlist");
+		btnMute.setToolTipText("Mute");
+		btnStop.setToolTipText("Stop");
+		btnInfo.setToolTipText("View song info");
+		btnDelete.setToolTipText("Delete selected song from playlist");
+		btnArt.setToolTipText("View Album Art");
+		volSlider.setToolTipText("Change volume");
 	}
 	
 	//Metodo para manejar los eventos dependiendo que boton se toco
