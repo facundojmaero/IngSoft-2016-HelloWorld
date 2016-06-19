@@ -87,8 +87,9 @@ public class MP3Model implements MP3ModelInterface {
 		currentState.paused();
 		progressThread.stop();
 	}
-
-	public void addPlayListPath(String path) {
+	
+	@Override
+	public void addPlayList(String path) {
 		File file = new File(path);				// Uso la ruta para crear un nuevo File
 		if (file.isFile()) { 					// Si la ruta es una sola cancion
 			playlist.add(path);
@@ -102,12 +103,8 @@ public class MP3Model implements MP3ModelInterface {
 				}
 			}
 		}
+		currentState.addPlaylist();
 		notifyTrackObservers();
-	}
-	
-	@Override
-	public void addPlayList(String path) {
-		currentState.addPlaylist(path);
 	}
 
 	@Override
@@ -399,6 +396,7 @@ public class MP3Model implements MP3ModelInterface {
 			else if(this.getIndex() == index){
 				this.stop();
 				this.setState(stopped);
+				setIndex(getIndex()-1);	//Si borro la cancion actual, apunto a la anterior con index
 			}
 			playlist.remove(index); //Borro la cancion en index
 			

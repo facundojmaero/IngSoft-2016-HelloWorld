@@ -19,8 +19,6 @@ public class PausedStateTest {
 	private MP3Model mp3Model = null;
 	private MP3State pauseState = null;
 	private String playListPath = "src/main/resources/default songs/";
-	private String pinkPantherSongName = "Pink Panther Theme.mp3";
-	private String missionImpossibleSongName = "Mission Impossible Theme.mp3";
 	
 	private String[] currentPlaylist = null;
 	private int index = 0;
@@ -30,7 +28,7 @@ public class PausedStateTest {
 	private boolean isPlaying = false;
 	
 	
-	@BeforeClass
+	@Before
 	public void setUp() throws Exception {
 		System.out.println("Create Singleton");
 		mp3Model = MP3Model.getInstance();
@@ -46,7 +44,7 @@ public class PausedStateTest {
 		this.isPlaying = mp3Model.IsPlaying();
 	}
 	
-	@Ignore
+	@After
 	public void tearDown() throws Exception {
 		System.out.println("Delete Singleton");
 		mp3Model.stop();
@@ -77,24 +75,6 @@ public class PausedStateTest {
 	public void testPlay(){		
 		pauseState.play();
 		assertTrue("Deberia estar reproduciendo",mp3Model.IsPlaying());
-	}
-	
-	//Este metodo no hace nada en PausedState no hay para que testearlo
-	@Ignore
-	public void testPaused(){
-		pauseState.paused();
-		
-		assertEquals(this.currentPlaylist.length, mp3Model.getCurrentPlaylist().length);
-		if(this.currentPlaylist.length > 0){
-			for(int i = 0; i < this.currentPlaylist.length; i++){
-				assertEquals(this.currentPlaylist[i], mp3Model.getCurrentPlaylist()[i]);
-			}
-		}
-		assertEquals(this.index, mp3Model.getIndex());
-		assertEquals(this.player, mp3Model.getPlayer());
-		assertEquals(this.playListSize, mp3Model.getPlaylistSize());
-		assertTrue(Double.valueOf(this.volumen).equals(mp3Model.getVolumen()));
-		assertEquals(this.isPlaying, mp3Model.IsPlaying());
 	}
 
 	@Test

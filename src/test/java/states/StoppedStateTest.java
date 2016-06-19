@@ -18,8 +18,6 @@ public class StoppedStateTest {
 	private MP3Model mp3Model = null;
 	private MP3State stoppedState = null;
 	private String playListPath = "src/main/resources/default songs/";
-	private String pinkPantherSongName = "Pink Panther Theme.mp3";
-	private String missionImpossibleSongName = "Mission Impossible Theme.mp3";
 	
 	private String[] currentPlaylist = null;
 	private int index = 0;
@@ -78,23 +76,6 @@ public class StoppedStateTest {
 		assertTrue("Deberia estar reproduciendo",mp3Model.IsPlaying());
 	}
 
-	@Ignore //Este metodo no hace nada, deberiamos borrar el test
-	public void testPaused(){
-		stoppedState.paused();
-		
-		assertEquals(this.currentPlaylist.length, mp3Model.getCurrentPlaylist().length);
-		if(this.currentPlaylist.length > 0){
-			for(int i = 0; i < this.currentPlaylist.length; i++){
-				assertEquals(this.currentPlaylist[i], mp3Model.getCurrentPlaylist()[i]);
-			}
-		}
-		assertEquals(this.index, mp3Model.getIndex());
-		assertEquals(this.player, mp3Model.getPlayer());
-		assertEquals(this.playListSize, mp3Model.getPlaylistSize());
-		assertTrue(Double.valueOf(this.volumen).equals(mp3Model.getVolumen()));
-		assertEquals(this.isPlaying, mp3Model.IsPlaying());
-	}
-
 	@Test
 	public void testNextSong(){
 		assertFalse("IsPlaying deberia ser false",mp3Model.IsPlaying());
@@ -122,44 +103,5 @@ public class StoppedStateTest {
 		assertEquals("El indice ahora deberia ser 3",3, mp3Model.getIndex());
 		assertTrue("El volumen deberia mantenerse constante",Double.valueOf(this.volumen).equals(mp3Model.getVolumen()));
 		assertTrue("Y ahora deberia estar reproduciendo",mp3Model.IsPlaying());
-	}
-
-	@Ignore //Este metodo no hace nada en el estado stop no hay para que testear
-	public void testStop(){
-		stoppedState.stop();
-		
-		assertEquals(this.currentPlaylist.length, mp3Model.getCurrentPlaylist().length);
-		if(this.currentPlaylist.length > 0){
-			for(int i = 0; i < this.currentPlaylist.length; i++){
-				assertEquals(this.currentPlaylist[i], mp3Model.getCurrentPlaylist()[i]);
-			}
-		}
-		assertEquals(this.index, mp3Model.getIndex());
-		assertEquals(this.player, mp3Model.getPlayer());
-		assertEquals(this.playListSize, mp3Model.getPlaylistSize());
-		assertTrue(Double.valueOf(this.volumen).equals(mp3Model.getVolumen()));
-		assertEquals(this.isPlaying, mp3Model.IsPlaying());
-	}
-
-	@Ignore
-	public void testAddPlayList(){
-		mp3Model.clearPlaylist();
-		assertEquals(0, mp3Model.getPlaylistSize());
-		
-		stoppedState.addPlaylist(playListPath + pinkPantherSongName);
-		assertEquals(1, mp3Model.getPlaylistSize());
-		
-		mp3Model.stop();
-		
-		assertNotEquals(this.currentPlaylist.length, mp3Model.getCurrentPlaylist().length);
-		assertEquals(this.index, mp3Model.getIndex());
-		assertEquals(this.player, mp3Model.getPlayer());
-		assertEquals(1, mp3Model.getPlaylistSize());
-		assertTrue(Double.valueOf(this.volumen).equals(mp3Model.getVolumen()));
-		assertFalse(mp3Model.IsPlaying());
-		
-		stoppedState.addPlaylist(playListPath + missionImpossibleSongName);
-		assertEquals(2, mp3Model.getPlaylistSize());
-		assertTrue(mp3Model.IsPlaying());
 	}
 }
