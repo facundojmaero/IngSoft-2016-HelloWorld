@@ -91,6 +91,12 @@ public class MP3ModelTest {
 		
 		assertTrue(mp3Model.setIndex(2));
 		assertEquals(2, mp3Model.getIndex());
+		
+		assertFalse(mp3Model.setIndex(5));
+		assertEquals("El indice deberia seguir siendo 2",2,mp3Model.getIndex());
+		
+		assertFalse(mp3Model.setIndex(-1));
+		assertEquals("El indice deberia seguir siendo 2",2,mp3Model.getIndex());
 	}
 	
 	@Test
@@ -144,24 +150,6 @@ public class MP3ModelTest {
 		mp3Model.pause();
 		assertFalse(mp3Model.IsPlaying());
 	}
-
-//	@Test
-//	public void test(){
-//		mp3Model.addPlayList(playListPath);
-//		
-//		mp3Model.setIndex(2);
-//		
-//		mp3Model.getCurrentTrackName();
-//		mp3Model.getCurrentSongDuration();
-//		mp3Model.getCurrentSongDurationMil();
-//		mp3Model.getAlbumArt();
-//		mp3Model.getSongInfo();
-//
-//
-//		assertTrue(mp3Model.IsPlaying());
-//		
-//		assertFalse(mp3Model.IsPlaying());
-//	}
 	
 	@Test
 	public void testGetPlaylistSize(){
@@ -190,16 +178,6 @@ public class MP3ModelTest {
 		assertTrue(mp3Model.IsPlaying());
 		assertEquals("01:08", mp3Model.getCurrentSongDuration());
 	}
-	
-//	@Test
-//	public void testGetCurrentSongDurationMil(){
-//		mp3Model.addPlayList(playListPath + pinkPantherSongName);
-//		mp3Model.setIndex(0);
-//		mp3Model.play();
-//		
-//		assertTrue(mp3Model.IsPlaying());
-//		assertEquals(67229L, mp3Model.getCurrentSongDurationMil());
-//	}
 	
 	@Test
 	public void testRemovePlayList(){
@@ -254,6 +232,6 @@ public class MP3ModelTest {
 		
 		mp3Model.removePlayList(3);
 		assertFalse(mp3Model.IsPlaying());
-		assertEquals(3, mp3Model.getIndex());
+		assertEquals(2, mp3Model.getIndex());
 	}
 }

@@ -155,54 +155,6 @@ public class MP3Model implements MP3ModelInterface {
 		return volumen;
 	}
 	
-	public void registerObserver(TrackObserver o){
-		trackObservers.add(o);
-	}
-	
-	public void removeObserver(TrackObserver o){
-		int i = trackObservers.indexOf(o);
-		if (i >= 0){
-			trackObservers.remove(i);
-		}
-	}
-
-	public void notifyTrackObservers(){
-		for (int i = 0; i < trackObservers.size(); i++){
-			TrackObserver observer = trackObservers.get(i);
-			observer.updateTrackInfo();
-			observer.updatePlaylistInfo();
-		}
-	}
-	
-	public void registerObserver(BPMObserver o) {
-		bpmObservers.add(o);
-	}
-	
-	public void removeObserver(BPMObserver o) {
-		int i = bpmObservers.indexOf(o);
-		if (i >= 0) {
-			bpmObservers.remove(i);
-		}
-	}
-
-	public void notifyBPMObservers() {
-		for (int i = 0; i < bpmObservers.size(); i++) {
-			BPMObserver observer = (BPMObserver) bpmObservers.get(i);
-			observer.updateBPM();
-		}
-	}
-
-	public void registerObserver(BeatObserver o) {
-		beatObservers.add(o);	
-	}
-	
-	public void removeObserver(BeatObserver o) {
-		int i = beatObservers.indexOf(o);
-		if (i >= 0) {
-			beatObservers.remove(i);
-		}
-	}
-	
 	public boolean setIndex (int index){
 		if ( index > (playlist.size()-1) || index < 0){
 			return false;
@@ -404,6 +356,11 @@ public class MP3Model implements MP3ModelInterface {
 		this.notifyTrackObservers();
 	}
 	
+
+	/////////////////////////////////////////////////////////////////////////////////
+	//Metodos del patron Observer
+	/////////////////////////////////////////////////////////////////////////////////
+	
 	public void notifyProgressObservers(int progress) {
 		for (int i = 0; i < progressObservers.size(); i++) {
 			ProgressObserver observer = (ProgressObserver) progressObservers.get(i);
@@ -419,6 +376,54 @@ public class MP3Model implements MP3ModelInterface {
 		int i = progressObservers.indexOf(o);
 		if (i >= 0) {
 			progressObservers.remove(i);
+		}
+	}
+	
+	public void registerObserver(TrackObserver o){
+		trackObservers.add(o);
+	}
+	
+	public void removeObserver(TrackObserver o){
+		int i = trackObservers.indexOf(o);
+		if (i >= 0){
+			trackObservers.remove(i);
+		}
+	}
+
+	public void notifyTrackObservers(){
+		for (int i = 0; i < trackObservers.size(); i++){
+			TrackObserver observer = trackObservers.get(i);
+			observer.updateTrackInfo();
+			observer.updatePlaylistInfo();
+		}
+	}
+	
+	public void registerObserver(BPMObserver o) {
+		bpmObservers.add(o);
+	}
+	
+	public void removeObserver(BPMObserver o) {
+		int i = bpmObservers.indexOf(o);
+		if (i >= 0) {
+			bpmObservers.remove(i);
+		}
+	}
+
+	public void notifyBPMObservers() {
+		for (int i = 0; i < bpmObservers.size(); i++) {
+			BPMObserver observer = (BPMObserver) bpmObservers.get(i);
+			observer.updateBPM();
+		}
+	}
+
+	public void registerObserver(BeatObserver o) {
+		beatObservers.add(o);	
+	}
+	
+	public void removeObserver(BeatObserver o) {
+		int i = beatObservers.indexOf(o);
+		if (i >= 0) {
+			beatObservers.remove(i);
 		}
 	}
 }
