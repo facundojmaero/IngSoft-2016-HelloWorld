@@ -14,6 +14,7 @@ ___
 |  1.0.0  | 17/06/16 | Primera versión    |
 |  1.1.0  | 18/06/16 | Agrego Diagramas de Secuencia|
 |  1.2.0  | 18/07/16 | Agrego Diagrama de Actividades|
+|  1.3.0  | 19/07/16 | Agrego Matriz de Trazabilidad y Diagrama de Arquitectura|
 
 
 Tabla de Contenidos
@@ -26,6 +27,7 @@ Tabla de Contenidos
         3.2. Requerimientos no funcionales
     4. Arquitectura del sistema
     5. Especificación de Requerimientos de Sistema
+    6. Matriz de Trazabilidad
 
 ## 1. Introducción
 ---
@@ -44,13 +46,15 @@ Dicho sistema se utilizará para reproducir archivos de audio, permitiendo diver
 ---
 Se muestra a continuación un diagrama de casos de uso del sistema, donde se pueden observar las diferentes interacciones que soporta el mismo.
 
-![Diagrama de Casos de Uso](https://s32.postimg.org/fie55hfdx/Use_Case_Diagram.jpg)
+![Diagrama de Casos de Uso](http://s33.postimg.org/db4349orz/Use_Case_Diagram.jpg)
 
 
 ----------
 
 
-**Diagramas de Secuencia: Casos de Uso:**
+**Diagramas de Secuencia - Casos de Uso:**
+
+Se presentan diagramas de secuencia que explican los casos de uso más importantes del sistema.
 
 1- Agregar una canción a la playlist:
  
@@ -108,9 +112,9 @@ Se listan los requerimientos funcionales del sistema, seguido de gráficos expli
 3. **Portabilidad:** El sistema deberá funcionar en las plataformas más populares, entre ellas Windows y Mac Os.
 
 ## 4. Arquitectura del sistema
-Se muestra un gráfico de la arquitectura del sistema a alto nivel.
+Se muestra un gráfico de la arquitectura del sistema a alto nivel, que muestra las relaciones entre los casos de uso y la estructura del sistema: 
 
-(Diagrama de arquitectura)
+![Diagrama de Arquitectura de alto nivel](http://s33.postimg.org/fi39v2nqn/Arquitectura_para_requerimientos.jpg)
 
 ## 5. Especificación de Requerimientos de Sistema
 #### 5.1 Requerimientos funcionales
@@ -204,3 +208,14 @@ Se detallan a continuación los requerimientos no funcionales que precisen un ma
 	- 3.1 El sistema deberá ser utilizable en el sistema operativo Windows 10.
 	- 3.2 El sistema deberá ser utilizable en el sistema operativo OS X El Capitan.
 	- 3.3 El sistema debería funcionar correctamente en distribuciones Linux. 
+
+## 6. Matriz de Trazabilidad
+A continuación se muestran las relaciones entre los casos de uso del sistema y los requerimientos enunciados. Es importante notar que se hizo foco en los casos de uso y requerimientos directamente relacionados con el modelo y la interfaz de usuario propios.
+
+
+1. Matriz de Trazabilidad entre Casos de Uso y Requerimientos de Usuario.
+![Matriz de Trazabilidad - Requerimientos de Usuario](http://s33.postimg.org/9dvz67kxb/Trazabilidad_req_de_usuario.jpg)
+
+
+2. Matriz de Trazabilidad entre Casos de Uso y Requerimientos de Sistema.
+![Matriz de Trazabilidad - Requerimientos de Sistema](http://s33.postimg.org/caj06hqr3/Trazabilidad_req_de_sistema.jpg)
