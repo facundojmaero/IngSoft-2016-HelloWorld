@@ -8,6 +8,7 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ public class PausedStateTest {
 	private boolean isPlaying = false;
 	
 	
-	@Before
+	@BeforeClass
 	public void setUp() throws Exception {
 		System.out.println("Create Singleton");
 		mp3Model = MP3Model.getInstance();
@@ -45,7 +46,7 @@ public class PausedStateTest {
 		this.isPlaying = mp3Model.IsPlaying();
 	}
 	
-	@After
+	@Ignore
 	public void tearDown() throws Exception {
 		System.out.println("Delete Singleton");
 		mp3Model.stop();
