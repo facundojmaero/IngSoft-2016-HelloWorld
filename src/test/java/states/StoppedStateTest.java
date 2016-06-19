@@ -14,7 +14,6 @@ import main.java.models.MP3Model;
 import main.java.states.MP3State;
 
 public class StoppedStateTest {
-	/*
 	private MP3Model mp3Model = null;
 	private MP3State stoppedState = null;
 	private String playListPath = "src/main/resources/default songs/";
@@ -182,5 +181,4 @@ public class StoppedStateTest {
 		assertEquals(2, mp3Model.getPlaylistSize());
 		assertTrue(mp3Model.IsPlaying());
 	}
-	*/
 }

@@ -14,7 +14,6 @@ import main.java.models.MP3Model;
 import main.java.states.MP3State;
 
 public class EmptyStateTest {
-	/*
 	private MP3Model mp3Model = null;
 	private MP3State emptyState = null;
 	private String playListPath = "src/main/resources/default songs/";
@@ -170,5 +169,4 @@ public class EmptyStateTest {
 		assertTrue(mp3Model.IsPlaying());
 	}
 	
-	*/
 }
