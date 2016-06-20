@@ -9,8 +9,12 @@ repositories {
 }
 
 dependencies {
-//    testCompile 'junit:junit:4.10'
+    testCompile 'junit:junit:4.10'
       compile fileTree(dir: 'lib', include: '*.jar')
+}
+
+test {
+	exclude 'src/test/java/**'
 }
 
 checkstyle {
