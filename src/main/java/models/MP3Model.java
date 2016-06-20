@@ -59,6 +59,10 @@ public class MP3Model implements MP3ModelInterface {
 		this.progressObservers = new ArrayList<ProgressObserver>();
 	}
 	
+	public static MP3Model TEST_CreateInstance() {
+		  return new MP3Model();
+		}
+	
 	public static MP3Model getInstance(){
 		if (uniqueMP3 == null){
 			uniqueMP3 = new MP3Model();

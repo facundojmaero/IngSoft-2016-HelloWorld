@@ -31,7 +31,7 @@ public class PausedStateTest {
 	@BeforeClass
 	public static void classSetup(){
 		System.out.println("Create Singleton");
-		mp3Model = MP3Model.getInstance();
+		mp3Model = MP3Model.TEST_CreateInstance();
 		mp3Model.addPlayList(playListPath);
 		pauseState = mp3Model.getPausedState();
 	}
