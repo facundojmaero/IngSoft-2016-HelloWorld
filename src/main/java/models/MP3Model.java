@@ -351,8 +351,13 @@ public class MP3Model implements MP3ModelInterface {
 				this.setState(stopped);
 				setIndex(getIndex()-1);	//Si borro la cancion actual, apunto a la anterior con index
 			}
-			playlist.remove(index); //Borro la cancion en index
+			//Arregla el error de borrar una cancion anterior a la actual mientras se esta reproduciendo
+			if(getIndex()>index){
+				setIndex(getIndex()-1);
+			}
 			
+			
+			playlist.remove(index); //Borro la cancion en index
 		}
 		this.notifyTrackObservers();
 	}
