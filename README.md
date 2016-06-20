@@ -13,3 +13,4 @@
 ### Configuration Management Plan - [URL](https://github.com/castagno/IngSoft-2016-HelloWorld/blob/master/docs/Cm%20Plan.md)
 ### Software Requirement Specification - [URL](https://github.com/castagno/IngSoft-2016-HelloWorld/blob/master/docs/SRS.md)
 ### Casos de Test de Sistema - [URL](https://github.com/castagno/IngSoft-2016-HelloWorld/blob/master/docs/Tests%20de%20Sistema.md)
+### Notas de Entrega - [URL](https://docs.google.com/document/d/1FiLnc2N1MB6MT9Zi5VTsT5GME0U6hOCFJcrtlJcFeq8/edit?usp=sharing)
