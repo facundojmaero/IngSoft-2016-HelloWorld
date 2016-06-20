@@ -92,7 +92,9 @@ public class MP3Model implements MP3ModelInterface {
 	public void addPlayList(String path) {
 		File file = new File(path);				// Uso la ruta para crear un nuevo File
 		if (file.isFile()) { 					// Si la ruta es una sola cancion
-			playlist.add(path);
+			if (file.getAbsolutePath().endsWith(".mp3")){
+				playlist.add(path);
+			}
 		} else { 								// Si la ruta es una carpeta con canciones
 			File list[] = file.listFiles();
 			if (list != null) {
