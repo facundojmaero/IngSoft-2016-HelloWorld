@@ -122,7 +122,7 @@ ___
 **Ejecución (pasos):**  
 1.Abrir el programa  
 2.Apretar el botón para añadir canción(+)   
-3.Elegir un archivo con extension .mp3 
+3.Elegir un archivo con extension .mp3  
 4.Hacer click en el boton play(>)  
 5.Arrastrar la barra de volumen al máximo  
 
