@@ -16,9 +16,9 @@ import main.java.models.MP3Model;
 import main.java.states.*;;
 
 public class PausedStateTest {
-	private MP3Model mp3Model = null;
-	private MP3State pauseState = null;
-	private String playListPath = "src/main/resources/default songs/";
+	private static MP3Model mp3Model = null;
+	private static MP3State pauseState = null;
+	private static String playListPath = "src/main/resources/default songs/";
 	
 	private String[] currentPlaylist = null;
 	private int index = 0;
@@ -28,38 +28,37 @@ public class PausedStateTest {
 	private boolean isPlaying = false;
 	
 	
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void classSetup(){
 		System.out.println("Create Singleton");
 		mp3Model = MP3Model.getInstance();
 		mp3Model.addPlayList(playListPath);
-		mp3Model.pause();
 		pauseState = mp3Model.getPausedState();
+	}
+	
+	@Before
+	public void setUp()  {
+		mp3Model.pause();
 		
-		this.currentPlaylist = mp3Model.getCurrentPlaylist().clone();
+		this.currentPlaylist = mp3Model.getCurrentPlaylist();
 		this.index = mp3Model.getIndex();
-		this.player = mp3Model.getPlayer();
 		this.playListSize = mp3Model.getPlaylistSize();
 		this.volumen = mp3Model.getVolumen();
 		this.isPlaying = mp3Model.IsPlaying();
 	}
 	
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		System.out.println("Delete Singleton");
 		mp3Model.stop();
-		mp3Model.getPlayer().stop();
-		mp3Model.clearPlaylist();
+		mp3Model.setIndex(0);
 
-		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
-		uniqueMP3.setAccessible(true);
-		uniqueMP3.set(null, null);
+//		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
+//		uniqueMP3.setAccessible(true);
+//		uniqueMP3.set(null, null);
 		
 		this.currentPlaylist = null;
 		this.index = 0;
-		this.player = null;
-		this.playListSize = 0;
-		this.volumen = 1.0;
 		this.isPlaying = false;
 	}
 

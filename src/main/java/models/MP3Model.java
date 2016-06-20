@@ -293,6 +293,7 @@ public class MP3Model implements MP3ModelInterface {
 	public void clearPlaylist() {
 		playlist.clear();
 //		notifyTrackObservers();
+		this.setIndex(0);
 	}
 	
 	public MP3State getState(){
