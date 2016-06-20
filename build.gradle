@@ -8,10 +8,10 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testCompile 'junit:junit:4.10'
-    compile fileTree(dir: 'lib', include: '*.jar')
-}
+//dependencies {
+//    testCompile 'junit:junit:4.10'
+//    compile fileTree(dir: 'lib', include: '*.jar')
+//}
 
 checkstyle {
     ignoreFailures = true
