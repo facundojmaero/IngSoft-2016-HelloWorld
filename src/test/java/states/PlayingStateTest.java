@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.lang.reflect.Field;
 
 import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +29,7 @@ public class PlayingStateTest {
 	
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		System.out.println("Create Singleton");
 		mp3Model = MP3Model.getInstance();
 		mp3Model.addPlayList(playListPath);
@@ -48,13 +49,18 @@ public class PlayingStateTest {
 	public void tearDown() throws Exception {
 		System.out.println("Delete Singleton");
 		mp3Model.stop();
-		mp3Model.getPlayer().stop();
+		try {
+			mp3Model.getPlayer().stop();
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
+		}
 		mp3Model.clearPlaylist();
 
-		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
+		Field uniqueMP3;
+		uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
 		uniqueMP3.setAccessible(true);
-		uniqueMP3.set(null, null);
-		
+//		uniqueMP3.set(null, null);
+
 		this.currentPlaylist = null;
 		this.index = 0;
 		this.player = null;
