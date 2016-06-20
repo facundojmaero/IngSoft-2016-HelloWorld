@@ -31,7 +31,7 @@ public class PlayingStateTest {
 	@Before
 	public void setUp(){
 		System.out.println("Create Singleton");
-		mp3Model = MP3Model.TEST_CreateInstance();
+		mp3Model = MP3Model.getInstance();
 		mp3Model.addPlayList(playListPath);
 		mp3Model.setIndex(0);
 		mp3Model.play();
@@ -52,10 +52,10 @@ public class PlayingStateTest {
 		mp3Model.getPlayer().stop();
 		mp3Model.clearPlaylist();
 
-//		Field uniqueMP3;
-//		uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
-//		uniqueMP3.setAccessible(true);
-//		uniqueMP3.set(null, null);
+		Field uniqueMP3;
+		uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
+		uniqueMP3.setAccessible(true);
+		uniqueMP3.set(null, null);
 
 		this.currentPlaylist = null;
 		this.index = 0;

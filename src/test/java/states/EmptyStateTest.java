@@ -32,7 +32,7 @@ public class EmptyStateTest {
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("Create Singleton");
-		mp3Model = MP3Model.TEST_CreateInstance();
+		mp3Model = MP3Model.getInstance();
 		emptyState = mp3Model.getEmptyState();
 		
 		this.currentPlaylist = mp3Model.getCurrentPlaylist().clone();
@@ -50,9 +50,9 @@ public class EmptyStateTest {
 		mp3Model.getPlayer().stop();
 		mp3Model.clearPlaylist();
 
-//		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
-//		uniqueMP3.setAccessible(true);
-//		uniqueMP3.set(null, null);
+		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
+		uniqueMP3.setAccessible(true);
+		uniqueMP3.set(null, null);
 		
 		this.currentPlaylist = null;
 		this.index = 0;

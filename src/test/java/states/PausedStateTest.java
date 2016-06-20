@@ -31,7 +31,7 @@ public class PausedStateTest {
 	@BeforeClass
 	public static void classSetup(){
 		System.out.println("Create Singleton");
-		mp3Model = MP3Model.TEST_CreateInstance();
+		mp3Model = MP3Model.getInstance();
 		mp3Model.addPlayList(playListPath);
 		pauseState = mp3Model.getPausedState();
 	}
@@ -48,14 +48,14 @@ public class PausedStateTest {
 	}
 	
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception {
 		System.out.println("Delete Singleton");
 		mp3Model.stop();
 		mp3Model.setIndex(0);
 
-//		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
-//		uniqueMP3.setAccessible(true);
-//		uniqueMP3.set(null, null);
+		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
+		uniqueMP3.setAccessible(true);
+		uniqueMP3.set(null, null);
 		
 		this.currentPlaylist = null;
 		this.index = 0;

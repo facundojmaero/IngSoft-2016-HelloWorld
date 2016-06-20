@@ -30,7 +30,7 @@ public class StoppedStateTest {
 	@Before
 	public void setUp(){
 		System.out.println("Create Singleton");
-		mp3Model = MP3Model.TEST_CreateInstance();
+		mp3Model = MP3Model.getInstance();
 		mp3Model.addPlayList(playListPath);
 		mp3Model.stop();
 		stoppedState = mp3Model.getStoppedState();
@@ -51,9 +51,9 @@ public class StoppedStateTest {
 		mp3Model.clearPlaylist();
 		mp3Model.setIndex(0);
 
-//		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
-//		uniqueMP3.setAccessible(true);
-//		uniqueMP3.set(null, null);
+		Field uniqueMP3 = MP3Model.class.getDeclaredField("uniqueMP3");
+		uniqueMP3.setAccessible(true);
+		uniqueMP3.set(null, null);
 		
 		
 		this.currentPlaylist = null;
