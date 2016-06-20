@@ -13,13 +13,6 @@ dependencies {
       compile fileTree(dir: 'lib', include: '*.jar')
 }
 
-test {
-	exclude 'src/test/java/controllers'
-	exclude 'src/test/java/models'
-	exclude 'src/test/java/states'
-	exclude 'src/test/java/views'
-}
-
 checkstyle {
     ignoreFailures = true
     toolVersion = '6.6'
