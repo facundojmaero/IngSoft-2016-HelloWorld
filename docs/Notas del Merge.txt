@@ -75,3 +75,10 @@ Merge del branch 0.11.0 al branch Master
 Se agregó la funcionalidad: Barra de progreso en sincronia con el progreso de la cancion. Se cuentan los segundos desde que se comenzo a reproducir la pista. Para realizarlo se crearon las clases ProgressThread y ProgressBar.
 Se corrigió el error: Cuando una cancion finaliza, ahora se avanza a la siguiente en la lista automaticamente.
 Comentarios: Para lograr esta funcionalidad se implemento un nuevo tipo de Observer para la vista, por el cual se le notifica que avance la barra de progreso y el tiempo en segundos.
+
+19-06-2016
+Desarrollador: Facundo Maero
+Merge del branch 0.13.0-hotfix al branch Master
+Se agregó la funcionalidad: Ninguna.
+Se corrigió el error: Se corrigieron errores en la logica del patron state.
+Comentarios: Se tuvieron que comentar los tests para poder hacer el merge, se desconoce la causa de su fallo.
