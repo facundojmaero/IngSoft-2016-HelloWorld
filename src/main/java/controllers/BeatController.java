@@ -43,4 +43,22 @@ public class BeatController implements ControllerInterface {
 	public void setBPM(int bpm) {
 		model.setBPM(bpm);
 	}
+
+	@Override
+	public void setVolumen(double d) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addPlaylist(String path) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeTrack(int selectedIndex) {
+		// TODO Auto-generated method stub
+
+	}
 }

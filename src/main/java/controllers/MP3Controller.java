@@ -6,7 +6,7 @@ import main.java.views.DJView;
 public class MP3Controller implements ControllerInterface {
 	MP3ModelInterface model;
 	DJView view;
-	
+
 	public MP3Controller(MP3ModelInterface model, DJView view){
 		this.model = model;
 		this.view = view;
@@ -59,22 +59,34 @@ public class MP3Controller implements ControllerInterface {
 		}
 
 	}
-	
+
 	public void setVolumen(double volumen){
 		model.setVolumen(volumen);
 	}
-	
+
 	public void increaseVolumen(){
 		double volumen_actual = model.getVolumen();
 		model.setVolumen(volumen_actual+0.1);
 	}
-	
+
 	public void decreaseVolumen(){
 		double volumen_actual = model.getVolumen();
 		model.setVolumen(volumen_actual-0.1);
 	}
-	
+
 	public void clearPlaylist(){
 		model.clearPlaylist();
+	}
+
+	@Override
+	public void addPlaylist(String path) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeTrack(int selectedIndex) {
+		// TODO Auto-generated method stub
+
 	}
 }

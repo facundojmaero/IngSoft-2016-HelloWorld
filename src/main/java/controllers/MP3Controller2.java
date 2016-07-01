@@ -2,21 +2,28 @@ package main.java.controllers;
 
 import main.java.models.MP3ModelInterface;
 import main.java.views.MP3View;
+import main.java.views.MP3ViewInterface;
 
 public class MP3Controller2 implements ControllerInterface {
 	MP3ModelInterface model;
-	MP3View view;
+	MP3ViewInterface view;
 
 	public MP3Controller2(MP3ModelInterface model, MP3View view){
 		this.model = model;
 		this.view = view;
 		view.setVisible(true);
 	}
-	
+
 	@Override
 	public void start() {
-		model.play();
-		view.MakePauseIcon();
+		if(model.IsPlaying()){
+			model.pause();
+			view.MakePlayIcon();
+		}
+		else{
+			model.play();
+			view.MakePauseIcon();
+		}
 	}
 
 	@Override
@@ -49,22 +56,28 @@ public class MP3Controller2 implements ControllerInterface {
 		}
 	}
 
-	@Override
-	public void setBPM(int bpm) {}
-	
+	public void setBPM(int bpm) {
+		if(bpm<0){
+			return;
+		}
+		model.stop();
+		model.setIndex(bpm);
+		start();
+	}
+
 	public void setVolumen(double volumen){
 		model.setVolumen(volumen);
 		if(volumen == 0){
 			view.MakeVolSliderMute();  //Si se apreto el boton mute(vol=0) actualizo la barra
 		}
 	}
-	
-	
+
+
 	public void pause(){
 		model.pause();
 		view.MakePlayIcon();
 	}
-	
+
 	public void addPlaylist(String Path){
 		model.addPlayList(Path);
 	}

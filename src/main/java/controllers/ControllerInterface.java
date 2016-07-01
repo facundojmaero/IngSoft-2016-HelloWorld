@@ -1,5 +1,5 @@
 package main.java.controllers;
-  
+
 public interface ControllerInterface {
 	void start();
 
@@ -10,4 +10,10 @@ public interface ControllerInterface {
 	void decreaseBPM();
 
 	void setBPM(int bpm);
+
+	void setVolumen(double d);
+
+	void addPlaylist(String path);
+
+	void removeTrack(int selectedIndex);
 }
