@@ -1,5 +1,9 @@
 package main.java.controllers;
 
+import java.awt.image.BufferedImage;
+
+import javax.swing.DefaultListModel;
+
 import main.java.models.MP3ModelInterface;
 import main.java.views.DJView;
 
@@ -86,6 +90,24 @@ public class MP3Controller implements ControllerInterface {
 
 	@Override
 	public void removeTrack(int selectedIndex) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public BufferedImage getAlbumArt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DefaultListModel<String> getSongInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeTracks(int[] selectedIndices) {
 		// TODO Auto-generated method stub
 
 	}

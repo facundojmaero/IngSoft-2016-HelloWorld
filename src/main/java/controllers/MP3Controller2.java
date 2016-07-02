@@ -1,5 +1,11 @@
 package main.java.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
+
 import main.java.models.MP3ModelInterface;
 import main.java.views.MP3View;
 import main.java.views.MP3ViewInterface;
@@ -16,6 +22,9 @@ public class MP3Controller2 implements ControllerInterface {
 
 	@Override
 	public void start() {
+		if(model.getPlaylistSize()==0){
+			return;
+		}
 		if(model.IsPlaying()){
 			model.pause();
 			view.MakePlayIcon();
@@ -28,12 +37,18 @@ public class MP3Controller2 implements ControllerInterface {
 
 	@Override
 	public void stop() {
+		if(model.getPlaylistSize()==0){
+			return;
+		}
 		model.stop();
 		view.MakePlayIcon();
 	}
 
 	@Override
 	public void increaseBPM() {
+		if(model.getPlaylistSize()==0){
+			return;
+		}
 		model.nextSong();
 		// Si esta reproduciendo habilito la opcion de pausa
 		if(model.IsPlaying()){
@@ -47,6 +62,9 @@ public class MP3Controller2 implements ControllerInterface {
 
 	@Override
 	public void decreaseBPM() {
+		if(model.getPlaylistSize()==0){
+			return;
+		}
 		model.previousSong();
 		if(model.IsPlaying()){
 			view.MakePauseIcon();
@@ -57,6 +75,9 @@ public class MP3Controller2 implements ControllerInterface {
 	}
 
 	public void setBPM(int bpm) {
+		if(model.getPlaylistSize()==0){
+			return;
+		}
 		if(bpm<0){
 			return;
 		}
@@ -74,6 +95,9 @@ public class MP3Controller2 implements ControllerInterface {
 
 
 	public void pause(){
+		if(model.getPlaylistSize()==0){
+			return;
+		}
 		model.pause();
 		view.MakePlayIcon();
 	}
@@ -82,13 +106,38 @@ public class MP3Controller2 implements ControllerInterface {
 		model.addPlayList(Path);
 	}
 
-	public void removeTrack(int index) {
-		model.removePlayList(index);
+	public void removeTrack(int index) {}
+
+	public void removeTracks(int[] indexes) {
+		for (int i = indexes.length-1; i >= 0; i--) {
+			model.removePlayList(indexes[i]);
+		}
 		if (model.IsPlaying()){
 			view.MakePauseIcon(); //si esta reproduciendo actualizo la vista p/ que muestre el icono pausa
 		}
 		else{
 			view.MakePlayIcon(); //si no muestro la opcion play
 		}
+	}
+
+	public void toggleRepeatBehavior(){
+		model.toggleRepeatState();
+	}
+
+	@Override
+	public BufferedImage getAlbumArt() {
+		byte[] imageData = model.getAlbumArt();
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new ByteArrayInputStream(imageData));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return img;
+	}
+
+	@Override
+	public DefaultListModel<String> getSongInfo() {
+		return model.getSongInfo();
 	}
 }

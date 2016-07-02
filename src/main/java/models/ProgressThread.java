@@ -20,13 +20,14 @@ public class ProgressThread implements Runnable{
 				value++;
 				//Si ya llegue al final de la cancion
 				if(value==maximum+1){
-					model.nextSong(); //Paso a la siguiente
+//					model.nextSong(); //Paso a la siguiente
+					model.songFinished();
 					value = 0; //Reseteo el valor a 0
 				}
 				model.notifyProgressObservers(value); //Cada un segundo notifico a los Progress0bservers
 				try {
 					Thread.sleep(1000);
-				} catch (Exception e) {};	
+				} catch (Exception e) {};
 			}
 			else {
 				try {
@@ -37,7 +38,7 @@ public class ProgressThread implements Runnable{
 			}
 		}
 	}
-	
+
 	public void setMax(int i){
 		maximum = i;
 	}

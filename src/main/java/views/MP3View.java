@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -27,6 +28,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -263,6 +265,23 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 				}
 			}
 		});
+
+		//Binding de teclas
+		jSongList.getInputMap(JList.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0), "delete song");
+		jSongList.getActionMap().put("delete song", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((MP3Controller2) controller).removeTracks(jSongList.getSelectedIndices());
+            }
+        });
+
+		jSongList.getInputMap(JList.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "play song");
+		jSongList.getActionMap().put("play song", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.setBPM(jSongList.getSelectedIndex());
+            }
+        });
 	}
 
 	// Agrego mensajes al apuntar con el mouse en cada boton
@@ -298,26 +317,19 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File[] files = chooser.getSelectedFiles();
 				// Permite elegir varios archivos a la vez
+				MakePauseIcon();
 				for (int i = 0; i < files.length; i++) {
 					String path = files[i].getAbsolutePath();
 					controller.addPlaylist(path);
 				}
+				MakePlayIcon();
 			}
 		} else if (event.getSource() == btnMute) {
 			controller.setVolumen(0);
 		} else if (event.getSource() == btnStop) {
 			controller.stop();
 		} else if (event.getSource() == btnArt) {
-			byte[] imageData = model.getAlbumArt();
-			if (imageData == null) {
-				return;
-			}
-			BufferedImage img = null;
-			try {
-				img = ImageIO.read(new ByteArrayInputStream(imageData));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			BufferedImage img = controller.getAlbumArt();
 			if (songArt != null) {
 				songArt.setVisible(false);
 				songArt.removeAll();
@@ -336,7 +348,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 				songInfo.removeAll();
 				songInfo = null;
 			} else {
-				DefaultListModel<String> songDetails = model.getSongInfo();
+				DefaultListModel<String> songDetails = controller.getSongInfo();
 				songInfo = new JFrame();
 				JList<String> jSongList = new JList<String>(songDetails);
 				songInfo.add(jSongList);
@@ -346,7 +358,7 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 				songInfo.setVisible(true);
 			}
 		} else if (event.getSource() == btnDelete) {
-			controller.removeTrack(jSongList.getSelectedIndex());
+			controller.removeTracks(jSongList.getSelectedIndices());
 		}
 	}
 
@@ -371,6 +383,10 @@ public class MP3View extends JFrame implements ActionListener, TrackObserver, Pr
 	public void updateTrackInfo() {
 		lblplaying.setText("Now Playing: " + model.getCurrentTrackName());
 		lblet.setText(model.getCurrentSongDuration());
+
+		if(!model.IsPlaying()){
+			MakePlayIcon();
+		}
 
 		if (songArt != null) {
 			byte[] imageData = model.getAlbumArt();

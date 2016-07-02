@@ -20,9 +20,9 @@ import main.java.views.TrackObserver;
 import main.java.states.*;
 
 public class MP3Model implements MP3ModelInterface {
-	
+
 	private static MP3Model uniqueMP3 = null;
-	
+
 	private BasicPlayer player;
 	private ArrayList<String> playlist;
 	private ArrayList<BPMObserver> bpmObservers;
@@ -35,17 +35,22 @@ public class MP3Model implements MP3ModelInterface {
 	private MP3State stopped;
 	private MP3State empty;
 	private MP3State paused;
+
+	private RepeatInterface currentRepeatState;
+	private RepeatInterface repeatAll;
+	private RepeatInterface repeatOne;
+	private RepeatInterface dontRepeat;
 	//-----------------------------
 	private int index;
 	private double volumen;
 	//ProgressThread es un hilo que cuenta segundos
 	private ProgressThread progressThread;
-	
+
 	private MP3Model(){
 		this.player = new BasicPlayer();
 		this.bpmObservers = new ArrayList<BPMObserver>();
 		this.beatObservers = new ArrayList<BeatObserver>();
-		this.index = 0;	
+		this.index = 0;
 		this.volumen = 1;			//maximo volumen
 		this.empty = new EmptyState(this);
 		this.stopped = new StoppedState(this);
@@ -57,8 +62,13 @@ public class MP3Model implements MP3ModelInterface {
 		this.progressThread = new ProgressThread();
 		progressThread.setModel(this);
 		this.progressObservers = new ArrayList<ProgressObserver>();
+
+		repeatAll = new RepeatAll(this);
+		repeatOne = new RepeatOne(this);
+		dontRepeat = new DontRepeat(this);
+		currentRepeatState = dontRepeat;
 	}
-	
+
 	public static MP3Model getInstance(){
 		if (uniqueMP3 == null){
 			uniqueMP3 = new MP3Model();
@@ -87,7 +97,7 @@ public class MP3Model implements MP3ModelInterface {
 		currentState.paused();
 		progressThread.stop();
 	}
-	
+
 	@Override
 	public void addPlayList(String path) {
 		File file = new File(path);				// Uso la ruta para crear un nuevo File
@@ -152,11 +162,11 @@ public class MP3Model implements MP3ModelInterface {
 			}
 		}
 	}
-	
+
 	public double getVolumen(){
 		return volumen;
 	}
-	
+
 	public boolean setIndex (int index){
 		if ( index > (playlist.size()-1) || index < 0){
 			return false;
@@ -169,8 +179,8 @@ public class MP3Model implements MP3ModelInterface {
 	public int getIndex() {
 		return index;
 	}
-	
-	public String getCurrentTrackName(){		
+
+	public String getCurrentTrackName(){
 		if (currentState instanceof EmptyState){
 			return "";
 		}
@@ -205,7 +215,7 @@ public class MP3Model implements MP3ModelInterface {
 		String songDuration = String.format("%02d:%02d", minutes, seconds+1);
 		return songDuration;
 	}
-	
+
 	public int getCurrentSongDurationSec(){
 		String path = playlist.get(index);
 		Mp3File song = null;
@@ -242,7 +252,7 @@ public class MP3Model implements MP3ModelInterface {
 			String songTitle = song.getId3v2Tag().getTitle();
 			if(songTitle==null){
 				playlistArray[i] = new File(path).getName();
-			}		
+			}
 			else{
 				playlistArray[i] = songTitle;
 			}
@@ -253,7 +263,7 @@ public class MP3Model implements MP3ModelInterface {
 	public ArrayList<String> getPlaylist() {
 		return this.playlist;
 	}
-	
+
 	@Override
 	public DefaultListModel<String> getSongInfo() {
 		Mp3File song = null;
@@ -275,7 +285,7 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public byte[] getAlbumArt(){
 		Mp3File song = null;
@@ -290,37 +300,70 @@ public class MP3Model implements MP3ModelInterface {
         }
 		return null;
 	}
-	
+
 	@Override
 	public void clearPlaylist() {
 		playlist.clear();
 //		notifyTrackObservers();
 		this.setIndex(0);
 	}
-	
+
 	public MP3State getState(){
 		return this.currentState;
 	}
-	
+
 	public void setState(MP3State newState){
 		this.currentState = newState;
 	}
-	
+
 	public MP3State getPlayingState(){return playing;}
 	public MP3State getPausedState() {return paused;}
 	public MP3State getEmptyState()  {return empty;}
 	public MP3State getStoppedState(){return stopped;}
-	
+
+	public RepeatInterface getRepeatState(){
+		return currentRepeatState;
+	}
+
+	public void setRepeatState (RepeatInterface newRepeatState){
+		currentRepeatState = newRepeatState;
+	}
+
+	public RepeatInterface getDontRepeat() {return dontRepeat;}
+	public RepeatInterface getRepeatAll() {return repeatAll;}
+	public RepeatInterface getRepeatOne() {return repeatOne;}
+
+	public void songFinished(){
+		currentRepeatState.songFinished();
+	}
+
+	public void restartCurrentSong(){
+		try {
+			player.stop();
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
+		}
+		try {
+			player.play();
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void toggleRepeatState(){
+		currentRepeatState.toggleRepeatState();
+	}
+
 	public BasicPlayer getPlayer(){
 		return player;
 	}
-	
+
 	public int getPlaylistSize(){
 		return playlist.size();
 	}
-	
+
 	//Metodo usado por el estado, para no perder encapsulamiento.
-	//En lugar de proveer acceso al arraylist playlist simplemente 
+	//En lugar de proveer acceso al arraylist playlist simplemente
 	//muestro el indice de la cancion a reproducir con un getter, y proveo
 	//el metodo playNow para que comience a sonar segun el indice que le paso
 	public void playNow(int index){
@@ -357,18 +400,17 @@ public class MP3Model implements MP3ModelInterface {
 			if(getIndex()>index){
 				setIndex(getIndex()-1);
 			}
-			
-			
+
+
 			playlist.remove(index); //Borro la cancion en index
 		}
 		this.notifyTrackObservers();
 	}
-	
 
 	/////////////////////////////////////////////////////////////////////////////////
 	//Metodos del patron Observer
 	/////////////////////////////////////////////////////////////////////////////////
-	
+
 	public void notifyProgressObservers(int progress) {
 		for (int i = 0; i < progressObservers.size(); i++) {
 			ProgressObserver observer = (ProgressObserver) progressObservers.get(i);
@@ -377,20 +419,20 @@ public class MP3Model implements MP3ModelInterface {
 	}
 
 	public void registerObserver(ProgressObserver o) {
-		progressObservers.add(o);	
+		progressObservers.add(o);
 	}
-	
+
 	public void removeObserver(ProgressObserver o) {
 		int i = progressObservers.indexOf(o);
 		if (i >= 0) {
 			progressObservers.remove(i);
 		}
 	}
-	
+
 	public void registerObserver(TrackObserver o){
 		trackObservers.add(o);
 	}
-	
+
 	public void removeObserver(TrackObserver o){
 		int i = trackObservers.indexOf(o);
 		if (i >= 0){
@@ -405,11 +447,11 @@ public class MP3Model implements MP3ModelInterface {
 			observer.updatePlaylistInfo();
 		}
 	}
-	
+
 	public void registerObserver(BPMObserver o) {
 		bpmObservers.add(o);
 	}
-	
+
 	public void removeObserver(BPMObserver o) {
 		int i = bpmObservers.indexOf(o);
 		if (i >= 0) {
@@ -425,9 +467,9 @@ public class MP3Model implements MP3ModelInterface {
 	}
 
 	public void registerObserver(BeatObserver o) {
-		beatObservers.add(o);	
+		beatObservers.add(o);
 	}
-	
+
 	public void removeObserver(BeatObserver o) {
 		int i = beatObservers.indexOf(o);
 		if (i >= 0) {

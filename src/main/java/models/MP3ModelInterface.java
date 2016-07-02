@@ -21,9 +21,9 @@ public interface MP3ModelInterface {
 	void previousSong();
 
 	void nextSong();
-	
+
 	void stop();
-	
+
 	void registerObserver(BeatObserver o);
 
 	void removeObserver(BeatObserver o);
@@ -31,25 +31,25 @@ public interface MP3ModelInterface {
 	void registerObserver(BPMObserver o);
 
 	void removeObserver(BPMObserver o);
-	
+
 	double getVolumen();
-	
+
 	boolean setIndex(int index);
-	
+
 	int getIndex();
-	
+
 	boolean IsPlaying();
-	
+
 	String getCurrentTrackName();
-	
+
 	String getCurrentSongDuration();
-	
+
 	int getCurrentSongDurationSec();
-	
+
 	String[] getCurrentPlaylist();
-	
+
 	void registerObserver(TrackObserver o);
-	
+
 	void removeObserver(TrackObserver o);
 
 	void clearPlaylist();
@@ -57,9 +57,14 @@ public interface MP3ModelInterface {
 	DefaultListModel<String> getSongInfo();
 
 	byte[] getAlbumArt();
-	
+
 	void registerObserver(ProgressObserver o);
-	
+
 	void removeObserver (ProgressObserver o);
-	
+
+	void toggleRepeatState();
+
+	int getPlaylistSize();
+
+
 }
