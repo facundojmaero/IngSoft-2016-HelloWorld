@@ -109,29 +109,32 @@
             </ImageView>
          </graphic></Button>
       <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="370.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="10.0" />
-      <Separator layoutX="100.0" layoutY="60.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0" />
-      <Separator layoutX="91.0" layoutY="76.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="90.0" />
-      <Label fx:id="artistLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="186.0" layoutY="53.0" prefHeight="17.0" prefWidth="780.0" text="Artist" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0" />
-      <Label fx:id="songLabel" alignment="CENTER" layoutX="171.0" layoutY="70.0" prefHeight="17.0" prefWidth="780.0" text="Song Title" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="70.0" />
+      <Separator layoutX="5.0" layoutY="56.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0" />
       <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="760.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0" />
-      <SplitPane dividerPositions="0.48" layoutX="586.0" layoutY="101.0" prefHeight="368.0" prefWidth="790.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0">
+      <SplitPane dividerPositions="0.48" layoutX="586.0" layoutY="101.0" prefHeight="368.0" prefWidth="790.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="60.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <BorderPane fx:id="leftPane" layoutX="71.0" layoutY="60.0" prefHeight="366.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <BorderPane fx:id="leftPane" layoutX="71.0" layoutY="60.0" prefHeight="293.0" prefWidth="375.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <center>
-                        <ImageView fx:id="albumArt" fitHeight="368.0" fitWidth="380.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                        <ImageView fx:id="albumArt" fitHeight="291.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                            <image>
                               <Image url="@../../resources/images/No-album-art.png" />
                            </image>
                         </ImageView>
                      </center>
                   </BorderPane>
+                  <Label fx:id="artistLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="335.0" prefHeight="17.0" prefWidth="780.0" text="Artist" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="380.0" />
+                  <Label fx:id="songLabel" alignment="CENTER" layoutX="10.0" layoutY="308.0" prefHeight="17.0" prefWidth="780.0" text="Song Title" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="350.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="songList" layoutX="14.0" layoutY="14.0" prefHeight="378.0" prefWidth="391.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <BorderPane layoutX="14.0" layoutY="83.0" prefHeight="366.0" prefWidth="407.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <center>
+                        <ListView fx:id="songList" prefHeight="224.0" prefWidth="407.0" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
                </children>
             </AnchorPane>
         </items>

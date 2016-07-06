@@ -2,26 +2,14 @@ package player;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import javax.imageio.ImageIO;
-
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -29,17 +17,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import player.models.MP3Model;
-import player.states.DontRepeat;
 import player.states.EmptyState;
-import player.states.RepeatAll;
-import player.states.RepeatOne;
 import player.views.ProgressObserver;
 import player.views.TrackObserver;
 
-public class BigController implements TrackObserver, ProgressObserver {
+public class SmallController implements TrackObserver, ProgressObserver {
 
 	@FXML
 	private ToggleButton muteToggle;
@@ -51,10 +34,10 @@ public class BigController implements TrackObserver, ProgressObserver {
 	private Button minimizeButton;
 
 	@FXML
-	private Button deleteButton;
+	private Button previousButton;
 
 	@FXML
-	private Button previousButton;
+	private BorderPane leftPane;
 
 	@FXML
 	private ImageView albumArt;
@@ -63,17 +46,7 @@ public class BigController implements TrackObserver, ProgressObserver {
 	private Label totalTime;
 
 	@FXML
-	private Button addButton;
-
-	@FXML
-	private ListView<String> songList;
-	private ObservableList<String> playList = FXCollections.observableArrayList();
-
-	@FXML
 	private Button playButton;
-
-	@FXML
-	private Button repeatButton;
 
 	@FXML
 	private Label currentTime;
@@ -83,9 +56,6 @@ public class BigController implements TrackObserver, ProgressObserver {
 
 	@FXML
 	private Label songLabel;
-
-	@FXML
-	private Slider volumeSlider;
 
 	@FXML
 	private Slider progressSlider;
@@ -99,9 +69,6 @@ public class BigController implements TrackObserver, ProgressObserver {
 	@FXML
 	private ImageView muteButton;
 
-	@FXML
-	private ImageView repeatImage;
-
 	private MainApp mainApp;
 	private MP3Model model;
 
@@ -114,14 +81,26 @@ public class BigController implements TrackObserver, ProgressObserver {
 	Image volumeOn = new Image("file:src/resources/images/volume.png");
 	Image noAlbumArt = new Image("file:src/resources/images/No-album-art.png");
 
-	private double volumeAux;
-
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
 
 	public void setModel(MP3Model instance) {
 		model = instance;
+	}
+
+	@FXML
+	void handleProgressSlide(ActionEvent event) {
+
+	}
+
+	@FXML
+	void handleShuffle(ActionEvent event) {
+		if (shuffleToggle.isSelected()) {
+			model.shuffle();
+		} else {
+			model.unShuffle();
+		}
 	}
 
 	@FXML
@@ -175,76 +154,10 @@ public class BigController implements TrackObserver, ProgressObserver {
 		System.out.println("Mute!");
 		if (muteToggle.isSelected()) {
 			model.setVolumen(0);
-			volumeAux = volumeSlider.getValue();
-			volumeSlider.setValue(0);
 			muteButton.setImage(mute);
 		} else {
-			model.setVolumen(volumeAux / 100);
-			volumeSlider.setValue(volumeAux);
+			model.setVolumen(1);
 			muteButton.setImage(volumeOn);
-		}
-	}
-
-	@FXML
-	void handleProgressSlide(ActionEvent event) {
-	}
-
-	@FXML
-	void handleShuffle(ActionEvent event) {
-		if (shuffleToggle.isSelected()) {
-			model.shuffle();
-		} else {
-			model.unShuffle();
-		}
-	}
-
-	@FXML
-	void handleRepeat(ActionEvent event) {
-		if (model.getRepeatState() == model.getDontRepeat()) {
-			repeatImage.setImage(repeatAll);
-		} else if (model.getRepeatState() == model.getRepeatAll()) {
-			repeatImage.setImage(repeatOne);
-		} else if (model.getRepeatState() == model.getRepeatOne()) {
-			repeatImage.setImage(dontRepeat);
-		}
-		model.toggleRepeatState();
-	}
-
-	@FXML
-	void handleAdd(ActionEvent event) {
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Choose MP3 Files to add:");
-		List<File> selectedFiles = chooser.showOpenMultipleDialog(new Stage());
-		if (selectedFiles != null) {
-			for (File file : selectedFiles) {
-				model.addPlayList(file.getAbsolutePath());
-			}
-		}
-	}
-
-	@FXML
-	void handleDelete(ActionEvent event) {
-		Object[] indexes = songList.getSelectionModel().getSelectedIndices().toArray();
-		;
-
-		if (indexes.length == 0) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("No Selection");
-			alert.setHeaderText("No Song Selected");
-			alert.setContentText("Please select a song in the playlist.");
-			alert.showAndWait();
-		} else {
-			for (int i = indexes.length - 1; i >= 0; i--) {
-				model.removePlayList((int) indexes[i]);
-			}
-
-			if (model.IsPlaying()) {
-				setPauseButton(); // si esta reproduciendo actualizo la vista p/
-									// que muestre el icono pausa
-			} else {
-				setPlayButton(); // si no muestro la opcion play
-			}
 		}
 	}
 
@@ -252,58 +165,15 @@ public class BigController implements TrackObserver, ProgressObserver {
 	void handleMinimize(ActionEvent event) {
 		model.removeObserver((ProgressObserver) this);
 		model.removeObserver((TrackObserver) this);
-		mainApp.changeSmallView();
+		mainApp.changeBigView();
 	}
-
-	@FXML
-	void handleVolumeSlide(ActionEvent event) {
-	}
-
-	@FXML
-	void handleVolumeScroll(ActionEvent event) {
-	}
-
-	@FXML
-	private BorderPane leftPane;
 
 	@FXML
 	void initialize() {
 		resetView();
-		songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		albumArt.fitWidthProperty().bind(leftPane.heightProperty());
 		albumArt.fitHeightProperty().bind(leftPane.widthProperty());
-
-		// Escucho cambios en el slider de volumen
-		volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				double volumen = newValue.doubleValue() / 100;
-				if (volumen <= 100 || volumen >= 0) {
-					model.setVolumen(volumen);
-					if (volumen == 0) {
-						muteButton.setImage(mute);
-						muteToggle.setSelected(true);
-					} else {
-						muteButton.setImage(volumeOn);
-						muteToggle.setSelected(false);
-					}
-				} else
-					return;
-			}
-		});
-
-		// Escucho mouse wheel en volume slider
-		volumeSlider.setOnScroll(new EventHandler<ScrollEvent>() {
-			@Override
-			public void handle(ScrollEvent event) {
-				if (event.getDeltaY() > 0) {
-					volumeSlider.setValue(volumeSlider.getValue() + 5);
-				} else {
-					volumeSlider.setValue(volumeSlider.getValue() - 5);
-				}
-			}
-		});
 
 		// Escucho cambios en el slider de progreso
 		progressSlider.setOnMouseReleased((MouseEvent event) -> {
@@ -319,22 +189,6 @@ public class BigController implements TrackObserver, ProgressObserver {
 					progressSlider.setValue(progressSlider.getValue() - 20);
 				}
 				model.seek((int) progressSlider.getValue());
-			}
-		});
-
-		// Seteo playlist a songlist para que se actualice sola
-		songList.setItems(playList);
-
-		// Detecto doble click en playlist
-		songList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent click) {
-				System.out.println(songList.getSelectionModel().getSelectedIndex());
-				if (click.getClickCount() == 2) {
-					model.stop();
-					model.setIndex(songList.getSelectionModel().getSelectedIndex());
-					handlePlay(new ActionEvent());
-				}
 			}
 		});
 	}
@@ -366,23 +220,6 @@ public class BigController implements TrackObserver, ProgressObserver {
 
 	@Override
 	public void updatePlaylistInfo() {
-		String[] lista = model.getCurrentPlaylist();
-		playList.clear();
-		if (lista.length == 0 || lista == null) {
-			resetView();
-		}
-		for (int i = 0; i < lista.length; i++) {
-			playList.add(lista[i]);
-		}
-
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				songList.scrollTo(model.getIndex());
-				// songList.getSelectionModel().select(model.getIndex());
-				// highlight current song
-			}
-		});
 	}
 
 	public void registerAsObserver() {
@@ -418,31 +255,20 @@ public class BigController implements TrackObserver, ProgressObserver {
 		muteButton.setImage(volumeOn);
 		muteToggle.setSelected(false);
 		shuffleToggle.setSelected(false);
-		repeatImage.setImage(dontRepeat);
-		playList.clear();
 	}
 
 	public void configureOnViewChange() {
-		// si estaba en pausa, seteo esa imagen. sino no hago nada
-		if (model.IsPlaying()) {
+		if(model.IsPlaying()){
 			playIcon.setImage(pauseImg);
 		}
-		if (model.getVolumen() == 0) {
+
+		if(model.getVolumen()==0){
 			muteButton.setImage(mute);
 			muteToggle.setSelected(true);
 		}
-		if (model.isShuffled()) {
+
+		if(model.isShuffled()){
 			shuffleToggle.setSelected(true);
-		}
-
-		volumeSlider.setValue(model.getVolumen() * 100);
-
-		if (model.getRepeatState() instanceof DontRepeat) {
-			repeatImage.setImage(dontRepeat);
-		} else if (model.getRepeatState() instanceof RepeatAll) {
-			repeatImage.setImage(repeatAll);
-		} else if (model.getRepeatState() instanceof RepeatOne) {
-			repeatImage.setImage(repeatOne);
 		}
 	}
 }

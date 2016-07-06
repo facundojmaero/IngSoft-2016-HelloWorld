@@ -1,5 +1,7 @@
 package player;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -14,26 +16,46 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private MP3Model model;
+	private Stage myStage;
 
 	@Override
 	public void start(Stage stage) throws Exception {
-
+		myStage = stage;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("views/bigPlayer.fxml"));
+
 		Pane pane = (Pane) loader.load();
 		stage.setTitle("MP3 Player - v2.0");
 		Scene scene = new Scene(pane);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();
-		BigController controller = loader.<BigController> getController();
+		BigController bigController = loader.<BigController> getController();
 
 		model = MP3Model.getInstance();
-//		model.addPlayList("E:/Music/Avicii/Avicii - Stories [2015]");
-		model.addPlayList("E:/Music/Chet Faker - Thinking In Textures (EP) (2012)");
-//		model.addPlayList("E:/Music/Avicii/Avicii - Stories [2015]/01. Waiting For Love.mp3");
-		controller.setMainApp(this);
-		controller.setModel(model);
-		controller.registerAsObserver();
+		model.addPlayList("E:/Music/Avicii/Avicii - Stories [2015]");
+		// model.addPlayList("E:/Music/Chet Faker - Thinking In Textures (EP)
+		// (2012)");
+		// model.addPlayList("E:/Music/Avicii/Avicii - Stories [2015]/01.
+		// Waiting For Love.mp3");
+		bigController.setMainApp(this);
+		bigController.setModel(model);
+		bigController.registerAsObserver();
+
+		// scene.addEventFilter(KeyEvent.KEY_PRESSED, new
+		// EventHandler<KeyEvent>() {
+		//
+		// @Override
+		// public void handle(KeyEvent event) {
+		// if(event.getCode() == KeyCode.ENTER){
+		// System.out.println("Enter pressed");
+		// controller.handlePlay(new ActionEvent());
+		// }
+		// if(event.getCode() == KeyCode.DELETE){
+		// System.out.println("delete");
+		// controller.handleDelete(new ActionEvent());
+		// }
+		// }
+		// });
 
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
@@ -45,12 +67,65 @@ public class MainApp extends Application {
 		});
 	}
 
-
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	public Stage getStage() {
+		return myStage;
+	}
+
+	public void changeSmallView() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("views/smallPlayer.fxml"));
+		Pane pane = null;
+		try {
+			pane = (Pane) loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		myStage.setTitle("MP3 Player - v2.0");
+		Scene scene = new Scene(pane);
+		myStage.setScene(scene);
+		myStage.setResizable(false);
+		myStage.show();
+		SmallController smallController = loader.<SmallController> getController();
+
+		model = MP3Model.getInstance();
+		smallController.setMainApp(this);
+		smallController.setModel(model);
+		smallController.registerAsObserver();
+		smallController.updateTrackInfo();
+
+		smallController.configureOnViewChange();
+	}
+
+	public void changeBigView() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("views/bigPlayer.fxml"));
+		Pane pane = null;
+		try {
+			pane = (Pane) loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		myStage.setTitle("MP3 Player - v2.0");
+		Scene scene = new Scene(pane);
+		myStage.setScene(scene);
+		myStage.setResizable(false);
+		myStage.show();
+		BigController bigController = loader.<BigController> getController();
+
+		model = MP3Model.getInstance();
+		bigController.setMainApp(this);
+		bigController.setModel(model);
+		bigController.registerAsObserver();
+
+		bigController.updateTrackInfo();
+		bigController.updatePlaylistInfo();
+
+		bigController.configureOnViewChange();
 	}
 }

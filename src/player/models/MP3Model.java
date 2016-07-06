@@ -47,6 +47,8 @@ public class MP3Model implements MP3ModelInterface {
 
 	private ArrayList<String> originalPlaylist;
 
+	private boolean shuffled;
+
 	private MP3Model(){
 		this.player = new BasicPlayer();
 		this.bpmObservers = new ArrayList<BPMObserver>();
@@ -255,14 +257,11 @@ public class MP3Model implements MP3ModelInterface {
 				playlistArray[i] = new File(path).getName();
 			}
 			else{
-//				playlistArray[i] = songTitle;
-				//////
 				long duration = song.getLengthInSeconds();
 				int minutes = (int)duration/60;
 				int seconds = (int)duration%60;
 				String songDuration = String.format("%02d:%02d", minutes, seconds+1);
 				playlistArray[i] = songTitle + " " + songDuration;
-				/////
 			}
 		}
 		return playlistArray;
@@ -420,7 +419,6 @@ public class MP3Model implements MP3ModelInterface {
 		if(currentState instanceof EmptyState){
 			return;
 		}
-		System.out.println(getIndex());
 		originalPlaylist = new ArrayList<String>(playlist);
 		ArrayList<String> aux = new ArrayList<String>(playlist);
 		String currentSong = playlist.get(getIndex());
@@ -430,7 +428,7 @@ public class MP3Model implements MP3ModelInterface {
 		Collections.copy(playlist, aux);
 		setIndex(0);
 		notifyTrackObservers();
-		System.out.println(getIndex());
+		shuffled = true;
 	}
 
 	public void unShuffle(){
@@ -441,6 +439,7 @@ public class MP3Model implements MP3ModelInterface {
 		Collections.copy(playlist, originalPlaylist);
 		setIndex(playlist.indexOf(currentSong));
 		notifyTrackObservers();
+		shuffled = false;
 	}
 
 	public String getArtist(){
@@ -471,6 +470,28 @@ public class MP3Model implements MP3ModelInterface {
 		progressThread.setValue(progress);
 		notifyProgressObservers(progress);
 		this.setVolumen(volumen);
+	}
+
+	public String getAlbum() {
+		if (currentState instanceof EmptyState){
+			return "";
+		}
+		String path = playlist.get(index);
+		Mp3File mp3file = null;
+		try {
+			mp3file = new Mp3File(path);
+		} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+			e.printStackTrace();
+		}
+		String artist = mp3file.getId3v2Tag().getAlbum();
+		if(artist==null){
+			return "";
+		}
+		return artist;
+	}
+
+	public boolean isShuffled(){
+		return shuffled;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////

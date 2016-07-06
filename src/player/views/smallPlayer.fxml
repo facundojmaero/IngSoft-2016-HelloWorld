@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.SmallController">
+   <children>
+      <Slider fx:id="progressSlider" layoutX="50.0" layoutY="543.0" onDragDetected="#handleProgressSlide" prefHeight="14.0" prefWidth="307.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" GridPane.columnIndex="1" />
+      <Label fx:id="currentTime" layoutX="10.0" layoutY="542.0" prefHeight="16.0" prefWidth="38.0" text="Label" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
+      <Label fx:id="totalTime" layoutX="361.0" layoutY="540.0" text="Label" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" GridPane.columnIndex="2" />
+      <Separator layoutX="100.0" layoutY="454.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+      <Separator layoutX="110.0" layoutY="464.0" prefWidth="200.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+      <HBox layoutX="10.0" layoutY="495.0" spacing="15.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <ToggleButton fx:id="shuffleToggle" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleShuffle" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0">
+                     <image>
+                        <Image url="@../../resources/images/ic_shuffle_black_48dp_2x.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </ToggleButton>
+            <Button fx:id="previousButton" layoutX="169.0" layoutY="495.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePrevious" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0">
+                     <image>
+                        <Image url="@../../resources/images/previous.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="playButton" layoutX="328.0" layoutY="495.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlay" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <ImageView fx:id="playIcon" fitHeight="30.0" fitWidth="30.0">
+                     <image>
+                        <Image url="@../../resources/images/playicon.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="nextButton" layoutX="487.0" layoutY="495.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleNext" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0">
+                     <image>
+                        <Image url="@../../resources/images/nexticon.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <ToggleButton fx:id="muteToggle" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleMute" prefHeight="37.0" prefWidth="64.0" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <ImageView fx:id="muteButton" fitHeight="25.0" fitWidth="25.0" onDragDetected="#handleMute">
+                     <image>
+                        <Image url="@../../resources/images/volume.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </ToggleButton>
+         </children>
+      </HBox>
+      <Button fx:id="minimizeButton" layoutX="16.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleMinimize" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0">
+               <image>
+                  <Image url="@../../resources/images/maximize.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="370.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="10.0" />
+      <Separator layoutX="5.0" layoutY="56.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0" />
+      <SplitPane layoutX="586.0" layoutY="101.0" prefHeight="368.0" prefWidth="790.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="60.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <BorderPane fx:id="leftPane" layoutX="71.0" layoutY="60.0" prefHeight="293.0" prefWidth="375.0" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <center>
+                        <ImageView fx:id="albumArt" fitHeight="291.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                           <image>
+                              <Image url="@../../resources/images/No-album-art.png" />
+                           </image>
+                        </ImageView>
+                     </center>
+                  </BorderPane>
+                  <Label fx:id="artistLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="335.0" prefHeight="17.0" prefWidth="780.0" text="Artist" textAlignment="CENTER" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="380.0" />
+                  <Label fx:id="songLabel" alignment="CENTER" layoutX="10.0" layoutY="308.0" prefHeight="17.0" prefWidth="780.0" text="Song Title" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="350.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
