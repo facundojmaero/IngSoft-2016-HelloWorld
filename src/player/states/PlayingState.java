@@ -31,12 +31,18 @@ public class PlayingState implements MP3State {
 
 	@Override
 	public void previousSong() {
-		int index = (model.getIndex()-1)%model.getPlaylistSize();
-		if(index<0){
-			index = model.getPlaylistSize()-1;
+		if(model.getPlayedTime() > 5){
+			model.restartCurrentSong();
 		}
-		model.setIndex(index);
-		model.playNow(index);
+
+		else {
+			int index = (model.getIndex()-1)%model.getPlaylistSize();
+			if(index<0){
+				index = model.getPlaylistSize()-1;
+			}
+			model.setIndex(index);
+			model.playNow(index);
+		}
 	}
 
 	@Override

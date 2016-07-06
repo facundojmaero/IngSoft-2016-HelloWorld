@@ -62,4 +62,8 @@ public class ProgressThread implements Runnable{
 	public void setValue(int i){
 		value = i;
 	}
+
+	public int getValue(){
+		return value;
+	}
 }

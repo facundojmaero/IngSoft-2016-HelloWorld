@@ -4,10 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
-
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,18 +19,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import player.models.MP3Model;
+import player.models.Song;
 import player.states.DontRepeat;
 import player.states.EmptyState;
 import player.states.RepeatAll;
@@ -66,8 +69,13 @@ public class BigController implements TrackObserver, ProgressObserver {
 	private Button addButton;
 
 	@FXML
-	private ListView<String> songList;
-	private ObservableList<String> playList = FXCollections.observableArrayList();
+	private TableView<Song> songList;
+	@FXML
+	private TableColumn<Song, String> songNameColumn;
+	@FXML
+	private TableColumn<Song, String> durationColumn;
+
+	private ObservableList<Song> playList = FXCollections.observableArrayList();
 
 	@FXML
 	private Button playButton;
@@ -271,6 +279,13 @@ public class BigController implements TrackObserver, ProgressObserver {
 		resetView();
 		songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+
+		// Initialize the columns.
+		songNameColumn.setCellValueFactory(cellData -> cellData.getValue().songNameProperty());
+		durationColumn.setCellValueFactory(cellData -> cellData.getValue().songDurationProperty());
+
+
+
 		albumArt.fitWidthProperty().bind(leftPane.heightProperty());
 		albumArt.fitHeightProperty().bind(leftPane.widthProperty());
 
@@ -337,6 +352,57 @@ public class BigController implements TrackObserver, ProgressObserver {
 				}
 			}
 		});
+
+		// Custom rendering of the table cell.
+		songNameColumn.setCellFactory(column -> {
+			return new TableCell<Song, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						// Style all dates in March with a different color.
+						if (item.endsWith("<-")) {
+							setText(item.substring(0,item.length()-2));
+							getStyleClass().add("currentSong");
+						} else {
+							setTextFill(Color.WHITE);
+							getStyleClass().clear();
+							setStyle("");
+							setText(item);
+						}
+					}
+				}
+			};
+		});
+
+		durationColumn.setCellFactory(column -> {
+			return new TableCell<Song, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						// Style all dates in March with a different color.
+						if (item.endsWith("<-")) {
+							setText(item.substring(0,item.length()-2));
+							getStyleClass().add("currentSong");
+						} else {
+							setTextFill(Color.WHITE);
+							getStyleClass().clear();
+							setStyle("");
+							setText(item);
+						}
+					}
+				}
+			};
+		});
 	}
 
 	@Override
@@ -366,23 +432,14 @@ public class BigController implements TrackObserver, ProgressObserver {
 
 	@Override
 	public void updatePlaylistInfo() {
-		String[] lista = model.getCurrentPlaylist();
+		ArrayList<Song> lista = model.getCurrentSongPlaylist();
 		playList.clear();
-		if (lista.length == 0 || lista == null) {
+		if (lista.size() == 0 || lista == null) {
 			resetView();
 		}
-		for (int i = 0; i < lista.length; i++) {
-			playList.add(lista[i]);
+		for (int i = 0; i < lista.size(); i++) {
+			playList.add(lista.get(i));
 		}
-
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				songList.scrollTo(model.getIndex());
-				// songList.getSelectionModel().select(model.getIndex());
-				// highlight current song
-			}
-		});
 	}
 
 	public void registerAsObserver() {

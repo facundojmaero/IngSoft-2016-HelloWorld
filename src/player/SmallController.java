@@ -33,7 +33,7 @@ public class SmallController implements TrackObserver, ProgressObserver {
 	@FXML
 	private Button minimizeButton;
 
-	@FXML
+//	@FXML
 	private Button previousButton;
 
 	@FXML

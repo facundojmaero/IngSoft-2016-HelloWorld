@@ -267,6 +267,32 @@ public class MP3Model implements MP3ModelInterface {
 		return playlistArray;
 	}
 
+	public ArrayList<Song> getCurrentSongPlaylist(){
+		ArrayList<Song> playlistArray = new ArrayList<Song>();
+		Mp3File file = null;
+		for(int i=0;i<playlist.size();i++){
+			try {
+				file = new Mp3File(playlist.get(i));
+			} catch (UnsupportedTagException | InvalidDataException | IOException e) {
+				e.printStackTrace();
+			}
+			String songTitle = file.getId3v2Tag().getTitle();
+			if(songTitle==null){
+				songTitle = new File(playlist.get(i)).getName();
+			}
+			long duration = file.getLengthInSeconds();
+			int minutes = (int)duration/60;
+			int seconds = (int)duration%60;
+			String songDuration = String.format("%02d:%02d", minutes, seconds+1);
+			if(getIndex()==i && getState() instanceof PlayingState){
+				songTitle = songTitle + "<-";
+				songDuration = songDuration + "<-";
+			}
+			playlistArray.add(new Song(songTitle, songDuration));
+		}
+		return playlistArray;
+	}
+
 	public ArrayList<String> getPlaylist() {
 		return this.playlist;
 	}
@@ -492,6 +518,10 @@ public class MP3Model implements MP3ModelInterface {
 
 	public boolean isShuffled(){
 		return shuffled;
+	}
+
+	public int getPlayedTime(){
+		return progressThread.getValue();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////
