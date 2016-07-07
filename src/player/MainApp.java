@@ -1,22 +1,12 @@
 package player;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import player.models.MP3Model;
@@ -36,35 +26,14 @@ public class MainApp extends Application {
 		stage.setTitle("MP3 Player - v2.0");
 		Scene scene = new Scene(pane);
 		stage.setScene(scene);
-		stage.setResizable(false);
 		stage.show();
 		BigController bigController = loader.<BigController> getController();
 
 		model = MP3Model.getInstance();
-		model.addPlayList("E:/Music/Avicii/Avicii - Stories [2015]");
-		// model.addPlayList("E:/Music/Chet Faker - Thinking In Textures (EP)
-		// (2012)");
-		// model.addPlayList("E:/Music/Avicii/Avicii - Stories [2015]/01.
-		// Waiting For Love.mp3");
+		model.addPlayList("E:/Music/Chet Faker - Thinking In Textures (EP) (2012)");
 		bigController.setMainApp(this);
 		bigController.setModel(model);
 		bigController.registerAsObserver();
-
-		// scene.addEventFilter(KeyEvent.KEY_PRESSED, new
-		// EventHandler<KeyEvent>() {
-		//
-		// @Override
-		// public void handle(KeyEvent event) {
-		// if(event.getCode() == KeyCode.ENTER){
-		// System.out.println("Enter pressed");
-		// controller.handlePlay(new ActionEvent());
-		// }
-		// if(event.getCode() == KeyCode.DELETE){
-		// System.out.println("delete");
-		// controller.handleDelete(new ActionEvent());
-		// }
-		// }
-		// });
 
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 

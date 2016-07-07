@@ -44,74 +44,35 @@ import player.views.TrackObserver;
 
 public class BigController implements TrackObserver, ProgressObserver {
 
-	@FXML
-	private ToggleButton muteToggle;
-
-	@FXML
-	private ToggleButton shuffleToggle;
-
-	@FXML
-	private Button minimizeButton;
-
-	@FXML
-	private Button deleteButton;
-
-	@FXML
-	private Button previousButton;
-
-	@FXML
-	private ImageView albumArt;
-
-	@FXML
-	private Label totalTime;
-
-	@FXML
-	private Button addButton;
-
-	@FXML
-	private TableView<Song> songList;
-	@FXML
-	private TableColumn<Song, String> songNameColumn;
-	@FXML
-	private TableColumn<Song, String> durationColumn;
-
-	private ObservableList<Song> playList = FXCollections.observableArrayList();
-
-	@FXML
-	private Button playButton;
-
-	@FXML
-	private Button repeatButton;
-
-	@FXML
-	private Label currentTime;
-
-	@FXML
-	private Button nextButton;
-
-	@FXML
-	private Label songLabel;
-
-	@FXML
-	private Slider volumeSlider;
-
-	@FXML
-	private Slider progressSlider;
-
-	@FXML
-	private Label artistLabel;
-
-	@FXML
-	private ImageView playIcon;
-
-	@FXML
-	private ImageView muteButton;
-
-	@FXML
-	private ImageView repeatImage;
+	@FXML private ToggleButton muteToggle;
+	@FXML private ToggleButton shuffleToggle;
+	@FXML private Button minimizeButton;
+	@FXML private Button deleteButton;
+	@FXML private Button previousButton;
+	@FXML private ImageView albumArt;
+	@FXML private Label totalTime;
+	@FXML private Button addButton;
+	@FXML private TableView<Song> songList;
+	@FXML private TableColumn<Song, String> songNameColumn;
+	@FXML private TableColumn<Song, String> durationColumn;
+	@FXML private TableColumn<Song, String> albumColumn;
+	@FXML private TableColumn<Song, String> artistColumn;
+	@FXML private TableColumn<Song, String> yearColumn;
+	@FXML private Button playButton;
+	@FXML private Button repeatButton;
+	@FXML private Label currentTime;
+	@FXML private Button nextButton;
+	@FXML private Label songLabel;
+	@FXML private Slider volumeSlider;
+	@FXML private Slider progressSlider;
+	@FXML private Label artistLabel;
+	@FXML private ImageView playIcon;
+	@FXML private ImageView muteButton;
+	@FXML private ImageView repeatImage;
 
 	private MainApp mainApp;
 	private MP3Model model;
+	private ObservableList<Song> playList = FXCollections.observableArrayList();
 
 	Image pauseImg = new Image("file:src/resources/images/pauseicon.png");
 	Image playImg = new Image("file:src/resources/images/playicon.png");
@@ -154,10 +115,10 @@ public class BigController implements TrackObserver, ProgressObserver {
 		}
 		if (model.IsPlaying()) {
 			model.pause();
-			playIcon.setImage(playImg);
+			setPlayButton();
 		} else {
 			model.play();
-			playIcon.setImage(pauseImg);
+			setPauseButton();
 		}
 	}
 
@@ -233,7 +194,6 @@ public class BigController implements TrackObserver, ProgressObserver {
 	@FXML
 	void handleDelete(ActionEvent event) {
 		Object[] indexes = songList.getSelectionModel().getSelectedIndices().toArray();
-		;
 
 		if (indexes.length == 0) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -283,6 +243,9 @@ public class BigController implements TrackObserver, ProgressObserver {
 		// Initialize the columns.
 		songNameColumn.setCellValueFactory(cellData -> cellData.getValue().songNameProperty());
 		durationColumn.setCellValueFactory(cellData -> cellData.getValue().songDurationProperty());
+		albumColumn.setCellValueFactory(cellData -> cellData.getValue().songAlbumProperty());
+		artistColumn.setCellValueFactory(cellData -> cellData.getValue().songArtistProperty());
+		yearColumn.setCellValueFactory(cellData -> cellData.getValue().songYearProperty());
 
 
 
@@ -344,7 +307,6 @@ public class BigController implements TrackObserver, ProgressObserver {
 		songList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
-				System.out.println(songList.getSelectionModel().getSelectedIndex());
 				if (click.getClickCount() == 2) {
 					model.stop();
 					model.setIndex(songList.getSelectionModel().getSelectedIndex());
@@ -364,7 +326,6 @@ public class BigController implements TrackObserver, ProgressObserver {
 						setText(null);
 						setStyle("");
 					} else {
-						// Style all dates in March with a different color.
 						if (item.endsWith("<-")) {
 							setText(item.substring(0,item.length()-2));
 							getStyleClass().add("currentSong");
@@ -389,7 +350,78 @@ public class BigController implements TrackObserver, ProgressObserver {
 						setText(null);
 						setStyle("");
 					} else {
-						// Style all dates in March with a different color.
+						if (item.endsWith("<-")) {
+							setText(item.substring(0,item.length()-2));
+							getStyleClass().add("currentSong");
+						} else {
+							setTextFill(Color.WHITE);
+							getStyleClass().clear();
+							setStyle("");
+							setText(item);
+						}
+					}
+				}
+			};
+		});
+
+		albumColumn.setCellFactory(column -> {
+			return new TableCell<Song, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						if (item.endsWith("<-")) {
+							setText(item.substring(0,item.length()-2));
+							getStyleClass().add("currentSong");
+						} else {
+							setTextFill(Color.WHITE);
+							getStyleClass().clear();
+							setStyle("");
+							setText(item);
+						}
+					}
+				}
+			};
+		});
+
+		artistColumn.setCellFactory(column -> {
+			return new TableCell<Song, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
+						if (item.endsWith("<-")) {
+							setText(item.substring(0,item.length()-2));
+							getStyleClass().add("currentSong");
+						} else {
+							setTextFill(Color.WHITE);
+							getStyleClass().clear();
+							setStyle("");
+							setText(item);
+						}
+					}
+				}
+			};
+		});
+
+		yearColumn.setCellFactory(column -> {
+			return new TableCell<Song, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+						setText(null);
+						setStyle("");
+					} else {
 						if (item.endsWith("<-")) {
 							setText(item.substring(0,item.length()-2));
 							getStyleClass().add("currentSong");

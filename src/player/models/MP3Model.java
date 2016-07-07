@@ -214,8 +214,12 @@ public class MP3Model implements MP3ModelInterface {
 		}
 		long duration = song.getLengthInSeconds();
 		int minutes = (int)duration/60;
-		int seconds = (int)duration%60;
-		String songDuration = String.format("%02d:%02d", minutes, seconds+1);
+		int seconds = (int)duration%60 + 1;
+		if(seconds==60){
+			minutes++;
+			seconds=0;
+		}
+		String songDuration = String.format("%02d:%02d", minutes, seconds);
 		return songDuration;
 	}
 
@@ -270,7 +274,9 @@ public class MP3Model implements MP3ModelInterface {
 	public ArrayList<Song> getCurrentSongPlaylist(){
 		ArrayList<Song> playlistArray = new ArrayList<Song>();
 		Mp3File file = null;
+
 		for(int i=0;i<playlist.size();i++){
+
 			try {
 				file = new Mp3File(playlist.get(i));
 			} catch (UnsupportedTagException | InvalidDataException | IOException e) {
@@ -280,17 +286,34 @@ public class MP3Model implements MP3ModelInterface {
 			if(songTitle==null){
 				songTitle = new File(playlist.get(i)).getName();
 			}
+
 			long duration = file.getLengthInSeconds();
 			int minutes = (int)duration/60;
-			int seconds = (int)duration%60;
-			String songDuration = String.format("%02d:%02d", minutes, seconds+1);
-			if(getIndex()==i && getState() instanceof PlayingState){
-				songTitle = songTitle + "<-";
-				songDuration = songDuration + "<-";
+			int seconds = (int)duration%60 + 1;
+			if(seconds==60){
+				minutes++;
+				seconds=0;
 			}
-			playlistArray.add(new Song(songTitle, songDuration));
+			String songDuration = String.format("%02d:%02d", minutes, seconds);
+
+			String songAlbum = file.getId3v2Tag().getAlbum();
+			String songArtist = file.getId3v2Tag().getArtist();
+			String songYear = file.getId3v2Tag().getYear();
+
+			if(getIndex()==i && getState() instanceof PlayingState){
+				songTitle = appendArrow(songTitle);
+				songDuration = appendArrow(songDuration);
+				songYear = appendArrow(songYear);
+				songArtist = appendArrow(songArtist);
+				songAlbum = appendArrow(songAlbum);
+			}
+			playlistArray.add(new Song(songTitle, songDuration, songArtist, songAlbum, songYear));
 		}
 		return playlistArray;
+	}
+
+	private String appendArrow(String a){
+		return a + "<-";
 	}
 
 	public ArrayList<String> getPlaylist() {
@@ -435,7 +458,6 @@ public class MP3Model implements MP3ModelInterface {
 			if(getIndex()>index){
 				setIndex(getIndex()-1);
 			}
-			System.out.println("deleted " + playlist.get(index));
 			playlist.remove(index); //Borro la cancion en index
 		}
 		this.notifyTrackObservers();

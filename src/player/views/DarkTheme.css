@@ -5,10 +5,14 @@
 	-fx-background-color: #1b1f1c;
 }
 
+.topBar{
+	-fx-background-color: #f86f05;
+}
+
 .currentSong {
     -fx-text-fill: white;
     -fx-font-weight: 900;
-    -fx-background-color: orange;
+    -fx-background-color: #f86f05;
 }
 
 .label {
