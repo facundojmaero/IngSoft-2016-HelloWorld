@@ -105,5 +105,6 @@ public class MainApp extends Application {
 		bigController.updatePlaylistInfo();
 
 		bigController.configureOnViewChange();
+		getStage().setResizable(true);
 	}
 }

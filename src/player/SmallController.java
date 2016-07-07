@@ -4,12 +4,16 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -24,50 +28,22 @@ import player.views.TrackObserver;
 
 public class SmallController implements TrackObserver, ProgressObserver {
 
-	@FXML
-	private ToggleButton muteToggle;
-
-	@FXML
-	private ToggleButton shuffleToggle;
-
-	@FXML
-	private Button minimizeButton;
-
-//	@FXML
-	private Button previousButton;
-
-	@FXML
-	private BorderPane leftPane;
-
-	@FXML
-	private ImageView albumArt;
-
-	@FXML
-	private Label totalTime;
-
-	@FXML
-	private Button playButton;
-
-	@FXML
-	private Label currentTime;
-
-	@FXML
-	private Button nextButton;
-
-	@FXML
-	private Label songLabel;
-
-	@FXML
-	private Slider progressSlider;
-
-	@FXML
-	private Label artistLabel;
-
-	@FXML
-	private ImageView playIcon;
-
-	@FXML
-	private ImageView muteButton;
+	@FXML private ToggleButton muteToggle;
+	@FXML private ToggleButton shuffleToggle;
+	@FXML private Button minimizeButton;
+	@FXML private Button previousButton;
+	@FXML private BorderPane leftPane;
+	@FXML private ImageView albumArt;
+	@FXML private Label totalTime;
+	@FXML private Button playButton;
+	@FXML private Label currentTime;
+	@FXML private Button nextButton;
+	@FXML private Label songLabel;
+	@FXML private Slider progressSlider;
+	@FXML private Label artistLabel;
+	@FXML private ImageView playIcon;
+	@FXML private ImageView muteButton;
+	@FXML private ProgressBar progressBar;
 
 	private MainApp mainApp;
 	private MP3Model model;
@@ -171,6 +147,15 @@ public class SmallController implements TrackObserver, ProgressObserver {
 	@FXML
 	void initialize() {
 		resetView();
+
+		progressBar.setProgress(1);
+
+		progressSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> ov,
+                    Number old_val, Number new_val) {
+                progressBar.setProgress(new_val.doubleValue() / model.getCurrentSongDurationSec());
+            }
+        });
 
 		albumArt.fitWidthProperty().bind(leftPane.heightProperty());
 		albumArt.fitHeightProperty().bind(leftPane.widthProperty());
