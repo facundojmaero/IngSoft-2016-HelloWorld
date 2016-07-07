@@ -27,7 +27,6 @@ public class MainApp extends Application {
 		Scene scene = new Scene(pane);
 		stage.setScene(scene);
 		stage.show();
-		stage.setResizable(true);
 		BigController bigController = loader.<BigController> getController();
 
 		model = MP3Model.getInstance();
