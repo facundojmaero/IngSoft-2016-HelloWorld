@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableCell;
@@ -69,6 +70,8 @@ public class BigController implements TrackObserver, ProgressObserver {
 	@FXML private ImageView playIcon;
 	@FXML private ImageView muteButton;
 	@FXML private ImageView repeatImage;
+	@FXML private ProgressBar progressBar;
+	@FXML private ProgressBar volumeProgressBar;
 
 	private MainApp mainApp;
 	private MP3Model model;
@@ -239,6 +242,20 @@ public class BigController implements TrackObserver, ProgressObserver {
 		resetView();
 		songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+		//bind progress slider with progress bar (song progress)
+		progressSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				progressBar.setProgress(new_val.doubleValue() / model.getCurrentSongDurationSec());
+			}
+		});
+
+		volumeProgressBar.setProgress(1);
+		//bind progress slider with progress bar (volume)
+		volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				volumeProgressBar.setProgress(new_val.doubleValue() / 100);
+			}
+		});
 
 		// Initialize the columns.
 		songNameColumn.setCellValueFactory(cellData -> cellData.getValue().songNameProperty());
