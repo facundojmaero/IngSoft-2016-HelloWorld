@@ -147,7 +147,7 @@
 }
 
 .button:pressed, .button:default:hover:pressed {
-  -fx-background-color: ff9205;
+  -fx-background-color: #ff9205;
 }
 
 .button:focused {
@@ -168,17 +168,25 @@
     -fx-background-color: linear-gradient(
         from 0px .75em to .75em 0px,
         repeat,
-        -fx-accent 0%,
-        -fx-accent 49%,
-        derive(-fx-accent, 30%) 50%,
-        derive(-fx-accent, 30%) 99%
+        #ff9205 0%,
+        #ff9205 49%,
+        derive(#ff9205, 30%) 50%,
+        derive(#ff9205, 30%) 99%
     );
 }
 
-.slider .track {
+.progress-bar > .track {
+  -fx-text-box-border: #1b1f1c;
+  -fx-control-inner-background: #1b1f1c;
+}
 
-    -fx-background-color:null;
+.slider .track {
+    -fx-background-color:null;  /* Hide the track */
     -fx-background-insets: 1 0 -1 0, 0, 1;
     -fx-background-radius: 2.5, 2.5, 1.5;
     -fx-padding: 0.208333em; /* 2.5 */
+}
+
+.slider .thumb {
+    -fx-background-color: null;
 }

@@ -10,6 +10,8 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="400.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.SmallController">
    <children>
+      <Pane layoutY="420.0" prefHeight="200.0" prefWidth="200.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="480.0" />
+      <ProgressBar fx:id="progressBar" layoutX="100.0" layoutY="539.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
       <BorderPane layoutX="186.0" layoutY="-73.0" prefHeight="51.0" prefWidth="400.0" styleClass="topBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <ImageView fitHeight="38.0" fitWidth="38.0" BorderPane.alignment="CENTER">
@@ -19,10 +21,19 @@
             </ImageView>
          </center>
       </BorderPane>
-      <Pane layoutY="420.0" prefHeight="200.0" prefWidth="200.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="480.0" />
-      <HBox layoutX="10.0" layoutY="495.0" spacing="15.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <GridPane layoutY="483.0" prefHeight="38.0" prefWidth="400.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <ToggleButton fx:id="shuffleToggle" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleShuffle" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+            <ToggleButton fx:id="shuffleToggle" layoutX="10.0" layoutY="482.0" mnemonicParsing="false" onAction="#handleShuffle" HBox.hgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0">
                      <image>
@@ -31,31 +42,34 @@
                   </ImageView>
                </graphic>
             </ToggleButton>
-            <Button fx:id="previousButton" layoutX="169.0" layoutY="495.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePrevious" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+            <Button fx:id="previousButton" layoutX="89.0" layoutY="482.0" mnemonicParsing="false" onAction="#handlePrevious" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0">
                      <image>
                         <Image url="@../../resources/images/previous.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
-            <Button fx:id="playButton" layoutX="328.0" layoutY="495.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePlay" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+               </graphic>
+            </Button>
+            <Button fx:id="playButton" layoutX="168.0" layoutY="482.0" mnemonicParsing="false" onAction="#handlePlay" GridPane.columnIndex="2" HBox.hgrow="ALWAYS">
                <graphic>
                   <ImageView fx:id="playIcon" fitHeight="30.0" fitWidth="30.0">
                      <image>
                         <Image url="@../../resources/images/playicon.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
-            <Button fx:id="nextButton" layoutX="487.0" layoutY="495.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleNext" prefHeight="37.0" prefWidth="65.0" HBox.hgrow="ALWAYS">
+               </graphic>
+            </Button>
+            <Button fx:id="nextButton" layoutX="247.0" layoutY="482.0" mnemonicParsing="false" onAction="#handleNext" GridPane.columnIndex="3" HBox.hgrow="ALWAYS">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0">
                      <image>
                         <Image url="@../../resources/images/nexticon.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
-            <ToggleButton fx:id="muteToggle" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleMute" prefHeight="37.0" prefWidth="64.0" HBox.hgrow="ALWAYS">
+               </graphic>
+            </Button>
+            <ToggleButton fx:id="muteToggle" layoutX="326.0" layoutY="482.0" mnemonicParsing="false" onAction="#handleMute" GridPane.columnIndex="4" HBox.hgrow="ALWAYS">
                <graphic>
                   <ImageView fx:id="muteButton" fitHeight="25.0" fitWidth="25.0" onDragDetected="#handleMute">
                      <image>
@@ -65,8 +79,8 @@
                </graphic>
             </ToggleButton>
          </children>
-      </HBox>
-      <Slider fx:id="progressSlider" layoutX="50.0" layoutY="543.0" onDragDetected="#handleProgressSlide" prefHeight="14.0" prefWidth="307.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" GridPane.columnIndex="1" />
+      </GridPane>
+      <Slider fx:id="progressSlider" layoutX="50.0" layoutY="543.0" onDragDetected="#handleProgressSlide" prefHeight="14.0" prefWidth="307.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" GridPane.columnIndex="1" />
       <Label fx:id="currentTime" layoutX="10.0" layoutY="542.0" prefHeight="16.0" prefWidth="38.0" text="Label" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
       <Label fx:id="totalTime" layoutX="361.0" layoutY="540.0" text="Label" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" GridPane.columnIndex="2" />
       <Separator layoutX="100.0" layoutY="454.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
