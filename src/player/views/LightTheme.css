@@ -1,29 +1,29 @@
 .background {
-    -fx-background-color: #272e2a;
+    -fx-background-color: #e9eef2;
 }
 .controls{
-	-fx-background-color: #1b1f1c;
+	-fx-background-color: #bcbfc2;
 }
 
 .topBar{
-	-fx-background-color: #f86f05;
+	-fx-background-color: #379ddf;
 }
 
 .topBar-little{
-	-fx-background-color: #f86f05;
+	-fx-background-color: #379ddf;
 	-fx-opacity: .85;
 }
 
 .currentSong {
     -fx-text-fill: white;
     -fx-font-weight: 900;
-    -fx-background-color: #f86f05;
+    -fx-background-color: #005e9e;
 }
 
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-opacity: 0.6;
 }
 
@@ -51,18 +51,10 @@
     -fx-opacity: 1;
 }
 
-.label-miniPlayerText{
-	-fx-font-size: 16;
-	-fx-font-family: "Segoe UI Regular";
-	-fx-text-fill: white;
-	-fx-font-weight: 900;
-	-fx-opacity: .8;
-}
-
 .table-view {
-    -fx-base: #1d1d1d;
-    -fx-control-inner-background: #1d1d1d;
-    -fx-background-color: #1d1d1d;
+    -fx-base: #e9eef2;
+    -fx-control-inner-background: #e9eef2;
+    -fx-background-color: #e9eef2;
     -fx-padding: 5;
 }
 
@@ -95,8 +87,8 @@
 }
 
 .split-pane:horizontal > .split-pane-divider {
-    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
-    -fx-background-color: transparent, derive(#1d1d1d,20%);
+    -fx-border-color: transparent #1d1d1d transparent #e9eef2;
+    -fx-background-color: transparent, derive(#e9eef2,20%);
 }
 
 .split-pane {
@@ -104,11 +96,11 @@
 }
 
 .menu-bar {
-    -fx-background-color: derive(#1d1d1d,20%);
+    -fx-background-color: derive(#e9eef2,20%);
 }
 
 .context-menu {
-    -fx-background-color: derive(#1d1d1d,50%);
+    -fx-background-color: derive(#e9eef2,50%);
 }
 
 .menu-bar .label {
@@ -119,7 +111,7 @@
 }
 
 .menu .left-container {
-    -fx-background-color: black;
+    -fx-background-color: white;
 }
 
 .text-field {
@@ -131,7 +123,7 @@
 	-fx-border-color: transparent;
     -fx-border-width: 0;
     -fx-background-radius: 50;
-    -fx-background-color: transparent;
+    -fx-background-color: #838e92;
     -fx-text-fill: #838e92;
 }
 
@@ -140,18 +132,18 @@
 }
 
 .toggle-button:selected {
-  -fx-background-color: #f86f05;
+  -fx-background-color: #005e9e;
 }
 
 .toggle-button:armed {
-  -fx-background-color: #ff9205;
+  -fx-background-color: #379ddf;
 }
 
 .button {
     -fx-border-color: transparent;
     -fx-border-width: 0;
     -fx-background-radius: 50;
-    -fx-background-color: transparent;
+    -fx-background-color: #838e92;
     -fx-text-fill: #838e92;
 }
 
@@ -160,7 +152,7 @@
 }
 
 .button:pressed, .button:default:hover:pressed {
-  -fx-background-color: #ff9205;
+  -fx-background-color: #379ddf;
 }
 
 .button:focused {
@@ -181,16 +173,16 @@
     -fx-background-color: linear-gradient(
         from 0px .75em to .75em 0px,
         repeat,
-        #ff9205 0%,
-        #ff9205 49%,
-        derive(#ff9205, 30%) 50%,
-        derive(#ff9205, 30%) 99%
+        #379ddf 0%,
+        #379ddf 49%,
+        derive(#379ddf, 30%) 50%,
+        derive(#379ddf, 30%) 99%
     );
 }
 
 .progress-bar > .track {
-  -fx-text-box-border: #1b1f1c;
-  -fx-control-inner-background: #1b1f1c;
+  -fx-text-box-border: #e9eef2;
+  -fx-control-inner-background: #e9eef2;
 }
 
 .slider .track {
@@ -204,6 +196,14 @@
     -fx-background-color: null;
 }
 
-.playlist{
+.topButton{
+	-fx-background-color: null;
+}
+
+.label-miniPlayerText{
+	-fx-font-size: 16;
+	-fx-font-family: "Segoe UI Regular";
 	-fx-text-fill: white;
+	-fx-font-weight: 900;
+	-fx-opacity: .8;
 }

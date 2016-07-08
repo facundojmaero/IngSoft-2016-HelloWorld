@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -8,9 +9,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="800.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.BigController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="800.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.BigController">
    <children>
-      <Pane layoutX="10.0" layoutY="498.0" prefHeight="93.0" prefWidth="800.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="500.0" />
+      <Pane layoutX="10.0" layoutY="489.0" prefHeight="102.0" prefWidth="800.0" styleClass="controls" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="489.0" />
       <BorderPane layoutX="184.0" layoutY="-73.0" prefHeight="48.0" prefWidth="800.0" styleClass="topBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <ImageView fitHeight="38.0" fitWidth="38.0" BorderPane.alignment="CENTER">
@@ -133,15 +134,45 @@
             </Button>
          </children>
       </GridPane>
-      <Button fx:id="minimizeButton" layoutX="16.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleMinimize" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
-         <graphic>
-            <ImageView fitHeight="25.0" fitWidth="25.0">
-               <image>
-                  <Image url="@../../resources/images/minimize.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
+      <GridPane layoutX="71.0" layoutY="-33.0" prefHeight="33.0" prefWidth="169.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="hidePlaylistButton" layoutX="171.0" layoutY="-33.0" mnemonicParsing="false" onAction="#handleMinimize" AnchorPane.leftAnchor="171.0" AnchorPane.topAnchor="-33.0" GridPane.columnIndex="1">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0">
+                     <image>
+                        <Image url="@../../resources/images/queue.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="miniPlayerButton" layoutX="71.0" layoutY="-12.0" mnemonicParsing="false" onAction="#handleMiniPlayer">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0">
+                     <image>
+                        <Image url="@../../resources/images/minimize.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="themeButton" mnemonicParsing="false" onAction="#switchTheme" GridPane.columnIndex="2">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0">
+                     <image>
+                        <Image url="@../../resources/images/skin.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </GridPane>
       <Separator layoutX="5.0" layoutY="56.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0" />
       <SplitPane dividerPositions="0.3759493670886076" layoutX="586.0" layoutY="101.0" prefHeight="368.0" prefWidth="790.0" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="60.0">
         <items>
@@ -166,7 +197,7 @@
                      <center>
                         <TableView fx:id="songList" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="songNameColumn" prefWidth="75.0" text="Song Name" />
+                            <TableColumn fx:id="songNameColumn" prefWidth="75.0" text="Song" />
                               <TableColumn fx:id="artistColumn" prefWidth="75.0" text="Artist" />
                               <TableColumn fx:id="albumColumn" prefWidth="75.0" text="Album" />
                               <TableColumn fx:id="yearColumn" prefWidth="75.0" text="Year" />

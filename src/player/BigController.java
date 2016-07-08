@@ -31,7 +31,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import player.models.MP3Model;
@@ -47,7 +46,7 @@ public class BigController implements TrackObserver, ProgressObserver {
 
 	@FXML private ToggleButton muteToggle;
 	@FXML private ToggleButton shuffleToggle;
-	@FXML private Button minimizeButton;
+	@FXML private Button hidePlaylistButton;
 	@FXML private Button deleteButton;
 	@FXML private Button previousButton;
 	@FXML private ImageView albumArt;
@@ -72,6 +71,9 @@ public class BigController implements TrackObserver, ProgressObserver {
 	@FXML private ImageView repeatImage;
 	@FXML private ProgressBar progressBar;
 	@FXML private ProgressBar volumeProgressBar;
+	@FXML private Button miniPlayerButton;
+	@FXML private BorderPane leftPane;
+	@FXML private Button themeButton;
 
 	private MainApp mainApp;
 	private MP3Model model;
@@ -94,6 +96,11 @@ public class BigController implements TrackObserver, ProgressObserver {
 
 	public void setModel(MP3Model instance) {
 		model = instance;
+	}
+
+	@FXML
+	void switchTheme (ActionEvent event){
+		mainApp.switchTheme();
 	}
 
 	@FXML
@@ -227,15 +234,17 @@ public class BigController implements TrackObserver, ProgressObserver {
 	}
 
 	@FXML
-	void handleVolumeSlide(ActionEvent event) {
+	void handleMiniPlayer(ActionEvent event) {
+		model.removeObserver((ProgressObserver) this);
+		model.removeObserver((TrackObserver) this);
+		mainApp.changeMiniView();
 	}
 
 	@FXML
-	void handleVolumeScroll(ActionEvent event) {
-	}
+	void handleVolumeSlide(ActionEvent event) {}
 
 	@FXML
-	private BorderPane leftPane;
+	void handleVolumeScroll(ActionEvent event) {}
 
 	@FXML
 	void initialize() {
@@ -243,6 +252,9 @@ public class BigController implements TrackObserver, ProgressObserver {
 		songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		volumeProgressBar.setProgress(1);
+		themeButton.getStyleClass().add("topButton");
+		miniPlayerButton.getStyleClass().add("topButton");
+		hidePlaylistButton.getStyleClass().add("topButton");
 
 		progressSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
@@ -342,12 +354,12 @@ public class BigController implements TrackObserver, ProgressObserver {
 						setText(null);
 						setStyle("");
 					} else {
+						getStyleClass().clear();
 						if (item.endsWith("<-")) {
 							setText(item.substring(0,item.length()-2));
 							getStyleClass().add("currentSong");
 						} else {
-							setTextFill(Color.WHITE);
-							getStyleClass().clear();
+							getStyleClass().add("playlist");
 							setStyle("");
 							setText(item);
 						}
@@ -366,12 +378,12 @@ public class BigController implements TrackObserver, ProgressObserver {
 						setText(null);
 						setStyle("");
 					} else {
+						getStyleClass().clear();
 						if (item.endsWith("<-")) {
 							setText(item.substring(0,item.length()-2));
 							getStyleClass().add("currentSong");
 						} else {
-							setTextFill(Color.WHITE);
-							getStyleClass().clear();
+							getStyleClass().add("playlist");
 							setStyle("");
 							setText(item);
 						}
@@ -390,12 +402,12 @@ public class BigController implements TrackObserver, ProgressObserver {
 						setText(null);
 						setStyle("");
 					} else {
+						getStyleClass().clear();
 						if (item.endsWith("<-")) {
 							setText(item.substring(0,item.length()-2));
 							getStyleClass().add("currentSong");
 						} else {
-							setTextFill(Color.WHITE);
-							getStyleClass().clear();
+							getStyleClass().add("playlist");
 							setStyle("");
 							setText(item);
 						}
@@ -414,12 +426,12 @@ public class BigController implements TrackObserver, ProgressObserver {
 						setText(null);
 						setStyle("");
 					} else {
+						getStyleClass().clear();
 						if (item.endsWith("<-")) {
 							setText(item.substring(0,item.length()-2));
 							getStyleClass().add("currentSong");
 						} else {
-							setTextFill(Color.WHITE);
-							getStyleClass().clear();
+							getStyleClass().add("playlist");
 							setStyle("");
 							setText(item);
 						}
@@ -438,12 +450,12 @@ public class BigController implements TrackObserver, ProgressObserver {
 						setText(null);
 						setStyle("");
 					} else {
+						getStyleClass().clear();
 						if (item.endsWith("<-")) {
 							setText(item.substring(0,item.length()-2));
 							getStyleClass().add("currentSong");
 						} else {
-							setTextFill(Color.WHITE);
-							getStyleClass().clear();
+							getStyleClass().add("playlist");
 							setStyle("");
 							setText(item);
 						}

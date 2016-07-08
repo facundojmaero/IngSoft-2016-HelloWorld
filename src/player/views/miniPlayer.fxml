@@ -8,14 +8,15 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="580.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.SmallController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="660.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="player.MiniController">
    <children>
-      <ProgressBar fx:id="progressBar" layoutX="100.0" layoutY="539.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-      <Slider fx:id="progressSlider" layoutX="50.0" layoutY="543.0" onDragDetected="#handleProgressSlide" prefHeight="14.0" prefWidth="307.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" GridPane.columnIndex="1" />
-      <Label fx:id="currentTime" layoutX="10.0" layoutY="542.0" prefHeight="16.0" prefWidth="38.0" text="Label" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
-      <Label fx:id="totalTime" layoutX="361.0" layoutY="540.0" text="Label" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" GridPane.columnIndex="2" />
-      <Separator layoutX="100.0" layoutY="454.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-      <GridPane layoutX="-55.0" layoutY="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutX="40.0" layoutY="-224.0" prefHeight="200.0" prefWidth="200.0" styleClass="topBar-little" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <ProgressBar fx:id="progressBar" layoutX="100.0" layoutY="539.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="50.0" />
+      <Slider fx:id="progressSlider" layoutX="50.0" layoutY="543.0" onDragDetected="#handleProgressSlide" prefHeight="14.0" prefWidth="307.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="50.0" GridPane.columnIndex="1" />
+      <Label fx:id="currentTime" layoutX="10.0" layoutY="542.0" prefHeight="16.0" prefWidth="38.0" text="Label" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="90.0" />
+      <Label fx:id="totalTime" layoutX="361.0" layoutY="540.0" text="Label" AnchorPane.bottomAnchor="8.0" AnchorPane.rightAnchor="10.0" GridPane.columnIndex="2" />
+      <Separator layoutX="100.0" layoutY="454.0" prefWidth="200.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="5.0" />
+      <GridPane layoutX="-55.0" layoutY="10.0" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="10.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -29,7 +30,7 @@
          <children>
             <Button fx:id="previousButton" layoutX="5.0" layoutY="10.0" mnemonicParsing="false" onAction="#handlePrevious" GridPane.columnIndex="1" HBox.hgrow="ALWAYS">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0">
+                  <ImageView fitHeight="24.0" fitWidth="24.0">
                      <image>
                         <Image url="@../../resources/images/previous.png" />
                      </image>
@@ -38,7 +39,7 @@
             </Button>
             <Button fx:id="playButton" layoutX="51.0" layoutY="10.0" mnemonicParsing="false" onAction="#handlePlay" GridPane.columnIndex="2" HBox.hgrow="ALWAYS">
                <graphic>
-                  <ImageView fx:id="playIcon" fitHeight="30.0" fitWidth="30.0">
+                  <ImageView fx:id="playIcon" fitHeight="24.0" fitWidth="24.0">
                      <image>
                         <Image url="@../../resources/images/playicon.png" />
                      </image>
@@ -47,7 +48,7 @@
             </Button>
             <ToggleButton fx:id="muteToggle" layoutX="143.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleMute" GridPane.columnIndex="4" HBox.hgrow="ALWAYS">
                <graphic>
-                  <ImageView fx:id="muteButton" fitHeight="25.0" fitWidth="25.0" onDragDetected="#handleMute">
+                  <ImageView fx:id="muteButton" fitHeight="19.0" fitWidth="19.0" onDragDetected="#handleMute">
                      <image>
                         <Image url="@../../resources/images/volume.png" />
                      </image>
@@ -56,7 +57,7 @@
             </ToggleButton>
             <Button fx:id="nextButton" layoutX="97.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleNext" GridPane.columnIndex="3" HBox.hgrow="ALWAYS">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0">
+                  <ImageView fitHeight="24.0" fitWidth="24.0">
                      <image>
                         <Image url="@../../resources/images/nexticon.png" />
                      </image>
@@ -65,7 +66,7 @@
             </Button>
             <Button fx:id="minimizeButton" layoutX="-55.0" layoutY="16.0" mnemonicParsing="false" onAction="#handleMinimize" AnchorPane.leftAnchor="-55.0" AnchorPane.topAnchor="16.0">
                <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0">
+                  <ImageView fitHeight="18.0" fitWidth="18.0">
                      <image>
                         <Image url="@../../resources/images/maximize.png" />
                      </image>
@@ -74,22 +75,22 @@
             </Button>
          </children>
       </GridPane>
-      <GridPane layoutX="209.0" layoutY="14.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane layoutX="314.0" layoutY="-14.0" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label fx:id="artistLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="395.0" layoutY="261.0" prefHeight="25.0" prefWidth="194.0" styleClass="label-artistName" text="Artist" textAlignment="CENTER" AnchorPane.leftAnchor="395.0" AnchorPane.rightAnchor="-13.0" AnchorPane.topAnchor="261.0" GridPane.columnIndex="1" />
-            <Label fx:id="songLabel" alignment="CENTER" layoutX="184.0" layoutY="253.0" prefHeight="40.0" prefWidth="167.0" styleClass="label-artistName" text="Song Title" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="253.0" />
+            <Label fx:id="songLabel" layoutX="280.0" prefHeight="27.0" prefWidth="373.0" styleClass="label-miniPlayerText" text="Song Title" AnchorPane.leftAnchor="184.0" AnchorPane.rightAnchor="209.0" AnchorPane.topAnchor="253.0" GridPane.halignment="LEFT" />
+            <Label fx:id="artistLabel" contentDisplay="CENTER" layoutX="179.0" layoutY="293.0" prefHeight="25.0" prefWidth="373.0" styleClass="label-miniPlayerText" text="Artist" textAlignment="CENTER" AnchorPane.leftAnchor="179.0" AnchorPane.rightAnchor="203.0" AnchorPane.topAnchor="293.0" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <ImageView fitHeight="25.0" fitWidth="26.0" layoutX="10.0" layoutY="119.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="119.0">
+      <ImageView fx:id="albumArt" fitHeight="80.0" fitWidth="80.0" layoutX="88.0" layoutY="105.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../../resources/images/logo.png" />
+            <Image url="@../../resources/images/No-album-art.png" />
          </image>
       </ImageView>
    </children>

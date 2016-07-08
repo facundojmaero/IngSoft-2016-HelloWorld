@@ -20,40 +20,47 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderPane;
 import player.models.MP3Model;
 import player.states.EmptyState;
 import player.views.ProgressObserver;
 import player.views.TrackObserver;
 
-public class SmallController implements TrackObserver, ProgressObserver {
+public class MiniController implements TrackObserver, ProgressObserver {
 
-	@FXML private ToggleButton muteToggle;
-	@FXML private ToggleButton shuffleToggle;
-	@FXML private Button showPlaylistButton;
-	@FXML private Button previousButton;
-	@FXML private BorderPane leftPane;
-	@FXML private ImageView albumArt;
-	@FXML private Label totalTime;
-	@FXML private Button playButton;
-	@FXML private Label currentTime;
-	@FXML private Button nextButton;
-	@FXML private Label songLabel;
-	@FXML private Slider progressSlider;
-	@FXML private Label artistLabel;
-	@FXML private ImageView playIcon;
-	@FXML private ImageView muteButton;
-	@FXML private ProgressBar progressBar;
-	@FXML private Button miniPlayerButton;
+	@FXML
+    private ToggleButton muteToggle;
+    @FXML
+    private Button minimizeButton;
+    @FXML
+    private Button previousButton;
+    @FXML
+    private ImageView albumArt;
+    @FXML
+    private Label totalTime;
+    @FXML
+    private Button playButton;
+    @FXML
+    private Label currentTime;
+    @FXML
+    private Button nextButton;
+    @FXML
+    private Label songLabel;
+    @FXML
+    private ProgressBar progressBar;
+    @FXML
+    private Slider progressSlider;
+    @FXML
+    private Label artistLabel;
+    @FXML
+    private ImageView playIcon;
+    @FXML
+    private ImageView muteButton;
 
 	private MainApp mainApp;
 	private MP3Model model;
 
 	Image pauseImg = new Image("file:src/resources/images/pauseicon.png");
 	Image playImg = new Image("file:src/resources/images/playicon.png");
-	Image repeatAll = new Image("file:src/resources/images/repeat.png");
-	Image repeatOne = new Image("file:src/resources/images/repeatOne.png");
-	Image dontRepeat = new Image("file:src/resources/images/dontRepeat.png");
 	Image mute = new Image("file:src/resources/images/mute.png");
 	Image volumeOn = new Image("file:src/resources/images/volume.png");
 	Image noAlbumArt = new Image("file:src/resources/images/No-album-art.png");
@@ -69,15 +76,6 @@ public class SmallController implements TrackObserver, ProgressObserver {
 	@FXML
 	void handleProgressSlide(ActionEvent event) {
 
-	}
-
-	@FXML
-	void handleShuffle(ActionEvent event) {
-		if (shuffleToggle.isSelected()) {
-			model.shuffle();
-		} else {
-			model.unShuffle();
-		}
 	}
 
 	@FXML
@@ -146,13 +144,6 @@ public class SmallController implements TrackObserver, ProgressObserver {
 	}
 
 	@FXML
-	void handleMiniPlayer(ActionEvent event) {
-		model.removeObserver((ProgressObserver) this);
-		model.removeObserver((TrackObserver) this);
-		mainApp.changeMiniView();
-	}
-
-	@FXML
 	void initialize() {
 		resetView();
 
@@ -164,9 +155,6 @@ public class SmallController implements TrackObserver, ProgressObserver {
                 progressBar.setProgress(new_val.doubleValue() / model.getCurrentSongDurationSec());
             }
         });
-
-		albumArt.fitWidthProperty().bind(leftPane.heightProperty());
-		albumArt.fitHeightProperty().bind(leftPane.widthProperty());
 
 		// Escucho cambios en el slider de progreso
 		progressSlider.setOnMouseReleased((MouseEvent event) -> {
@@ -247,7 +235,6 @@ public class SmallController implements TrackObserver, ProgressObserver {
 		playIcon.setImage(playImg);
 		muteButton.setImage(volumeOn);
 		muteToggle.setSelected(false);
-		shuffleToggle.setSelected(false);
 	}
 
 	public void configureOnViewChange() {
@@ -258,10 +245,6 @@ public class SmallController implements TrackObserver, ProgressObserver {
 		if(model.getVolumen()==0){
 			muteButton.setImage(mute);
 			muteToggle.setSelected(true);
-		}
-
-		if(model.isShuffled()){
-			shuffleToggle.setSelected(true);
 		}
 	}
 }

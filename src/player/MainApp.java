@@ -8,14 +8,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import player.models.MP3Model;
 
 public class MainApp extends Application {
 
-	private Stage primaryStage;
 	private MP3Model model;
 	private Stage myStage;
+	private String darkThemeURL = getClass().getResource("views/DarkTheme.css").toExternalForm();
+    private String lightThemeURL = getClass().getResource("views/LightTheme.css").toExternalForm();
+    private String currentThemeURL = darkThemeURL;
+    private Scene scene;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -24,7 +28,9 @@ public class MainApp extends Application {
 
 		Pane pane = (Pane) loader.load();
 		stage.setTitle("MP3 Player - v2.0");
-		Scene scene = new Scene(pane);
+		stage.initStyle(StageStyle.UTILITY);
+		scene = new Scene(pane);
+		scene.getStylesheets().add(darkThemeURL);
 		stage.setScene(scene);
 		stage.show();
 		BigController bigController = loader.<BigController> getController();
@@ -46,7 +52,7 @@ public class MainApp extends Application {
 	}
 
 	public Stage getPrimaryStage() {
-		return primaryStage;
+		return myStage;
 	}
 
 	public static void main(String[] args) {
@@ -66,7 +72,8 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		myStage.setTitle("MP3 Player - v2.0");
-		Scene scene = new Scene(pane);
+		scene = new Scene(pane);
+		scene.getStylesheets().add(currentThemeURL);
 		myStage.setScene(scene);
 		myStage.setResizable(false);
 		myStage.show();
@@ -90,9 +97,10 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		myStage.setTitle("MP3 Player - v2.0");
-		Scene scene = new Scene(pane);
+		scene = new Scene(pane);
+		scene.getStylesheets().add(currentThemeURL);
 		myStage.setScene(scene);
-		myStage.setResizable(false);
+		myStage.setResizable(true);
 		myStage.show();
 		BigController bigController = loader.<BigController> getController();
 
@@ -106,5 +114,42 @@ public class MainApp extends Application {
 
 		bigController.configureOnViewChange();
 		getStage().setResizable(true);
+	}
+
+	public void changeMiniView() {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("views/miniPlayer.fxml"));
+		Pane pane = null;
+		try {
+			pane = (Pane) loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		myStage.setTitle("MP3 Player - v2.0");
+		scene = new Scene(pane);
+		scene.getStylesheets().add(currentThemeURL);
+		myStage.setScene(scene);
+		myStage.setResizable(false);
+		myStage.show();
+		MiniController miniController = loader.<MiniController> getController();
+
+		model = MP3Model.getInstance();
+		miniController.setMainApp(this);
+		miniController.setModel(model);
+		miniController.registerAsObserver();
+		miniController.updateTrackInfo();
+
+		miniController.configureOnViewChange();
+	}
+
+	public void switchTheme(){
+		scene.getStylesheets().remove(currentThemeURL);
+		if(currentThemeURL.matches(darkThemeURL)){
+			currentThemeURL = lightThemeURL;
+			scene.getStylesheets().add(currentThemeURL);
+		}
+		else{
+			currentThemeURL = darkThemeURL;
+			scene.getStylesheets().add(currentThemeURL);
+		}
 	}
 }
