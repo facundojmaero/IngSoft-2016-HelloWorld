@@ -58,6 +58,7 @@ public class MiniController implements TrackObserver, ProgressObserver {
 
 	private MainApp mainApp;
 	private MP3Model model;
+	private double volumen;
 
 	Image pauseImg = new Image("file:src/resources/images/pauseicon.png");
 	Image playImg = new Image("file:src/resources/images/playicon.png");
@@ -128,10 +129,11 @@ public class MiniController implements TrackObserver, ProgressObserver {
 	void handleMute(ActionEvent event) {
 		System.out.println("Mute!");
 		if (muteToggle.isSelected()) {
+			volumen = model.getVolumen();
 			model.setVolumen(0);
 			muteButton.setImage(mute);
 		} else {
-			model.setVolumen(1);
+			model.setVolumen(volumen);
 			muteButton.setImage(volumeOn);
 		}
 	}
